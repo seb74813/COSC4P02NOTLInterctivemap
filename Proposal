@@ -1,31 +1,36 @@
 Proposal
-Github page (done) https://github.com/seb74813/COSC4P02NOTLInterctivemap 
 Scrum Board: https://www.flyingdonut.io/app/projects/63c5bfd0d0fe6a62d07b947c
 
 Objective
-Problem: The existing maps of the NotL Museum lack detail, especially the english version. If a visitor wanted to see what kind of exhibits are on display, the current map gives little explanation, as well as lacking key information like restrooms.
+Problem:      The existing maps of the NotL Museum lack detail, especially the english version. If a visitor wanted to see what kind of exhibits are on display, 
+            the current map gives little explanation, as well as lacking key information like restrooms.
+            
+Objective:    Design an interactive map of the Niagara-on-the-lake Museum 
 
-Objective: Design an interactive map of the Niagara-on-the-lake Museum 
-( https://www.notlmuseum.ca/ )
+Importance:   History has many important lessons that can be taught to future generations for them to learn. 
+            With the growing use of technology in everyones’ day-to-day lives, being able to similarly incorporate technology to assist with teaching this history
+            is becoming increasingly important. An interactive map to do such with will not only be a means to initiate that change, but also, the software itself 
+            can help future generations learn the important lessons found in the past.
 
-Importance: History has many important lessons that can be taught to future generations for them to learn. With the growing use of technology in everyones’ day-to-day lives, being able to similarly incorporate technology to assist with teaching this history is becoming increasingly important. An interactive map to do such with will not only be a means to initiate that change, but also, the software itself can help future generations learn the important lessons found in the past.
+Description:  An interactive online map, with clickable elements that allow digital visitors to view exhibit descriptions, general layout, and other 
+            important locations in the museum.
 
-General Description: An interactive online map, with clickable elements that allow digital visitors to view exhibit descriptions, general layout, and other important locations in the museum.
+Software Engineering process: Scrum, 2 week sprints
 
-Software Engineering process used: Scrum, 2 week sprints
+Timetable:
+  Sprint 1: Basic System Architecture		      Jan 31 - Feb 14
+  Sprint 2: Preliminary feature integration	  March 14 - 28     
+  Sprint 3: Final increment			              April 3 - 17
 
-Timetable
-Weeks blocked out for planning/implementation (there are 8 weeks)
-Sprint 1: Basic System Architecture		Jan 31 - Feb 14
-Sprint 2: Preliminary feature integration	March 14 - 28
-Sprint 3: Final increment			April 3 - 17
-Scrum meetings will occur during class times in these intervals, reviews will be held on the end date of each sprint while retrospectives will be held at the beginning of the next sprint (sprint 3 excepted, this will happen on April 17th as well).
+Scrum meetings will occur during class times in these intervals.
+  Reviews will be held on the final day of each sprint, and sprint retrospectives will be held at the beginning of the following sprint, with sprint 3's 
+ retrospective occuring during the weekend before April 17th.
 
 Roles/StdNo
-Chris Delo, 6418024, Product co-owner / Scrum Master
-Ethan Natanegara, 6264295
-Yashasvi Sharma, 6837892
-Luke Hopkins, 6266928
-Tong Zhang, 6787949, Product co-owner 
-Sebastian Wood, 6664189
-Marcus Pozzobon 6655633
+  Chris Delo, 6418024, Product co-owner / Scrum Master
+  Ethan Natanegara, 6264295
+  Yashasvi Sharma, 6837892
+  Luke Hopkins, 6266928
+  Tong Zhang, 6787949, Product co-owner 
+  Sebastian Wood, 6664189
+  Marcus Pozzobon 6655633
