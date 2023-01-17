@@ -1,5 +1,5 @@
-## COSC4P02NOTLInterctivemap
-#Team Members:<br />
+# COSC4P02NOTLInterctivemap
+Team Members:<br />
 Chris Delo, 6418024<br />
 Ethan Natanegara, 6264295<br />
 Yashasvi Sharma, 6837892<br />
