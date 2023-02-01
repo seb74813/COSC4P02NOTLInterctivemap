@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Alert_EventsNotFound_Message" xml:space="preserve">
+    <value>No events were found nearby.  Try again or use the event code to join in.</value>
+  </data>
+  <data name="Alert_EventsNotFound_Title" xml:space="preserve">
+    <value>No events found</value>
+  </data>
+  <data name="Alert_LocationNotFound_Message" xml:space="preserve">
+    <value>Sorry, but we can't determine your current location.  You can retry or search for your event by name.</value>
+  </data>
+  <data name="Alert_LocationNotFound_Title" xml:space="preserve">
+    <value>Your location not found</value>
+  </data>
+  <data name="App_ContactInfo" xml:space="preserve">
+    <value>The request it team can be contacted at support@requestit.ca for support issues or sales@requestit.ca for general sales inqueries.</value>
+  </data>
+  <data name="App_Name" xml:space="preserve">
+    <value>Request It</value>
+  </data>
+  <data name="App_TermsOfUse_Markdown" xml:space="preserve">
+    <value># TERMS AND CONDITIONS OF
+# REQUEST IT APP
+
+## Last revision: Jan 9, 2023
+
+PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE USING THIS WEBSITE.
+
+The following Terms and Conditions govern and apply to your use of or reliance upon this website maintained by 2721683 Ontario Incorporated (the "Website").
+Your access or use of the Website indicates that you have read, understand and agree to be bound by these Terms and Conditions and any other applicable laws, statutes and/or regulations. We may change these Terms and Conditions at any time without notice, effective upon its posting to the Website. Your continued use of the Website will be considered your acceptance to the revised Terms and Conditions.
+
+1. INTELLECTUAL PROPERTY
+All intellectual property on the Website (except for User Generated Content, as defined below) is owned by us or our licensors, which includes materials protected by copyright, trademark, or patent laws. All trademarks, service marks and trade names are owned, registered and/or licensed by us. All content on the Website (except for User Generated Content, as defined below), including but not limited to text, software, code, designs, graphics, photos, sounds, music, videos, applications, interactive features and all other content is a collective work under Canadian and other copyright laws and is the proprietary property of the Company; All rights reserved.
+
+2. USE OF COMPANY MATERIALS
+We may provide you with certain information as a result of your use of the Website including, but not limited to, documentation, data, or information developed by us, and other materials which may assist in the use of the Website or Services ("Company Materials"). The Company Materials may not be used for any other purpose than the use of this Website and the services offered on the Website. Nothing in these Terms of Use may be interpreted as granting any license of intellectual property rights to you.
+
+3. USER GENERATED CONTENT
+"User Generated Content" is communications, materials, information, data, opinions, photos, profiles, messages, notes, website links, text information, music, videos, designs, graphics, sounds, and any other content that you and/or other Website users post or otherwise make available on or through the Website, except to the extent the content is owned by us.
+
+4. ACCOUNT AND ACCOUNT USE
+If your use of the Website requires an account identifying you as a user of the Website (an "Account"):
+a) you are solely responsible for your Account and the maintenance, confidentiality and security of your Account and all passwords related to your Account, and any and all activities that occur under your Account, including all activities of any persons who gain access to your Account with or without your permission;
+b) you agree to immediately notify us of any unauthorized use of your Account, any service provided through your Account or any password related to your Account, or any other breach of security with respect to your Account or any service provided through it, and you agree to provide assistance to us, as requested, to stop or remedy any breach of security related to your Account, and
+c) you agree to provide true, current, accurate and complete customer information as requested by us from time to time and you agree to promptly notify us of any changes to this information as required to keep such information held by us current, complete and accurate.
+
+5. PAYMENT
+When you make a purchase on the Website, you agree to provide a valid instrument to make a payment. Pay attention to the details of the transaction, as your total price may include taxes, fees, and shipping costs, all of which you are responsible for.
+When you provide a payment instrument to us, you confirm that you are permitted to use that payment instrument. When you make a payment, you authorize us (and our designated payment processor) to charge the full amount to the payment instrument you designate for the transaction. You also authorize us to collect and store that funding instrument, along with other related transaction information.
+If you pay by credit or debit card, we may obtain a pre-approval from the issuer of the card for an amount as high as the full price. If you cancel a transaction before completion, this pre-approval may result in those funds not otherwise being immediately available to you.
+We may cancel any transaction if we believe the transaction violates these Terms, or if we believe doing so may prevent financial loss.
+In order to prevent financial loss to you or to us, we may contact your funding instrument issuer, law enforcement, or affected third parties (including other users) and share details of any payments you are associated with, if we believe doing so may prevent financial loss or a violation of law.
+
+Payment for any on-going services is billed automatically until notification that you would like to terminate your access to the services.
+
+6. SALE OF GOODS AND SERVICES
+We may sell goods or services or allow third parties to sell goods or services on the Website. We undertake to be as accurate as possible with all information regarding the goods and services, including product descriptions and images. However, we do not guarantee the accuracy or reliability of any product information and you acknowledge and agree that you purchase such products at your own risk.
+
+7. SHIPPING/DELIVERY/RETURN POLICY
+You will ensure payment for any items you purchase from us. Prices indicated on the Website are subject to change. We reserve the right to reject or cancel an order for any reason, including errors or omissions in the information you provide to us. If we do so after payment has been processed, we will issue a refund to you in the amount of the purchase price. We also may request additional information from you prior to confirming a sale, and we reserve the right to place any additional restrictions on the sale of any of our products. For the sale of digital products, we will charge your credit or debit card when the product is made available to you for digital use and/or download.
+
+For any questions, concerns, or disputes, you agree to contact us in a timely manner at the following:
+
+```
+Attn: Customer Service
+478 King Street West
+Suite 516
+Toronto, Ontario
+Canada MV5 0A8
+```
+
+
+8. ACCEPTABLE USE
+You agree not to use the Website for any unlawful purpose or any purpose prohibited under this clause. You agree not to use the Website in any way that could damage the Website, the services or the general business of 2721683 Ontario Incorporated.
+
+   You further agree not to use and/or access the Website:
+   1. To harass, abuse, or threaten others or otherwise violate any person's legal rights;
+   1. To violate any intellectual property rights of us or any third party;
+   1. To upload or otherwise disseminate any computer viruses or other software that may damage the property of another;
+   1. To perpetrate any fraud;
+   1. To engage in or create any unlawful gambling, sweepstakes, or pyramid scheme;
+   1. To publish or distribute any obscene or defamatory material;
+   1. To publish or distribute any material that incites violence, hate or discrimination towards any group;
+   1. To unlawfully gather information about others.
+
+9. PROTECTION OF PRIVACY
+Through your use of the Website, you may provide us with certain information. By using the Website, you authorize us to use your information in Canada and any other country where We may operate.
+When you register for an account, you provide us with a valid email address and may provide us with additional information, such as your name and/or billing information. Depending on how you use our Website, we may also receive information from external applications you use to access our Website, or we may receive information through various web technologies, such as cookies, log files, clear gifs, web beacons or others.
+We use the information gathered from you to ensure your continued good experience on our website, including through email communication. We may also track certain of the passive information received to improve our marketing and analytics, and for this, we may work with third-party providers.
+If you would like to disable our access to any passive information we receive from the use of various technologies, you may choose to disable cookies in your web browser. Please be aware that we will still receive information about you that you have provided, such as your email address.
+If you choose to terminate your account, we will store information about you for a reasonable period of time to be determined by us in accordance with applicable federal and provincial laws. After this period, all information about you will be deleted.
+
+10. REVERSE ENGINEERING &amp; SECURITY
+You may not undertake any of the following actions:
+a) Reverse engineer, or attempt to reverse engineer or disassemble any code or software from or on the Website;
+b) Violate the security of the Website through any unauthorized access, circumvention of encryption or other security tools, data mining or interference to any host, user or network.
+
+11. DATA LOSS
+We are not responsible for the security of your Account or Content. Your use of the Website is at your own risk.
+
+12. INDEMNIFICATION
+You defend and indemnify 2721683 Ontario Incorporated and any of its affiliates and hold us harmless against any and all legal claims and demands, including reasonable attorney's fees, which may arise from or relate to your use or misuse of the Website, your breach of these Terms and Conditions, or your conduct or actions. We will select our own legal counsel and may participate in our own defence, if we wish to so.
+
+13. SPAM POLICY
+You are strictly prohibited from using the Website or any of our services for illegal spam activities, including gathering email addresses and personal information from others or sending any mass commercial emails.
+
+14. THIRD-PARTY LINKS &amp; CONTENT
+We may occasionally post links to third party websites or other services. We are not responsible or liable for any loss or damage caused as a result of your use of any third party services linked to from our Website.
+
+15. VARIATION
+To the extent any part or sub-part of these Terms and Conditions is held ineffective or invalid by any court of law, the prior, effective version of these Terms and Conditions be considered enforceable and valid to the fullest extent.
+
+16. SERVICE INTERRUPTIONS
+We may need to interrupt your access to the Website to perform maintenance or emergency services on a scheduled or unscheduled basis. You agree that your access to the Website may be affected by unanticipated or unscheduled downtime, for any reason, but that the we will have no liability for any damage or loss caused as a result of such downtime.
+
+17. TERMINATION OF ACCOUNT
+We may, in our sole discretion, suspend, restrict or terminate your Account and your use of the Website, effective at any time, without notice to you, for any reason, including because the operation or efficiency of the Website or our or any third party's equipment or network is impaired by your use of the Website, any amount is past due from you to us, we have received a third party complaint which relates to your use or misuse of the Website, or you have been or are in breach of any term or condition of these Terms and Conditions. We will have no responsibility to notify any third party, including any third party providers of services, merchandise or information, of any suspension, restriction or termination of your access to the Website.
+
+18. NO WARRANTIES
+Your use of the Website is at your sole and exclusive risk and any services provided by us are on an "as is" basis. We disclaim any and all express or implied warranties of any kind, including, but not limited to the implied warranty of fitness for a particular purpose and the implied warranty of merchantability. We make no warranties that the Website will meet your needs or that the Website will be uninterrupted, error-free, or secure. We also make no warranties as to the reliability or accuracy of any information on the Website or obtained through the Services. Any damage that may occur to you, through your computer system, or as a result of loss of your data from your use of the Website is your sole responsibility and we are not liable for any such damage or loss.
+
+19. PRIVACY 
+a) Collected personal data, processed personal data and data collection
+In accordance with the dispositions of article 5 of Regulation (EU) 2016/679, the collection and processing of your personal data are consistent with the following principles:
+  
+      - Lawfulness, fairness and transparency: personal data may only be collected and processed with your consent. Every time personal data is collected you will be informed that personal data is collected and why is is collected;
+       
+     - Limited purposes: personal data is collected and processed of data for achieving the objectives stated in these Terms and Conditions;
+       
+    - Minimization of personal data collection and processing: only personal data necessary for achieving the objectives of the website is collected;
+       
+    - Storage of personal data limited in time personal data are stored for a limited period, of which you are informed;
+       
+    - Integrity and confidentiality of collected and processed personal data: the controller undertakes to guarantee the integrity and confidentiality of collected personal data.
+  
+    In order to be lawful in accordance with article 6 of the European Regulation 2016/679, collection and processing of personal data will respect at least of one the following:
+  
+    - You have given your consent to the processing of your personal data;
+       
+    - Processing is necessary for compliance with a legal obligation;
+       
+    - Processing is necessary in order to protect the vital interests of the data subject or of another natural person;
+       
+    - Processing is necessary for the performance of a task carried out in the public interest or in the exercise of official authority;
+       
+    - Processing is necessary for the purposes of the legitimate interests pursued by the controller or by a third party.
+  
+    Our Website collects the following personal data:
+    - User's name (display name)
+    - Name of event
+    - GPS location for the event
+    - List of song you like (requested during an event).
+
+    The collector will keep in its computer systems of the Website in reasonable security conditions all of the personal data collected for a period of: 5 year, unless you ask for the deletion of your personal data before the expiry of this period.
+
+    If personal data is stored, you will be informed of the period during which you personal data will be kept, and if that period may not specified, we will inform you of the criteria used to determine it.
+
+
+    b) Data Hosting
+The Website is hosted by: Microsoft Azure, headquartered at the following address:
+Canadian Data Center (Toronto &amp; Quebec)
+The host may be contacted at the following phone number: 1-855-270-0615 (Canadian Number)
+Personal data collected and processed by the Website are transferred to the following country(ies): Canada. This transfer of personal data outside of the European Union is justified by the following reasons:
+Canada is the headquarters for the company that collects this information.
+
+    c) Controller
+The controller is: 2721683 ONTARIO INC.
+
+    d) Personal data of minors
+In accordance with the dispositions of article 8 of the European Regulation 2016/679, no minor under the age of 15 may consent to processing of their personal data.
+If you are a minor under the age of 15, the consent of a legal guardian is required for your personal data to be collected and processed.
+
+    e) Rights and procedures for the implementation of your rights
+In accordance with the regulation regarding the processing of personal data, you have the rights listed below.
+In order for the controller to grant your request, you have to provide your full name, your email address and, if relevant, your personal account number.
+The controller shall answer you within thirty (30) days.
+I. Rights of access, right of rectification and right to erasure
+You may look up, update or modify you personal data, as well as request its deletion by following the procedure below:
+The WebSite provides an end user feature to delete an account from the system. The account data may be retained for some period after deletion to allow for recovery of this information in the event of accidental deletion. A user can email support to have their account completely erased at any time.
+If you have a personal account, you may request the deletion of your personal account by following the procedure below:
+A user can email support to have their account completely erased at any time.
+II. Right to data portability
+You may request the portability of your personal data held by the Website and have those data transmitted to another website by following the procedure below:
+The website provides no support for data portability at this time.
+III. Right to restriction of processing and right to object
+You may request to restrict processing of your personal data and you may object to processing of your personal data and the Website may not deny such request without compelling legitimate grounds.
+
+    f) Obligations of the controller
+The controller undertakes to protect collected personal data, to not transfer your personal data to third parties without informing you first and to respect the purposes for which personal data were collected.
+The Website uses an SSL certificate to guarantee that information transfers transiting through the Website are secured.
+In addition, the collector undertakes to notify you before the rectification or erasure of any of your personal date, unless this requires disproportionate efforts.
+In the event that the integrity and confidentiality of your personal data is compromised, the controller undertakes to inform you by any means.
+
+20. LIMITATION ON LIABILITY
+We are not liable for any damages that may occur to you as a result of your use of the Website, to the fullest extent permitted by law. The maximum liability of 2721683 Ontario Incorporated arising from your use of the Website is limited to the greater of one hundred ($100) Canadian Dollars or the amount you paid to 2721683 Ontario Incorporated in the last six (6) months. This applies to any and all claims by you, including, but not limited to, lost profits or revenues, consequential or punitive damages, negligence, strict liability, fraud, or torts of any kind.</value>
+  </data>
+  <data name="Button_AddEvent" xml:space="preserve">
+    <value>Start event</value>
+  </data>
+  <data name="Button_ApplyChanges" xml:space="preserve">
+    <value>Apply changes</value>
+  </data>
+  <data name="Button_ClearSettings" xml:space="preserve">
+    <value>Clear settings</value>
+  </data>
+  <data name="Button_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Button_CreateEvent" xml:space="preserve">
+    <value>Start event</value>
+  </data>
+  <data name="Button_FindEvent" xml:space="preserve">
+    <value>Find an event</value>
+  </data>
+  <data name="Button_JoinEvent" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="Button_JoinNow" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="Button_MakeRequest" xml:space="preserve">
+    <value>Make a request</value>
+  </data>
+  <data name="Button_OpenMyEvent" xml:space="preserve">
+    <value>Resume</value>
+  </data>
+  <data name="Button_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Button_SearchByCode" xml:space="preserve">
+    <value>Use code</value>
+  </data>
+  <data name="Button_SearchByLocation" xml:space="preserve">
+    <value>Find events nearby</value>
+  </data>
+  <data name="Button_SelectSong" xml:space="preserve">
+    <value>Request it</value>
+  </data>
+  <data name="Button_StartEvent" xml:space="preserve">
+    <value>Start an event</value>
+  </data>
+  <data name="Button_SubmitRequest" xml:space="preserve">
+    <value>Request it</value>
+  </data>
+  <data name="Label_AlertDetails" xml:space="preserve">
+    <value>Detailed information</value>
+  </data>
+  <data name="Label_AppInsightsKey" xml:space="preserve">
+    <value>App Insights Key</value>
+  </data>
+  <data name="Label_AttendeeAndRequestCount" xml:space="preserve">
+    <value>{0} Attendees, {1} Requests</value>
+  </data>
+  <data name="Label_AttendeeCount" xml:space="preserve">
+    <value>{0} Attendees</value>
+  </data>
+  <data name="Label_AttendeeEmail" xml:space="preserve">
+    <value>Your email address</value>
+  </data>
+  <data name="Label_AttendeeName" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="Label_BaseUrl" xml:space="preserve">
+    <value>Backend API</value>
+  </data>
+  <data name="Label_BuildNumber" xml:space="preserve">
+    <value>Build number</value>
+  </data>
+  <data name="Label_CompanyName" xml:space="preserve">
+    <value>2372977 Ontario Inc. (Canada)</value>
+  </data>
+  <data name="Label_ContactInfo" xml:space="preserve">
+    <value>Contact information</value>
+  </data>
+  <data name="Label_EventCode" xml:space="preserve">
+    <value>Event code</value>
+  </data>
+  <data name="Label_EventLocation" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Label_EventName" xml:space="preserve">
+    <value>Event name</value>
+  </data>
+  <data name="Label_FormErrors" xml:space="preserve">
+    <value>Form validation errors</value>
+  </data>
+  <data name="Label_FullAppName" xml:space="preserve">
+    <value>Request It App (Attendee)</value>
+  </data>
+  <data name="Label_MakeFirstRequest" xml:space="preserve">
+    <value>Be the first to make a song request!</value>
+  </data>
+  <data name="Label_MusicKeyword" xml:space="preserve">
+    <value>Search for music songs and artists</value>
+  </data>
+  <data name="Label_MusicNotFound" xml:space="preserve">
+    <value>Sorry, no results found.</value>
+  </data>
+  <data name="Label_NoDjEventsFound" xml:space="preserve">
+    <value>Currently, you have no active DJ events.</value>
+  </data>
+  <data name="Label_NoRequestsYet" xml:space="preserve">
+    <value>No new requests yet</value>
+  </data>
+  <data name="Label_RequestedByFormat" xml:space="preserve">
+    <value>Requested by: {0}</value>
+  </data>
+  <data name="Label_TermsOfUse" xml:space="preserve">
+    <value>Terms of use</value>
+  </data>
+  <data name="Label_VersionInfo" xml:space="preserve">
+    <value>Version information</value>
+  </data>
+  <data name="Label_VersionNumber" xml:space="preserve">
+    <value>Version number</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>About this app</value>
+  </data>
+  <data name="Menu_FindEvent" xml:space="preserve">
+    <value>Find an event</value>
+  </data>
+  <data name="Menu_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>Developer settings</value>
+  </data>
+  <data name="Menu_StartEvent" xml:space="preserve">
+    <value>Start an event</value>
+  </data>
+  <data name="Pages_Attendees_EventFinderPage_Title" xml:space="preserve">
+    <value>Find an event</value>
+  </data>
+  <data name="Pages_Attendees_EventPage_Title" xml:space="preserve">
+    <value>Event requests</value>
+  </data>
+  <data name="Pages_Attendees_JoinDialog_Title" xml:space="preserve">
+    <value>Join your event</value>
+  </data>
+  <data name="Pages_Attendees_MusicSearchPage_Title" xml:space="preserve">
+    <value>Search for music</value>
+  </data>
+  <data name="Pages_Attendees_RequestDialog_Title" xml:space="preserve">
+    <value>Request song</value>
+  </data>
+  <data name="Pages_Common_AboutPage_Title" xml:space="preserve">
+    <value>About Request It</value>
+  </data>
+  <data name="Pages_Common_ErrorDialog_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Pages_Common_ErrorDialog_Information_Title" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="Pages_Common_ErrorDialog_Warning_Title" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Pages_Common_SettingsPage_Title" xml:space="preserve">
+    <value>System Settings</value>
+  </data>
+  <data name="Pages_Djs_MyEventPage_Title" xml:space="preserve">
+    <value>My DJ events</value>
+  </data>
+  <data name="Pages_Djs_StartEventDialog_Title" xml:space="preserve">
+    <value>Start a new event</value>
+  </data>
+  <data name="Pages_Dj_ConsolePage_Title" xml:space="preserve">
+    <value>Event console</value>
+  </data>
+  <data name="Tip_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Tip_DarkMode" xml:space="preserve">
+    <value>Switch to dark mode</value>
+  </data>
+  <data name="Tip_LightMode" xml:space="preserve">
+    <value>Switch to light mode</value>
+  </data>
+  <data name="Tip_Menu" xml:space="preserve">
+    <value>Open the menu</value>
+  </data>
+</root>

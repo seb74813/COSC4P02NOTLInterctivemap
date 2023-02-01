@@ -1,0 +1,35 @@
+﻿@page "/"
+@inherits BasePage
+
+<BusyIndicator Model="@this" />
+<PageTitle>@Localizer["AppName"]</PageTitle>
+
+@if (!IsBusy)
+{
+    <MudPaper Class="pa-3" Elevation="0">
+        <MudText>@data?.Data</MudText>
+    </MudPaper>
+}
+
+@code
+{
+    SampleData? data;
+
+    protected async override Task OnInitializedAsync()
+    {
+        IsInitialized = true;
+
+        try
+        {
+            IsBusy = true;
+            data = await ClientContext.Maps.PingAsync("Hello World");
+            IsBusy = false;
+        }
+        catch(Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+}
+
+

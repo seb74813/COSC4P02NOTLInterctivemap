@@ -1,0 +1,14 @@
+@inject IStringLocalizer<Resources.Resource> localizer
+
+<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All">@localizer["Menu_Home"]</MudNavLink>
+    <MudNavLink Href="/vendors" Match="NavLinkMatch.All">@localizer["Menu_Vendors"]</MudNavLink>
+    <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">@localizer["Menu_Users"]</MudNavLink>
+    <MudNavLink Href="/projects" Match="NavLinkMatch.Prefix">@localizer["Menu_Projects"]</MudNavLink>
+    <MudNavLink Href="/plots" Match="NavLinkMatch.Prefix">@localizer["Menu_Plots"]</MudNavLink>
+    <MudNavLink Href="/export" Match="NavLinkMatch.Prefix">@localizer["Menu_Export"]</MudNavLink>
+</MudNavMenu>
+
+@code 
+{
+}
