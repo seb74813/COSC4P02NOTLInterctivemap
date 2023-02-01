@@ -9,11 +9,57 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  dotNetFramework: 'net7.0'
+  dotNetVersion: '7.0.x'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+steps:
+- task: UseDotNet@2
+  displayName: 'Set .NET version'
+  inputs:
+    version: $(dotNetVersion)
+    includePreviewVersions: true
+
+- task: CmdLine@2
+  displayName: Install MAUI
+  inputs:
+    script: |
+      dotnet workload install maui
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build API'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'Notl.MuseumMap.Api.csproj'
+    zipAfterPublish: true
+    modifyOutputPath: true
+    arguments: '--configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/api'
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Build Web'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'Notl.MuseumMap.Web.csproj'
+    zipAfterPublish: true
+    modifyOutputPath: true
+    arguments: '--configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/web'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build Admin'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'Notl.MuseumMap.Admin.csproj'
+    zipAfterPublish: true
+    modifyOutputPath: true
+    arguments: '--configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/admin'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
