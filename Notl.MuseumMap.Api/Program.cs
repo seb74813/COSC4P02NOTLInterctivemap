@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Notl.MuseumMap.Api.Tools;
 using Notl.MuseumMap.Core.Common;
+using Notl.MuseumMap.Core.Managers;
 using Notl.MuseumMap.Core.Tools;
 
 const string CorsPolicyName = "CorsPolicy";
@@ -58,6 +59,7 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<DbManagerOptions>();
 builder.Services.AddSingleton<MuseumMapOptions>();
 builder.Services.AddSingleton<DbManager>();
+builder.Services.AddSingleton<MapManager>();
 
 var app = builder.Build();
 

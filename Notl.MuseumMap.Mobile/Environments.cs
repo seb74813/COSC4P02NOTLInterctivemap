@@ -51,7 +51,7 @@ namespace Notl.MuseumMap.Mobile
         readonly static public EnvironmentConfig[] Environments = new EnvironmentConfig[]
         {
             new EnvironmentConfig("Local", "https://localhost:7040/"),
-            new EnvironmentConfig("Development", "https://dev-notl-museum-map-api.azurewebsites.net/", true),
+            new EnvironmentConfig("Development", "https://dev-notl-museum-api.azurewebsites.net/", true),
         };
 
         /// <summary>

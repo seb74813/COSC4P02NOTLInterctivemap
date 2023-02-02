@@ -1,0 +1,8 @@
+﻿<MudOverlay Class="rounded-0" Visible="@(Model == null || Model.IsBusy)" DarkBackground="true" ZIndex="9999" AutoClose="false" Style="position:fixed; top: 0; bottom: 0;">
+    <MudProgressCircular Color="Color.Dark" Size="Size.Large" Indeterminate="true" Class="mt-8" />
+</MudOverlay>
+
+@code {
+    [Parameter]
+    public BasePage? Model { get; set; }
+}
