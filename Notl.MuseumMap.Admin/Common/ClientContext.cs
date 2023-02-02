@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Notl.MuseumMap.App.Services;
+using Notl.MuseumMap.Admin.Services;
 
 namespace Notl.MuseumMap.Admin.Common
 {

@@ -8,6 +8,12 @@ namespace Notl.MuseumMap.Core.Entities
 {
     public class PointOfInterest : EntityBase
     {
-        public string? Name { get; set; }
+        public Guid MapId { get; set; }
+
+        public double x { get; set; }
+
+        public double y { get; set; }
+
+        public POIType POIType { get; set; }
     }
 }

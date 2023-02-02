@@ -17,11 +17,24 @@ namespace Notl.MuseumMap.Core.Managers
             this.dbManager = dbManager;
         }
 
-        public async Task<PointOfInterest> CreatePOIAsync(string? name)
+        /// <summary>
+        /// Creates a POI associated with a map in the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="mapId"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pOIType"></param>
+        /// <returns></returns>
+        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
         { 
-            var poi = new PointOfInterest { Name = name };
+            // Create POI
+            var poi = new PointOfInterest { Id = id, MapId = mapId, x = x, y = y, POIType = pOIType };
+
+            // Add to the database and return
             await dbManager.CreateAsync(poi);
             return poi;
         }
+
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
+using Notl.MuseumMap.Api.Models.Map;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Managers;
@@ -52,19 +53,26 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Create point of interest.
+        /// Creates a point of interest.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [Route("poi")]
         [HttpPost]
-        [ProducesResponseType(typeof(PointOfInterest), 200)]
+        [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> CreatePOIAsync([FromQuery] string? data)
+        public async Task<IActionResult> CreatePOIAsync([FromQuery] POIModel model)
         {
             try
             {
-                var poi = await mapManager.CreatePOIAsync(data);
+                // POI Validation
+                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
+                {
+                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
+                }
+
+                // Add POI to the database
+                var poi = await mapManager.CreatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
                 return Ok(poi);
             }
             catch (Exception ex)

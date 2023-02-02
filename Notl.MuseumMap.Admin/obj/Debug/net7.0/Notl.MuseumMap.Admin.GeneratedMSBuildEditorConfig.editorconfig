@@ -24,6 +24,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29udHJvbHNcQnVzeUluZGljYXRvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Dialogs/ErrorDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xFcnJvckRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Dialogs/PromptDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xQcm9tcHREaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Pages/Authentication.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aGVudGljYXRpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
