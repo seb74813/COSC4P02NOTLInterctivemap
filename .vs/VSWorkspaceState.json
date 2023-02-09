@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Notl.MuseumMap.Admin"
+    "\\Notl.MuseumMap.App",
+    "\\Notl.MuseumMap.App\\Pages"
   ],
-  "SelectedNode": "\\Notl.MuseumMap.Admin",
+  "SelectedNode": "\\.gitignore",
   "PreviewInSolutionExplorer": false
 }
