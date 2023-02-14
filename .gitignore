@@ -362,3 +362,5 @@ MigrationBackup/
 FodyWeavers.xsd
 appsettings.Development.json
 .vs
+/.vs/Notl.MuseumMap/DesignTimeBuild/.dtbcache.v2
+/Notl.MuseumMap.Admin/obj/Debug/net7.0/Notl.MuseumMap.Admin.GeneratedMSBuildEditorConfig.editorconfig
