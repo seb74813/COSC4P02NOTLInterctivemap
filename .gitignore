@@ -376,3 +376,4 @@ appsettings.Development.json
 /Notl.MuseumMap.Core/obj/Release/net7.0/Notl.MuseumMap.Core.GeneratedMSBuildEditorConfig.editorconfig
 /Notl.MuseumMap.Tests/obj/Release/net7.0/Notl.MuseumMap.Tests.GeneratedMSBuildEditorConfig.editorconfig
 /Notl.MuseumMap.Web/obj/Release/net7.0/Notl.MuseumMap.Web.GeneratedMSBuildEditorConfig.editorconfig
+/Notl.MuseumMap.App/obj/Release/net7.0/Notl.MuseumMap.App.GeneratedMSBuildEditorConfig.editorconfig
