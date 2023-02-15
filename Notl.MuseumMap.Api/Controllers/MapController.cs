@@ -73,7 +73,30 @@ namespace Notl.MuseumMap.Api.Controllers
 
                 // Add POI to the database
                 var poi = await mapManager.CreatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
-                return Ok(poi);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get a point of interest.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("poi")]
+        [HttpGet]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetPOIAsync([FromQuery] Guid id)
+        {
+            try
+            {
+                // Get POI from the database
+                var poi = await mapManager.GetPOIAsync(id);
+                return Ok(new POIModel(poi));
             }
             catch (Exception ex)
             {

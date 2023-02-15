@@ -10,6 +10,27 @@ namespace Notl.MuseumMap.Api.Models.Map
     public class POIModel
     {
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public POIModel() 
+        {
+            
+        }
+
+        /// <summary>
+        /// Creates an ready existing POI
+        /// </summary>
+        /// <param name="poi"></param>
+        public POIModel(PointOfInterest poi) 
+        {
+            Id = poi.Id;
+            MapId = poi.MapId;
+            this.x = poi.x;
+            this.y = poi.y;
+            POIType = poi.POIType;
+        }
+
+        /// <summary>
         /// The Id of the POI
         /// </summary>
         public Guid Id { get; set; }
@@ -33,5 +54,6 @@ namespace Notl.MuseumMap.Api.Models.Map
         /// The type of Point of Interest
         /// </summary>
         public POIType POIType { get; set; }
+
     }
 }

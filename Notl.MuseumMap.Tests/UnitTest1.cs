@@ -6,6 +6,7 @@ namespace Notl.MuseumMap.Tests
         [TestMethod]
         public void TestMethod1()
         {
+
         }
     }
 }

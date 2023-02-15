@@ -1,8 +1,11 @@
-﻿using Notl.MuseumMap.Core.Entities;
+﻿using Microsoft.Azure.Cosmos;
+using Notl.MuseumMap.Core.Common;
+using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,5 +39,19 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        /// <summary>
+        /// Gets a POI from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<PointOfInterest> GetPOIAsync(Guid id)
+        {
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+            if (poi == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+            return poi;
+        }
     }
 }
