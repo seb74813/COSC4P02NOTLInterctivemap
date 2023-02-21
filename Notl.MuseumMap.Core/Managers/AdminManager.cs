@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Azure.Cosmos;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Tools;
@@ -11,31 +12,32 @@ using System.Threading.Tasks;
 
 namespace Notl.MuseumMap.Core.Managers
 {
-    public class MapManager
+    public class AdminManager
     {
         private readonly Guid configId = new Guid("00000000-0000-0000-0000-000000000001");
         readonly DbManager dbManager;
 
-        public MapManager(DbManager dbManager) 
+        public AdminManager(DbManager dbManager)
         {
             this.dbManager = dbManager;
         }
 
         /// <summary>
-        /// Gets a POI from the database
+        /// Creates a POI associated with a map in the database
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="mapId"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pOIType"></param>
         /// <returns></returns>
-        public async Task<PointOfInterest> GetPOIAsync(Guid id)
+        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
         {
-            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+            // Create POI
+            var poi = new PointOfInterest { Id = id, MapId = mapId, x = x, y = y, POIType = pOIType };
 
-            var map = await GetActiveMapInternalAsync();
-            if (poi == null || poi.MapId != map.Id)
-            {
-                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
-            }
-
+            // Add to the database and return
+            await dbManager.CreateAsync(poi);
             return poi;
         }
 

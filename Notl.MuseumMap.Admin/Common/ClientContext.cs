@@ -21,15 +21,21 @@ namespace Notl.MuseumMap.Admin.Common
 
             Http = httpClient;
             Maps = new MapClient(options.MuseumMapServiceBaseUrl, httpClient);
+            Admin = new AdminClient(options.MuseumMapServiceBaseUrl, httpClient);
             AppSettings = appSettings;
             DeviceInfo = appDeviceInfo;
             VersionInfo = appVersionInfo;
         }
 
         /// <summary>
-        /// Access to the backend Admin API for the Download Service.
+        /// Access to the backend Maps API for the Download Service.
         /// </summary>
         public MapClient Maps { get; set; }
+
+        /// <summary>
+        /// Access the backend Admin API for making changes.
+        /// </summary>
+        public AdminClient Admin { get; set; }
 
         /// <summary>
         /// Access to the App Settings.

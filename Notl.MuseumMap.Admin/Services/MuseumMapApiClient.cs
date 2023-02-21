@@ -105,4 +105,16 @@ namespace Notl.MuseumMap.Admin.Services
         partial void ProcessResponse(HttpClient client, HttpResponseMessage response) => MuseumMapApiClient.ProcessResponse(response);
     }
 
+    /// <summary>
+    /// MapClient Client
+    /// </summary>
+    public partial class AdminClient
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url) => MuseumMapApiClient.PrepareRequest(request, url);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
+        partial void PrepareRequest(HttpClient client, HttpRequestMessage request, StringBuilder urlBuilder) => MuseumMapApiClient.PrepareRequest(request, urlBuilder);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
+        partial void ProcessResponse(HttpClient client, HttpResponseMessage response) => MuseumMapApiClient.ProcessResponse(response);
+    }
 }
