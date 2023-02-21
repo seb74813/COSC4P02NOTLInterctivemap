@@ -3,10 +3,16 @@ using Notl.MuseumMap.Api.Tools;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Managers;
 using Notl.MuseumMap.Core.Tools;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 const string CorsPolicyName = "CorsPolicy";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
 // Add services to the container.
 
@@ -72,6 +78,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(CorsPolicyName);
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 app.UseAuthorization();
 //app.UseAuthentication();
 app.MapControllers();

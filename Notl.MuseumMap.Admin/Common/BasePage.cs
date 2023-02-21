@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using MudBlazor;
 using Notl.MuseumMap.Admin.Dialogs;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 namespace Notl.MuseumMap.Admin.Common
 {
@@ -25,6 +26,9 @@ namespace Notl.MuseumMap.Admin.Common
         /// </summary>
         [Inject]
         public ClientContext ClientContext { get; set; }
+
+        [Inject]
+        public IAccessTokenProvider TokenProvider { get; set; }
 
         /// <summary>
         /// Access to the snack bar service.
@@ -82,18 +86,18 @@ namespace Notl.MuseumMap.Admin.Common
         /// <returns></returns>
         protected async override Task OnInitializedAsync()
         {
-            //// Update the current bearer token value for the backend API.
-            //if(MuseumMapApiClient.BearerToken == null)
-            //{
-            //    if (TokenProvider != null)
-            //    {
-            //        var accessTokenResult = await TokenProvider.RequestAccessToken();
-            //        if (accessTokenResult.TryGetToken(out var token))
-            //        {
-            //            MuseumMapApiClient.BearerToken = token.Value;
-            //        }
-            //    }
-            //}
+            // Update the current bearer token value for the backend API.
+            if (MuseumMapApiClient.BearerToken == null)
+            {
+                if (TokenProvider != null)
+                {
+                    var accessTokenResult = await TokenProvider.RequestAccessToken();
+                    if (accessTokenResult.TryGetToken(out var token))
+                    {
+                        MuseumMapApiClient.BearerToken = token.Value;
+                    }
+                }
+            }
 
             await base.OnInitializedAsync();
         }

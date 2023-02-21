@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
@@ -86,6 +87,7 @@ namespace Notl.MuseumMap.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [Route("poi")]
         [HttpGet]
         [ProducesResponseType(typeof(POIModel), 200)]
