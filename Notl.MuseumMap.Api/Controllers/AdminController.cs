@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
+using Notl.MuseumMap.Api.Models.Map;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Managers;
 
@@ -15,18 +16,18 @@ namespace Notl.MuseumMap.Api.Controllers
     [Route("api/[controller]")]
     public class AdminController : BaseController
     {
-        readonly MapManager mapManager;
+        readonly AdminManager adminManager;
 
         /// <summary>
         /// Constructs the controller with dependencies.
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="options"></param>
-        /// <param name="mapManager"></param>
-        public AdminController(ILogger<MapController> logger, MuseumMapOptions options, MapManager mapManager)
+        /// <param name="adminManager"></param>
+        public AdminController(ILogger<MapController> logger, MuseumMapOptions options, AdminManager adminManager)
             : base(logger, options)
         {
-            this.mapManager = mapManager;
+            this.adminManager = adminManager;
         }
 
         /// <summary>
@@ -58,5 +59,33 @@ namespace Notl.MuseumMap.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a point of interest.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("poi")]
+        [HttpPost]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> CreatePOIAsync([FromQuery] POIModel model)
+        {
+            try
+            {
+                // POI Validation
+                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
+                {
+                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
+                }
+
+                // Add POI to the database
+                var poi = await adminManager.CreatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
     }
 }

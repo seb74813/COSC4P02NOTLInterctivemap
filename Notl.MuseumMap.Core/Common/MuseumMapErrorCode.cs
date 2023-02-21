@@ -16,6 +16,8 @@ namespace Notl.MuseumMap.Core.Common
         /// </summary>
         ConfigurationError,
 
-        InvalidPOIError
+        InvalidPOIError,
+
+        ActiveMapError
     }
 }
