@@ -39,6 +39,11 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        public async Task<Map> GetActiveMapAsync()
+        {
+            return await GetActiveMapInternalAsync();
+        }
+
         private async Task<Map> GetActiveMapInternalAsync()
         {
             var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));

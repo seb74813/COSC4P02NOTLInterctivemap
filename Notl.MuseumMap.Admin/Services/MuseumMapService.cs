@@ -148,6 +148,128 @@ namespace Notl.MuseumMap.Admin.Services
             }
         }
 
+        /// <summary>
+        /// Creates a point of interest.
+        /// </summary>
+        /// <param name="id">The Id of the POI</param>
+        /// <param name="mapId">The id of the map this POI belongs to</param>
+        /// <param name="x">The location on the x axis</param>
+        /// <param name="y">The location on the y axis</param>
+        /// <param name="pOIType">The type of Point of Interest</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<POIModel> CreatePOIAsync(System.Guid? id, System.Guid? mapId, double? x, double? y, POIType? pOIType)
+        {
+            return CreatePOIAsync(id, mapId, x, y, pOIType, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Creates a point of interest.
+        /// </summary>
+        /// <param name="id">The Id of the POI</param>
+        /// <param name="mapId">The id of the map this POI belongs to</param>
+        /// <param name="x">The location on the x axis</param>
+        /// <param name="y">The location on the y axis</param>
+        /// <param name="pOIType">The type of Point of Interest</param>
+        /// <returns>Success</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<POIModel> CreatePOIAsync(System.Guid? id, System.Guid? mapId, double? x, double? y, POIType? pOIType, System.Threading.CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Admin/poi?");
+            if (id != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("Id") + "=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (mapId != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("MapId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(mapId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (x != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("x") + "=").Append(System.Uri.EscapeDataString(ConvertToString(x, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (y != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("y") + "=").Append(System.Uri.EscapeDataString(ConvertToString(y, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            if (pOIType != null)
+            {
+                urlBuilder_.Append(System.Uri.EscapeDataString("POIType") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pOIType, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+            }
+            urlBuilder_.Length--;
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
+                {
+                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
+                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = System.Linq.Enumerable.ToDictionary(response_.Headers, h_ => h_.Key, h_ => h_.Value);
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<POIModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 400)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ErrorModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ErrorModel>("Bad Request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await response_.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -380,54 +502,28 @@ namespace Notl.MuseumMap.Admin.Services
         }
 
         /// <summary>
-        /// Creates a point of interest.
+        /// Get a point of interest.
         /// </summary>
-        /// <param name="id">The Id of the POI</param>
-        /// <param name="mapId">The id of the map this POI belongs to</param>
-        /// <param name="x">The location on the x axis</param>
-        /// <param name="y">The location on the y axis</param>
-        /// <param name="pOIType">The type of Point of Interest</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<POIModel> CreatePOIAsync(System.Guid? id, System.Guid? mapId, double? x, double? y, POIType? pOIType)
+        public virtual System.Threading.Tasks.Task<POIModel> GetPOIAsync(System.Guid? id)
         {
-            return CreatePOIAsync(id, mapId, x, y, pOIType, System.Threading.CancellationToken.None);
+            return GetPOIAsync(id, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Creates a point of interest.
+        /// Get a point of interest.
         /// </summary>
-        /// <param name="id">The Id of the POI</param>
-        /// <param name="mapId">The id of the map this POI belongs to</param>
-        /// <param name="x">The location on the x axis</param>
-        /// <param name="y">The location on the y axis</param>
-        /// <param name="pOIType">The type of Point of Interest</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<POIModel> CreatePOIAsync(System.Guid? id, System.Guid? mapId, double? x, double? y, POIType? pOIType, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<POIModel> GetPOIAsync(System.Guid? id, System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Map/poi?");
             if (id != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("Id") + "=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (mapId != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("MapId") + "=").Append(System.Uri.EscapeDataString(ConvertToString(mapId, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (x != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("x") + "=").Append(System.Uri.EscapeDataString(ConvertToString(x, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (y != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("y") + "=").Append(System.Uri.EscapeDataString(ConvertToString(y, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            if (pOIType != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("POIType") + "=").Append(System.Uri.EscapeDataString(ConvertToString(pOIType, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString("id") + "=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
             }
             urlBuilder_.Length--;
 
@@ -437,8 +533,7 @@ namespace Notl.MuseumMap.Admin.Services
             {
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
-                    request_.Content = new System.Net.Http.StringContent(string.Empty, System.Text.Encoding.UTF8, "text/plain");
-                    request_.Method = new System.Net.Http.HttpMethod("POST");
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
                     request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
@@ -502,30 +597,25 @@ namespace Notl.MuseumMap.Admin.Services
         }
 
         /// <summary>
-        /// Get a point of interest.
+        /// Get the active map.
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<POIModel> GetPOIAsync(System.Guid? id)
+        public virtual System.Threading.Tasks.Task<MapModel> GetActiveMapAsync()
         {
-            return GetPOIAsync(id, System.Threading.CancellationToken.None);
+            return GetActiveMapAsync(System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
-        /// Get a point of interest.
+        /// Get the active map.
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<POIModel> GetPOIAsync(System.Guid? id, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<MapModel> GetActiveMapAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Map/poi?");
-            if (id != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("id") + "=").Append(System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
-            urlBuilder_.Length--;
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Map/map");
 
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -559,7 +649,7 @@ namespace Notl.MuseumMap.Admin.Services
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<POIModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<MapModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -722,6 +812,17 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         [Newtonsoft.Json.JsonProperty("stackTrace", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string StackTrace { get; set; }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class MapModel
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Guid Id { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("imageUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string ImageUrl { get; set; }
 
     }
 

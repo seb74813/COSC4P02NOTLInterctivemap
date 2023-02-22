@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Azure.Cosmos;
+using Notl.MuseumMap.Admin.Common;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Tools;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using MuseumMapErrorCode = Notl.MuseumMap.Core.Common.MuseumMapErrorCode;
+using MuseumMapException = Notl.MuseumMap.Core.Common.MuseumMapException;
 
 namespace Notl.MuseumMap.Core.Managers
 {
@@ -38,6 +41,23 @@ namespace Notl.MuseumMap.Core.Managers
 
             // Add to the database and return
             await dbManager.CreateAsync(poi);
+            return poi;
+        }
+        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
+        {
+            // Get POI
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+            if (poi == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+
+            // Update position and type
+            poi.x = x; poi.y = y;
+            poi.POIType = pOIType;
+
+            // Add to the database and return
+            await dbManager.UpdateAsync(poi);
             return poi;
         }
 
