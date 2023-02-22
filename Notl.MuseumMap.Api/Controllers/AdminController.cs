@@ -117,5 +117,27 @@ namespace Notl.MuseumMap.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a point of interest.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("poi")]
+        [HttpDelete]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> DeletePOIAsync(Guid id)
+        {
+            try
+            {
+                await adminManager.DeletePOIAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
     }
 }

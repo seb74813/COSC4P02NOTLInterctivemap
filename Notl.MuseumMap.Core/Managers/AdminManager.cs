@@ -61,6 +61,21 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        public async Task DeletePOIAsync(Guid id)
+        {
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+
+            if (poi == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+
+            await dbManager.DeleteAsync(poi);
+
+        }
+
+        
+
         private async Task<Map> GetActiveMapInternalAsync()
         {
             var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));
@@ -77,5 +92,7 @@ namespace Notl.MuseumMap.Core.Managers
 
             return map;
         }
+
+        
     }
 }

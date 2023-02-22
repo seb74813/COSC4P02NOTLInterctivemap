@@ -18,6 +18,8 @@ namespace Notl.MuseumMap.Core.Common
 
         InvalidPOIError,
 
+        InvalidMapError,
+
         ActiveMapError
     }
 }
