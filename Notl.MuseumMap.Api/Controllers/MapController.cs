@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
-using Notl.MuseumMap.Api.Models.Map;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Managers;
@@ -52,28 +52,46 @@ namespace Notl.MuseumMap.Api.Controllers
             }
         }
 
+        
+
         /// <summary>
-        /// Creates a point of interest.
+        /// Get a point of interest.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [Route("poi")]
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> CreatePOIAsync([FromQuery] POIModel model)
+        public async Task<IActionResult> GetPOIAsync([FromQuery] Guid id)
         {
             try
             {
-                // POI Validation
-                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
-                {
-                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
-                }
+                // Get POI from the database
+                var poi = await mapManager.GetPOIAsync(id);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
 
-                // Add POI to the database
-                var poi = await mapManager.CreatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
-                return Ok(poi);
+        /// <summary>
+        /// Get the active map.
+        /// </summary>
+        /// <returns></returns>
+        [Route("map")]
+        [HttpGet]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetActiveMapAsync()
+        {
+            try
+            {
+                // Get POI from the database
+                var map = await mapManager.GetActiveMapAsync();
+                return Ok(new MapModel(map));
             }
             catch (Exception ex)
             {

@@ -14,6 +14,14 @@ namespace Notl.MuseumMap.Core.Entities
 
         public double y { get; set; }
 
+        public string? ImageURL { get; set; }
+
+        public string? Title { get; set; }
+
+        public string? Description { get; set; }
+
         public POIType POIType { get; set; }
+
+        
     }
 }
