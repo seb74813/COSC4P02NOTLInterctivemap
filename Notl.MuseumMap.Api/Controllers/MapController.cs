@@ -60,7 +60,6 @@ namespace Notl.MuseumMap.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [Route("poi")]
         [HttpGet]
         [ProducesResponseType(typeof(POIModel), 200)]
@@ -72,6 +71,28 @@ namespace Notl.MuseumMap.Api.Controllers
                 // Get POI from the database
                 var poi = await mapManager.GetPOIAsync(id);
                 return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get the active map.
+        /// </summary>
+        /// <returns></returns>
+        [Route("map")]
+        [HttpGet]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetActiveMapAsync()
+        {
+            try
+            {
+                // Get POI from the database
+                var map = await mapManager.GetActiveMapAsync();
+                return Ok(new MapModel { Id = map.Id, ImageUrl = map.ImageUrl});
             }
             catch (Exception ex)
             {
