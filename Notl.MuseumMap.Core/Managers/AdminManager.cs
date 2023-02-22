@@ -74,7 +74,20 @@ namespace Notl.MuseumMap.Core.Managers
 
         }
 
-        
+        public async Task DeleteMapAsync(Guid id)
+        {
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
+
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            await dbManager.DeleteAsync(map);
+
+        }
+
+
 
         private async Task<Map> GetActiveMapInternalAsync()
         {

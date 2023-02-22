@@ -139,5 +139,27 @@ namespace Notl.MuseumMap.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a map 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("map")]
+        [HttpDelete]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> DeleteMapAsync(Guid id)
+        {
+            try
+            {
+                await adminManager.DeleteMapAsync(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
     }
 }
