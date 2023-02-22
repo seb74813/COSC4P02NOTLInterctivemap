@@ -79,7 +79,15 @@ namespace Notl.MuseumMap.Core.Managers
             await dbManager.UpdateAsync(poi); 
             return poi;
         }
+        public async Task<Map> CreateMapAsync(Guid id, string image)
+        {
+            // Create map
+            var map = new Map { Id = id, ImageUrl = image };
 
+            // Add to the database and return
+            await dbManager.CreateAsync(map);
+            return map;
+        }
 
         private async Task<Map> GetActiveMapInternalAsync()
         {
@@ -97,5 +105,6 @@ namespace Notl.MuseumMap.Core.Managers
 
             return map;
         }
+
     }
 }
