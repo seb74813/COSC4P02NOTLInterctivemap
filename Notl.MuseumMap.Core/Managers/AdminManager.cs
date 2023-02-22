@@ -1,17 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Azure.Cosmos;
-using Notl.MuseumMap.Admin.Common;
-using Notl.MuseumMap.Core.Common;
+﻿using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using MuseumMapErrorCode = Notl.MuseumMap.Core.Common.MuseumMapErrorCode;
-using MuseumMapException = Notl.MuseumMap.Core.Common.MuseumMapException;
 
 namespace Notl.MuseumMap.Core.Managers
 {

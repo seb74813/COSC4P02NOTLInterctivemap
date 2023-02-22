@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
-using Notl.MuseumMap.Api.Models.Map;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Managers;
 
@@ -122,7 +121,7 @@ namespace Notl.MuseumMap.Api.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [Route("poi")]
+        [Route("poi/content")]
         [HttpPut]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
@@ -149,7 +148,7 @@ namespace Notl.MuseumMap.Api.Controllers
         /// <summary>
         /// Creates a map.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="image"></param>
         /// <returns></returns>
         [Route("map")]
         [HttpPost]
@@ -159,8 +158,6 @@ namespace Notl.MuseumMap.Api.Controllers
         {
             try
             {
-                
-
                 // Add map to the database
                 var map = await adminManager.CreateMapAsync(Guid.NewGuid(), image);
                 return Ok(new MapModel(map));
