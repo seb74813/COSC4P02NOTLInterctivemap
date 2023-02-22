@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
-using Notl.MuseumMap.Api.Models.Map;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Managers;
@@ -92,7 +91,7 @@ namespace Notl.MuseumMap.Api.Controllers
             {
                 // Get POI from the database
                 var map = await mapManager.GetActiveMapAsync();
-                return Ok(new MapModel { Id = map.Id, ImageUrl = map.ImageUrl});
+                return Ok(new MapModel(map));
             }
             catch (Exception ex)
             {

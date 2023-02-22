@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
-using Notl.MuseumMap.Api.Models.Map;
 using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Managers;
 
@@ -108,7 +107,7 @@ namespace Notl.MuseumMap.Api.Controllers
                 }
 
                 // Add POI to the database
-                var poi = await adminManager.UpdatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
+                var poi = await adminManager.UpdatePOIAsync(model.Id, model.MapId, model.x, model.y, model.POIType);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)
@@ -161,5 +160,56 @@ namespace Notl.MuseumMap.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the content within a point of interest
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("poi/content")]
+        [HttpPut]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> UpdatePOIContentAsync([FromQuery] POIModel model)
+        {
+            try
+            {
+                // POI Validation
+                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
+                {
+                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
+                }
+                
+
+                // Add POI to the database
+                var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.ImageURL);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+        /// <summary>
+        /// Creates a map.
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        [Route("map")]
+        [HttpPost]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> CreateMapAsync([FromQuery] string image)
+        {
+            try
+            {
+                // Add map to the database
+                var map = await adminManager.CreateMapAsync(Guid.NewGuid(), image);
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
     }
 }

@@ -1,17 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Azure.Cosmos;
-using Notl.MuseumMap.Admin.Common;
-using Notl.MuseumMap.Core.Common;
+﻿using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using MuseumMapErrorCode = Notl.MuseumMap.Core.Common.MuseumMapErrorCode;
-using MuseumMapException = Notl.MuseumMap.Core.Common.MuseumMapException;
 
 namespace Notl.MuseumMap.Core.Managers
 {
@@ -61,6 +50,34 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, string? newTitle, string? newDesc, string? newImageURL)
+        {
+            // Get POI
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+            if (poi == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+
+            // Update POI content
+            poi.Title = newTitle;
+            poi.Description= newDesc;
+            poi.ImageURL = newImageURL;
+
+            // Add to the database and return
+            await dbManager.UpdateAsync(poi); 
+            return poi;
+        }
+        public async Task<Map> CreateMapAsync(Guid id, string image)
+        {
+            // Create map
+            var map = new Map { Id = id, ImageUrl = image };
+
+            // Add to the database and return
+            await dbManager.CreateAsync(map);
+            return map;
+        }
+
         public async Task DeletePOIAsync(Guid id)
         {
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
@@ -107,5 +124,6 @@ namespace Notl.MuseumMap.Core.Managers
         }
 
         
+
     }
 }
