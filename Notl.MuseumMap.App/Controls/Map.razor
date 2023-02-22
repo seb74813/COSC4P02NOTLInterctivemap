@@ -6,7 +6,7 @@
         <button @onclick="OnResetClick">Reset</button>
 </div>
 <div class="panzoom-parent">
-    <Panzoom @ref="_panzoom">
+    <Panzoom WheelEnabled="true" @ref="_panzoom">
         <div @ref="@context.ElementReference" class="panzoom">
             <img style="width: 400px; height: 400px" src="Notl.MuseumMap.Admin\wwwroot\map.png" alt="image" />
         </div>
