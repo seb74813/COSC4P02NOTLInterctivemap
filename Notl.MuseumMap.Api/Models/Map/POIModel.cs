@@ -28,6 +28,9 @@ namespace Notl.MuseumMap.Api.Models.Map
             this.x = poi.x;
             this.y = poi.y;
             POIType = poi.POIType;
+            Description = poi.Description;
+            Title= poi.Title;
+            ImageURL= poi.ImageURL;
         }
 
         /// <summary>
@@ -49,6 +52,21 @@ namespace Notl.MuseumMap.Api.Models.Map
         /// The location on the y axis
         /// </summary>
         public double y { get; set; }
+        
+        /// <summary>
+        /// The URL of the image
+        /// </summary>
+        public string? ImageURL { get; set; }
+
+        /// <summary>
+        /// The Title text of the POI
+        /// </summary>
+        public string? Title { get; set; }
+        
+        /// <summary>
+        /// The description of the POI
+        /// </summary>
+        public string? Description { get; set; }
 
         /// <summary>
         /// The type of Point of Interest

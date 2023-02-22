@@ -61,6 +61,26 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, string? newTitle, string? newDesc, string? newImageURL)
+        {
+            // Get POI
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+            if (poi == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+
+            // Update POI content
+            poi.Title = newTitle;
+            poi.Description= newDesc;
+            poi.ImageURL = newImageURL;
+
+            // Add to the database and return
+            await dbManager.UpdateAsync(poi); 
+            return poi;
+        }
+
+
         private async Task<Map> GetActiveMapInternalAsync()
         {
             var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));

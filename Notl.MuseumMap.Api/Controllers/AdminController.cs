@@ -108,7 +108,37 @@ namespace Notl.MuseumMap.Api.Controllers
                 }
 
                 // Add POI to the database
-                var poi = await adminManager.UpdatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
+                var poi = await adminManager.UpdatePOIAsync(model.Id, model.MapId, model.x, model.y, model.POIType);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Updates the content within a point of interest
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [Route("poi")]
+        [HttpPut]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> UpdatePOIContentAsync([FromQuery] POIModel model)
+        {
+            try
+            {
+                // POI Validation
+                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
+                {
+                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
+                }
+                
+
+                // Add POI to the database
+                var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.ImageURL);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)
