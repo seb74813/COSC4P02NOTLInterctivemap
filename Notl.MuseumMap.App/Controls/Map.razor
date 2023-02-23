@@ -1,12 +1,26 @@
-﻿<div class="buttons">
-        <button @onclick="OnZoomInClick">Zoom in</button>
-        <button @onclick="OnZoomOutClick">Zoom out</button>
-        <button @onclick="OnResetClick">Reset</button>
+﻿<style>
+    .panzoom-parent {
+        border: 10px solid rgba(1, 1, 1, 1);;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .panzoom {
+        border: 1px solid #ddd;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="buttons">
+        <MudButton @onclick="OnZoomInClick">Zoom in</MudButton>
+        <MudButton @onclick="OnZoomOutClick">Zoom out</MudButton>
+        <MudButton @onclick="OnResetClick">Reset</MudButton>
 </div>
 <div class="panzoom-parent">
-    <Panzoom WheelEnabled="true" @ref="_panzoom">
+    <Panzoom @ref="_panzoom">
         <div @ref="@context.ElementReference" class="panzoom">
-            <img style="width: 400px; height: 400px" src="Notl.MuseumMap.Admin\wwwroot\map.png" alt="image" />
+            <img src="map.png" alt="image" />
         </div>
     </Panzoom>
 </div>
