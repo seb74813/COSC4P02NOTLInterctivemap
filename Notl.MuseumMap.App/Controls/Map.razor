@@ -1,0 +1,51 @@
+﻿@page "/"
+
+<div class="buttons">
+        <button @onclick="OnZoomInClick">Zoom in</button>
+        <button @onclick="OnZoomOutClick">Zoom out</button>
+        <button @onclick="OnResetClick">Reset</button>
+</div>
+<div class="panzoom-parent">
+    <Panzoom WheelEnabled="true" @ref="_panzoom">
+        <div @ref="@context.ElementReference" class="panzoom">
+            <img style="width: 400px; height: 400px" src="Notl.MuseumMap.Admin\wwwroot\map.png" alt="image" />
+        </div>
+    </Panzoom>
+</div>
+
+@code {
+
+    private Panzoom _panzoom;
+
+
+    private async Task OnZoomInClick(MouseEventArgs args)
+    {
+        await AdjustScale(true);
+    }
+
+    private async Task OnZoomOutClick(MouseEventArgs args)
+    {
+        await AdjustScale(false);
+    }
+
+    private async Task OnResetClick(MouseEventArgs args)
+    {
+        await _panzoom.ResetAsync();
+    }
+
+    private async Task AdjustScale(bool zoomIn)
+    {
+        var oldScale = await _panzoom.GetScaleAsync();
+
+        if (zoomIn)
+        {
+            await _panzoom.ZoomInAsync();
+        }
+        else
+        {
+            await _panzoom.ZoomOutAsync();
+        }
+        var newScale = await _panzoom.GetScaleAsync();
+    }
+
+}

@@ -5,17 +5,17 @@ VisualStudioVersion = 17.5.33318.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.Api", "Notl.MuseumMap.Api\Notl.MuseumMap.Api.csproj", "{02FD0AE2-507B-4929-BCF8-4FC1F946B59D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notl.MuseumMap.Web", "Notl.MuseumMap.Web\Notl.MuseumMap.Web.csproj", "{52EC0F91-C6C1-4E04-A061-6A8AFBE34B7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.Web", "Notl.MuseumMap.Web\Notl.MuseumMap.Web.csproj", "{52EC0F91-C6C1-4E04-A061-6A8AFBE34B7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notl.MuseumMap.Mobile", "Notl.MuseumMap.Mobile\Notl.MuseumMap.Mobile.csproj", "{6CA2F90E-4184-4440-86DC-BF17F3B1864E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.Mobile", "Notl.MuseumMap.Mobile\Notl.MuseumMap.Mobile.csproj", "{6CA2F90E-4184-4440-86DC-BF17F3B1864E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notl.MuseumMap.App", "Notl.MuseumMap.App\Notl.MuseumMap.App.csproj", "{6978A0BA-82C5-4E6E-B0A2-F54A5B6741E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.App", "Notl.MuseumMap.App\Notl.MuseumMap.App.csproj", "{6978A0BA-82C5-4E6E-B0A2-F54A5B6741E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notl.MuseumMap.Core", "Notl.MuseumMap.Core\Notl.MuseumMap.Core.csproj", "{593FB41D-08B1-45CE-A57B-5DE4627AA9E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.Core", "Notl.MuseumMap.Core\Notl.MuseumMap.Core.csproj", "{593FB41D-08B1-45CE-A57B-5DE4627AA9E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notl.MuseumMap.Tests", "Notl.MuseumMap.Tests\Notl.MuseumMap.Tests.csproj", "{306BB80F-7B1C-44B3-A66A-F5BFD43F237D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.Tests", "Notl.MuseumMap.Tests\Notl.MuseumMap.Tests.csproj", "{306BB80F-7B1C-44B3-A66A-F5BFD43F237D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notl.MuseumMap.Admin", "Notl.MuseumMap.Admin\Notl.MuseumMap.Admin.csproj", "{A494CA87-B00B-4F58-B124-45D87C6F8AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notl.MuseumMap.Admin", "Notl.MuseumMap.Admin\Notl.MuseumMap.Admin.csproj", "{A494CA87-B00B-4F58-B124-45D87C6F8AA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

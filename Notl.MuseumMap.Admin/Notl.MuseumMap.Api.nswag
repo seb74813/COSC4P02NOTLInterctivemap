@@ -59,7 +59,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "Notl.MuseumMap.App.Services",
+      "namespace": "Notl.MuseumMap.Admin.Services",
       "requiredPropertiesMustBeDefined": false,
       "dateType": "System.DateTime",
       "jsonConverters": null,
