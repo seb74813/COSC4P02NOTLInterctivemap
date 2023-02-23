@@ -246,7 +246,7 @@ namespace Notl.MuseumMap.Api.Controllers
             try
             {
                 // Get POI from the database
-                var poi = await mapManager.GetMapAsync(id);
+                var poi = await adminManager.GetMapAsync(id);
                 return Ok(new MapModel(poi));
             }
             catch (Exception ex)
@@ -268,7 +268,7 @@ namespace Notl.MuseumMap.Api.Controllers
             try
             {
                 // Get POI from the database
-                var poi = await mapManager.GetPOIAsync(id);
+                var poi = await adminManager.GetPOIAsync(id);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)
