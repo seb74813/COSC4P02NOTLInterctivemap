@@ -23,7 +23,7 @@
         try
         {
             IsBusy = true;
-            data = await ClientContext.Maps.PingAsync("Hello World");
+            data = await ClientContext.Maps.Ping2Async("Hello World");
             IsBusy = false;
         }
         catch(Exception ex)

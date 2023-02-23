@@ -8,6 +8,7 @@ using Notl.MuseumMap.Admin.Common;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BlazorPanzoom;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -53,6 +54,9 @@ builder.Services.AddMsalAuthentication(options =>
 // Setup the mud services.
 builder.Services.AddMudServices();
 builder.Services.AddLocalization();
+
+// Set up panzoom
+builder.Services.AddBlazorPanzoomServices();
 
 // Setup the app specific services.
 builder.Services.AddScoped<IAppVersionInfo, BrowserAppVersionInfo>();

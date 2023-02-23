@@ -47,6 +47,16 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        /// <summary>
+        /// Updates a POI
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="mapId"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="pOIType"></param>
+        /// <returns></returns>
+        /// <exception cref="MuseumMapException"></exception>
         public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
         {
             // Get POI
@@ -65,6 +75,15 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        /// <summary>
+        /// Updates the content of a POI
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newTitle"></param>
+        /// <param name="newDesc"></param>
+        /// <param name="newImageURL"></param>
+        /// <returns></returns>
+        /// <exception cref="MuseumMapException"></exception>
         public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, string? newTitle, string? newDesc, string? newImageURL)
         {
             // Get POI
@@ -84,6 +103,12 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        /// <summary>
+        /// Creates a map in the datbase
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
         public async Task<Map> CreateMapAsync(Guid id, string image)
         {
             // Create map
@@ -94,6 +119,12 @@ namespace Notl.MuseumMap.Core.Managers
             return map;
         }
 
+        /// <summary>
+        /// Deletes a POI
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="MuseumMapException"></exception>
         public async Task DeletePOIAsync(Guid id)
         {
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
@@ -104,44 +135,34 @@ namespace Notl.MuseumMap.Core.Managers
             }
 
             await dbManager.DeleteAsync(poi);
-
         }
 
+        /// <summary>
+        /// Deletes a map
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="MuseumMapException"></exception>
         public async Task DeleteMapAsync(Guid id)
         {
             var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
-
             if (map == null)
             {
                 throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
             }
 
             await dbManager.DeleteAsync(map);
-
         }
+
+        /// <summary>
+        /// Gets the active map
+        /// </summary>
+        /// <returns></returns>
         public async Task<Map> GetActiveMapAsync()
         {
             return await GetActiveMapInternalAsync();
         }
 
-
-
-        private async Task<Map> GetActiveMapInternalAsync()
-        {
-            var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));
-            if (config == null || config.ActiveMap == Guid.Empty)
-            {
-                throw new MuseumMapException(MuseumMapErrorCode.ActiveMapError);
-            }
-
-            var map = await dbManager.GetAsync<Map>(config.ActiveMap, Partition.Calculate(config.ActiveMap));
-            if (map == null)
-            {
-                throw new MuseumMapException(MuseumMapErrorCode.ActiveMapError);
-            }
-
-            return map;
-        }
         /// <summary>
         /// Gets a POI from the database
         /// </summary>
@@ -159,6 +180,7 @@ namespace Notl.MuseumMap.Core.Managers
 
             return poi;
         }
+
         /// <summary>
         /// Gets a Map from the database
         /// </summary>
@@ -168,7 +190,7 @@ namespace Notl.MuseumMap.Core.Managers
         {
             var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
 
-          
+
             if (map == null)
             {
                 throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
@@ -177,5 +199,21 @@ namespace Notl.MuseumMap.Core.Managers
             return map;
         }
 
+        private async Task<Map> GetActiveMapInternalAsync()
+        {
+            var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));
+            if (config == null || config.ActiveMap == Guid.Empty)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.ActiveMapError);
+            }
+
+            var map = await dbManager.GetAsync<Map>(config.ActiveMap, Partition.Calculate(config.ActiveMap));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.ActiveMapError);
+            }
+
+            return map;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using BlazorPanzoom;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -52,6 +53,9 @@ builder.Services.AddSingleton<HttpClient>();
 // Setup the mud services.
 builder.Services.AddMudServices();
 builder.Services.AddLocalization();
+
+// Setup the pan zoom service
+builder.Services.AddBlazorPanzoomServices();
 
 // Setup the app specific services.
 builder.Services.AddScoped<IAppVersionInfo, BrowserAppVersionInfo>();
