@@ -65,6 +65,7 @@ builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<DbManagerOptions>();
 builder.Services.AddSingleton<MuseumMapOptions>();
 builder.Services.AddSingleton<DbManager>();
+builder.Services.AddSingleton<StorageManager>();
 builder.Services.AddSingleton<MapManager>();
 builder.Services.AddSingleton<AdminManager>();
 

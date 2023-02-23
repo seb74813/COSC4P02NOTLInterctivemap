@@ -1,4 +1,5 @@
-﻿using Notl.MuseumMap.Core.Common;
+﻿using Azure.Storage.Blobs.Models;
+using Notl.MuseumMap.Core.Common;
 using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Tools;
 
@@ -10,9 +11,10 @@ namespace Notl.MuseumMap.Core.Managers
         readonly DbManager dbManager;
         readonly StorageManager storageManager;
 
-        public AdminManager(DbManager dbManager)
+        public AdminManager(DbManager dbManager, StorageManager storageManager)
         {
             this.dbManager = dbManager;
+            this.storageManager = storageManager;
         }
 
         /// <summary>
@@ -25,7 +27,100 @@ namespace Notl.MuseumMap.Core.Managers
         public async Task<ImageReference> UploadImageAsync(Guid mapId, string photoFilename, Stream photoStream)
         {
             // Upload the file into storage
-            return await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.Messages, mapId, photoFilename, photoStream);
+            return await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
+        }
+
+        /// <summary>
+        /// Creates a map in the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public async Task<Map> CreateMapAsync(Guid id)
+        {
+            // Create map
+            var map = new Map { Id = id};
+
+            // Add to the database and return
+            await dbManager.CreateAsync(map);
+            return map;
+        }
+
+        /// <summary>
+        /// Gets the active map
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Map> GetActiveMapAsync()
+        {
+            return await GetActiveMapInternalAsync();
+        }
+
+        /// <summary>
+        /// Gets a Map from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Map> GetMapAsync(Guid id)
+        {
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
+
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            return map;
+        }
+
+        /// <summary>
+        /// Gets all the maps in the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Map>> GetMapsAsync()
+        {
+            // Get account's posts
+            var sqlQuery = $"select * from {DbManager.GetContainerName<Map>()} a where a.deleted = null";
+            var maps = await dbManager.QueryAsync<Map>(sqlQuery);
+
+            return maps;
+        }
+
+        /// <summary>
+        /// Updates a map in the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public async Task<Map> UpdateMapAsync(Guid id, ImageReference image)
+        {
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            map.Image = image;
+
+            // Update the map on the database
+            await dbManager.UpdateAsync(map);
+            return map;
+        }
+
+        /// <summary>
+        /// Deletes a map
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="MuseumMapException"></exception>
+        public async Task DeleteMapAsync(Guid id)
+        {
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            await dbManager.DeleteAsync(map);
         }
 
         /// <summary>
@@ -45,6 +140,41 @@ namespace Notl.MuseumMap.Core.Managers
             // Add to the database and return
             await dbManager.CreateAsync(poi);
             return poi;
+        }
+
+        /// <summary>
+        /// Gets a POI from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<PointOfInterest> GetPOIAsync(Guid id)
+        {
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+
+            var map = await GetActiveMapInternalAsync();
+            if (poi == null || poi.MapId != map.Id)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+
+            return poi;
+        }
+
+        /// <summary>
+        /// Gets all the POI for a map in the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<PointOfInterest>> GetPOIsAsync(Guid mapId)
+        {
+            // Get account's posts
+            var sqlQuery = $"select * from {DbManager.GetContainerName<PointOfInterest>()} a where a.deleted = null and a.MapId = @id";
+            var parameters = new Dictionary<string, object>
+            {
+                {"@id", mapId},
+            };
+            var pois = await dbManager.QueryAsync<PointOfInterest>(sqlQuery, parameters);
+
+            return pois;
         }
 
         /// <summary>
@@ -104,22 +234,6 @@ namespace Notl.MuseumMap.Core.Managers
         }
 
         /// <summary>
-        /// Creates a map in the datbase
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        public async Task<Map> CreateMapAsync(Guid id, string image)
-        {
-            // Create map
-            var map = new Map { Id = id, ImageUrl = image };
-
-            // Add to the database and return
-            await dbManager.CreateAsync(map);
-            return map;
-        }
-
-        /// <summary>
         /// Deletes a POI
         /// </summary>
         /// <param name="id"></param>
@@ -135,68 +249,6 @@ namespace Notl.MuseumMap.Core.Managers
             }
 
             await dbManager.DeleteAsync(poi);
-        }
-
-        /// <summary>
-        /// Deletes a map
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        /// <exception cref="MuseumMapException"></exception>
-        public async Task DeleteMapAsync(Guid id)
-        {
-            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
-            if (map == null)
-            {
-                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
-            }
-
-            await dbManager.DeleteAsync(map);
-        }
-
-        /// <summary>
-        /// Gets the active map
-        /// </summary>
-        /// <returns></returns>
-        public async Task<Map> GetActiveMapAsync()
-        {
-            return await GetActiveMapInternalAsync();
-        }
-
-        /// <summary>
-        /// Gets a POI from the database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<PointOfInterest> GetPOIAsync(Guid id)
-        {
-            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
-
-            var map = await GetActiveMapInternalAsync();
-            if (poi == null || poi.MapId != map.Id)
-            {
-                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
-            }
-
-            return poi;
-        }
-
-        /// <summary>
-        /// Gets a Map from the database
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<Map> GetMapAsync(Guid id)
-        {
-            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
-
-
-            if (map == null)
-            {
-                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
-            }
-
-            return map;
         }
 
         private async Task<Map> GetActiveMapInternalAsync()

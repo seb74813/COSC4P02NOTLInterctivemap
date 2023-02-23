@@ -52,18 +52,16 @@ namespace Notl.MuseumMap.Api.Controllers
             }
         }
 
-        
-
         /// <summary>
         /// Get a point of interest.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("poi")]
+        [Route("poi/{id}")]
         [HttpGet]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetPOIAsync([FromQuery] Guid id)
+        public async Task<IActionResult> GetPOIAsync([FromRoute] Guid id)
         {
             try
             {
@@ -92,6 +90,36 @@ namespace Notl.MuseumMap.Api.Controllers
                 // Get POI from the database
                 var map = await mapManager.GetActiveMapAsync();
                 return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get all the pois that belong to the active map from the database
+        /// </summary>
+        /// <returns></returns>
+        [Route("pois")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<POIModel>), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetPOIsAsync()
+        {
+            try
+            {
+                // Get POI from the database
+                var pois = await mapManager.GetPOIsAsync();
+
+                List<POIModel> poiModels = new List<POIModel>();
+
+                foreach (var poi in pois)
+                {
+                    poiModels.Add(new POIModel(poi));
+                }
+
+                return Ok(poiModels);
             }
             catch (Exception ex)
             {

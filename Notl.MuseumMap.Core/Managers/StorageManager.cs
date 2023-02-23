@@ -9,16 +9,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using Azure.Storage.Blobs.Models;
+using Notl.MuseumMap.Core.Common;
 
 namespace Notl.MuseumMap.Core.Managers
 {
     public enum StorageContainerType
     {
-        Accounts,
-        Products,
-        Messages,
-        Recipe,
-        Food,
+        PublicMaps
     }
 
     /// <summary>
@@ -34,9 +31,9 @@ namespace Notl.MuseumMap.Core.Managers
         /// Constructs the storage manager with the required credentials.
         /// </summary>
         /// <param name="storageConnectionString"></param>
-        public StorageManager(string storageConnectionString)
+        public StorageManager(MuseumMapOptions options)
         {
-            this.storageConnectionString = storageConnectionString;
+            this.storageConnectionString = options.ConnectionString;
         }
 
         /// <summary>

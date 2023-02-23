@@ -9,6 +9,6 @@ namespace Notl.MuseumMap.Core.Entities
     public class Map : EntityBase
     {
 
-        public string? ImageUrl { get; set; }
+        public ImageReference? Image { get; set; }
     }
 }

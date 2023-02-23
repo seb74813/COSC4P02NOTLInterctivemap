@@ -39,9 +39,32 @@ namespace Notl.MuseumMap.Core.Managers
             return poi;
         }
 
+        /// <summary>
+        /// Gets the active map
+        /// </summary>
+        /// <returns></returns>
         public async Task<Map> GetActiveMapAsync()
         {
             return await GetActiveMapInternalAsync();
+        }
+
+        /// <summary>
+        /// Gets all the POI in the active map from the database
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<PointOfInterest>> GetPOIsAsync()
+        {
+            var map = await GetActiveMapAsync();
+
+            // Get account's posts
+            var sqlQuery = $"select * from {DbManager.GetContainerName<PointOfInterest>()} a where a.deleted = null and a.MapId = @id";
+            var parameters = new Dictionary<string, object>
+            {
+                {"@id", map.Id},
+            };
+            var pois = await dbManager.QueryAsync<PointOfInterest>(sqlQuery, parameters);
+
+            return pois;
         }
 
         private async Task<Map> GetActiveMapInternalAsync()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
@@ -84,6 +85,154 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
+        /// Creates a map.
+        /// </summary>
+        /// <returns></returns>
+        [Route("map")]
+        [HttpPost]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> CreateMapAsync()
+        {
+            try
+            {
+                // Add map to the database
+                var map = await adminManager.CreateMapAsync(Guid.NewGuid());
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get the map.
+        /// </summary>
+        /// <returns></returns>
+        [Route("map/active")]
+        [HttpGet]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetActiveMapAsync()
+        {
+            try
+            {
+                // Get map from the database
+                var map = await adminManager.GetActiveMapAsync();
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get a map.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
+        [Route("map/{mapId}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetMapAsync([FromRoute] Guid mapId)
+        {
+            try
+            {
+                // Get POI from the database
+                var map = await adminManager.GetMapAsync(mapId);
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get all maps in the database.
+        /// </summary>
+        /// <returns></returns>
+        [Route("maps")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<MapModel>), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetMapsAsync()
+        {
+            try
+            {
+                // Get POI from the database
+                var maps = await adminManager.GetMapsAsync();
+
+                List<MapModel> mapModels = new List<MapModel>();
+
+                foreach (var map in maps)
+                { 
+                    mapModels.Add(new MapModel(map));
+                }
+
+                return Ok(mapModels);
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Update a map's image.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        [Route("map/{mapId}")]
+        [HttpPost]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> UpdateMapAsync([FromRoute] Guid mapId, [FromQuery] ImageReference image)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(image.Thumbnail) || string.IsNullOrWhiteSpace(image.Url))
+                {
+                    throw new MuseumMapException(MuseumMapErrorCode.ImageError);
+                }
+
+                // Update a map in the database
+                var map = await adminManager.UpdateMapAsync(mapId, image);
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Deletes a map 
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
+        [Route("map/{mapId}")]
+        [HttpDelete]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> DeleteMapAsync([FromRoute] Guid mapId)
+        {
+            try
+            {
+                await adminManager.DeleteMapAsync(mapId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
         /// Creates a point of interest.
         /// </summary>
         /// <param name="model"></param>
@@ -105,6 +254,60 @@ namespace Notl.MuseumMap.Api.Controllers
                 // Add POI to the database
                 var poi = await adminManager.CreatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
                 return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get a map poi.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
+        [Route("poi/{mapId}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetPOIAsync([FromRoute] Guid mapId)
+        {
+            try
+            {
+                // Get POI from the database
+                var poi = await adminManager.GetPOIAsync(mapId);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Get all a map's pois in the database.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
+        [Route("pois")]
+        [HttpGet]
+        [ProducesResponseType(typeof(List<POIModel>), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetPOIsAsync([FromRoute] Guid mapId)
+        {
+            try
+            {
+                // Get POI from the database
+                var pois = await adminManager.GetPOIsAsync(mapId);
+
+                List<POIModel> poiModels = new List<POIModel>();
+
+                foreach (var poi in pois)
+                {
+                    poiModels.Add(new POIModel(poi));
+                }
+
+                return Ok(poiModels);
             }
             catch (Exception ex)
             {
@@ -142,50 +345,6 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Deletes a point of interest.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Route("poi")]
-        [HttpDelete]
-        [ProducesResponseType(typeof(POIModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> DeletePOIAsync(Guid id)
-        {
-            try
-            {
-                await adminManager.DeletePOIAsync(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-
-        /// <summary>
-        /// Deletes a map 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Route("map")]
-        [HttpDelete]
-        [ProducesResponseType(typeof(POIModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> DeleteMapAsync(Guid id)
-        {
-            try
-            {
-                await adminManager.DeleteMapAsync(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-
-        /// <summary>
         /// Updates the content within a point of interest
         /// </summary>
         /// <param name="model"></param>
@@ -203,7 +362,6 @@ namespace Notl.MuseumMap.Api.Controllers
                 {
                     throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
                 }
-                
 
                 // Add POI to the database
                 var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.ImageURL);
@@ -216,92 +374,25 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Creates a map.
+        /// Deletes a point of interest.
         /// </summary>
-        /// <param name="image"></param>
+        /// <param name="mapId"></param>
         /// <returns></returns>
-        [Route("map")]
-        [HttpPost]
-        [ProducesResponseType(typeof(MapModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> CreateMapAsync([FromQuery] string image)
-        {
-            try
-            {
-                // Add map to the database
-                var map = await adminManager.CreateMapAsync(Guid.NewGuid(), image);
-                return Ok(new MapModel(map));
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-        /// <summary>
-        /// Get the map.
-        /// </summary>
-        /// <returns></returns>
-        [Route("map/active")]
-        [HttpGet]
-        [ProducesResponseType(typeof(MapModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetActiveMapAsync()
-        {
-            try
-            {
-                // Get map from the database
-                var map = await adminManager.GetActiveMapAsync();
-                return Ok(new MapModel(map));
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-        /// <summary>
-        /// Get a map.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Route("map")]
-        [HttpGet]
-        [ProducesResponseType(typeof(MapModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetMapAsync([FromQuery] Guid id)
-        {
-            try
-            {
-                // Get POI from the database
-                var poi = await adminManager.GetMapAsync(id);
-                return Ok(new MapModel(poi));
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-        /// <summary>
-        /// Get a map poi.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Route("poi")]
-        [HttpGet]
+        [Route("poi/{mapId}")]
+        [HttpDelete]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetPOIAsync([FromQuery] Guid id)
+        public async Task<IActionResult> DeletePOIAsync([FromRoute] Guid mapId)
         {
             try
             {
-                // Get POI from the database
-                var poi = await adminManager.GetPOIAsync(id);
-                return Ok(new POIModel(poi));
+                await adminManager.DeletePOIAsync(mapId);
+                return Ok();
             }
             catch (Exception ex)
             {
                 return HandleError(ex);
             }
         }
-
     }
 }
