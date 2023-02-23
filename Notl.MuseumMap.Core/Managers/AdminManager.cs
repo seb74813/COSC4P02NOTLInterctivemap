@@ -46,6 +46,7 @@ namespace Notl.MuseumMap.Core.Managers
             await dbManager.CreateAsync(poi);
             return poi;
         }
+
         public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
         {
             // Get POI
@@ -82,6 +83,7 @@ namespace Notl.MuseumMap.Core.Managers
             await dbManager.UpdateAsync(poi); 
             return poi;
         }
+
         public async Task<Map> CreateMapAsync(Guid id, string image)
         {
             // Create map
@@ -118,8 +120,6 @@ namespace Notl.MuseumMap.Core.Managers
 
         }
 
-
-
         private async Task<Map> GetActiveMapInternalAsync()
         {
             var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));
@@ -136,8 +136,6 @@ namespace Notl.MuseumMap.Core.Managers
 
             return map;
         }
-
-        
 
     }
 }

@@ -214,6 +214,7 @@ namespace Notl.MuseumMap.Api.Controllers
                 return HandleError(ex);
             }
         }
+
         /// <summary>
         /// Creates a map.
         /// </summary>
