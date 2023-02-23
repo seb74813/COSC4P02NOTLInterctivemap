@@ -9,49 +9,57 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = Notl.MuseumMap.Admin
 build_property.RootNamespace = Notl.MuseumMap.Admin
-build_property.ProjectDir = C:\Users\sebas\Source\Repos\seb74813\COSC4P02NOTLInterctivemap\Notl.MuseumMap.Admin\
+build_property.ProjectDir = C:\Users\yashu\Source\Repos\seb74813\COSC4P02NOTLInterctivemap\Notl.MuseumMap.Admin\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\sebas\Source\Repos\seb74813\COSC4P02NOTLInterctivemap\Notl.MuseumMap.Admin
+build_property.MSBuildProjectDirectory = C:\Users\yashu\Source\Repos\seb74813\COSC4P02NOTLInterctivemap\Notl.MuseumMap.Admin
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/App.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Controls/BusyIndicator.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Controls/BusyIndicator.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29udHJvbHNcQnVzeUluZGljYXRvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Pages/Authentication.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Dialogs/ErrorDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xFcnJvckRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Dialogs/PromptDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xQcm9tcHREaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Pages/Authentication.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aGVudGljYXRpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Pages/Index.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/LoginDisplay.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/LoginDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luRGlzcGxheS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/RedirectToLogin.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/RedirectToLogin.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFJlZGlyZWN0VG9Mb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/SurveyPrompt.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/_Imports.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/MainLayout.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-o6kaee82zm
 
-[C:/Users/sebas/source/repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/NavMenu.razor]
+[C:/Users/yashu/Source/Repos/seb74813/COSC4P02NOTLInterctivemap/Notl.MuseumMap.Admin/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-wnedb7dmoz

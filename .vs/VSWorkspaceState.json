@@ -1,8 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Notl.MuseumMap.Admin"
+    "\\Notl.MuseumMap.Api",
+    "\\Notl.MuseumMap.Api\\Controllers",
+    "\\Notl.MuseumMap.App",
+    "\\Notl.MuseumMap.App\\Common",
+    "\\Notl.MuseumMap.App\\Controls",
+    "\\Notl.MuseumMap.App\\Dialogs",
+    "\\Notl.MuseumMap.App\\Services",
+    "\\Notl.MuseumMap.Core",
+    "\\Notl.MuseumMap.Core\\Entities"
   ],
-  "SelectedNode": "\\Notl.MuseumMap.Admin",
+  "SelectedNode": "\\Notl.MuseumMap.Api\\Controllers\\MapController.cs",
   "PreviewInSolutionExplorer": false
 }
