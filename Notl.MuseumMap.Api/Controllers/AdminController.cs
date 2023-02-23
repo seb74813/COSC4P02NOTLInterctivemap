@@ -211,5 +211,71 @@ namespace Notl.MuseumMap.Api.Controllers
                 return HandleError(ex);
             }
         }
+        /// <summary>
+        /// Get the map.
+        /// </summary>
+        /// <returns></returns>
+        [Route("map/active")]
+        [HttpGet]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetActiveMapAsync()
+        {
+            try
+            {
+                // Get map from the database
+                var map = await adminManager.GetActiveMapAsync();
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+        /// <summary>
+        /// Get a map.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("map")]
+        [HttpGet]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetMapAsync([FromQuery] Guid id)
+        {
+            try
+            {
+                // Get POI from the database
+                var poi = await mapManager.GetMapAsync(id);
+                return Ok(new MapModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+        /// <summary>
+        /// Get a map poi.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("poi")]
+        [HttpGet]
+        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> GetPOIAsync([FromQuery] Guid id)
+        {
+            try
+            {
+                // Get POI from the database
+                var poi = await mapManager.GetPOIAsync(id);
+                return Ok(new POIModel(poi));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
     }
 }
