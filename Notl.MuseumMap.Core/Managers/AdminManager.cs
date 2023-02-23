@@ -8,10 +8,24 @@ namespace Notl.MuseumMap.Core.Managers
     {
         private readonly Guid configId = new Guid("00000000-0000-0000-0000-000000000001");
         readonly DbManager dbManager;
+        readonly StorageManager storageManager;
 
         public AdminManager(DbManager dbManager)
         {
             this.dbManager = dbManager;
+        }
+
+        /// <summary>
+        /// Uploads a new photo.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <param name="photoFilename"></param>
+        /// <param name="photoStream"></param>
+        /// <returns></returns>
+        public async Task<ImageReference> UploadImageAsync(Guid mapId, string photoFilename, Stream photoStream)
+        {
+            // Upload the file into storage
+            return await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.Messages, mapId, photoFilename, photoStream);
         }
 
         /// <summary>

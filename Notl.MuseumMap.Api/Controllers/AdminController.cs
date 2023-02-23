@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Notl.MuseumMap.Api.Models;
 using Notl.MuseumMap.Api.Models.Common;
 using Notl.MuseumMap.Core.Common;
+using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Managers;
 
 namespace Notl.MuseumMap.Api.Controllers
@@ -51,6 +52,30 @@ namespace Notl.MuseumMap.Api.Controllers
                 }
 
                 return Ok(new SampleData { Data = data?.ToUpper() });
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new photo to storage.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [Route("map/photo")]
+        [ProducesResponseType(typeof(ImageReference), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        [HttpPost]
+        public async Task<IActionResult> UploadMapImageAsync(Guid mapId, IFormFile file)
+        {
+            try
+            {
+                var image = await adminManager.UploadImageAsync(mapId, file.FileName, file.OpenReadStream());
+
+                return Ok(image);
             }
             catch (Exception ex)
             {
