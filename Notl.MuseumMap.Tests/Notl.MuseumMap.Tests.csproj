@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Notl.MuseumMap.Api\Notl.MuseumMap.Api.csproj" />
     <ProjectReference Include="..\Notl.MuseumMap.Core\Notl.MuseumMap.Core.csproj" />
   </ItemGroup>
 

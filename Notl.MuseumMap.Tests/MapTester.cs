@@ -1,54 +1,29 @@
+using Notl.MuseumMap.Core.Managers;
+
 namespace Notl.MuseumMap.Tests
 {
     [TestClass]
     public class MapTester
     {
+        MapManager mapManager;
+        AdminManager adminManager;
+
         [TestMethod]
-        public void MapCRUDTest()
+        public void GetMapTest()
         {
 
         }
 
         [TestMethod]
-        public void MapModificationTest()
-        {
-
+        public async Task GetPoiTest()
+        { 
+            
         }
 
         [TestMethod]
-        public void ActiveMapTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void UserMapTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void PoiCRUDTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void PoiModificationTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void MapErrorTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void POIErrorTest()
-        {
-
+        public async Task GetMapPoisTest()
+        { 
+            
         }
     }
 }
