@@ -14,7 +14,7 @@ namespace Notl.MuseumMap.Api.Models
         public MapModel(Map map)
         {
             Id = map.Id;
-            ImageUrl = map.ImageUrl;
+            Image = map.Image;
         }
 
         /// <summary>
@@ -25,6 +25,6 @@ namespace Notl.MuseumMap.Api.Models
         /// <summary>
         /// The url to the image of the map
         /// </summary>
-        public string? ImageUrl { get; set; }
+        public ImageReference? Image { get; set; }
     }
 }

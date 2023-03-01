@@ -20,6 +20,8 @@ namespace Notl.MuseumMap.Core.Common
 
         InvalidMapError,
 
-        ActiveMapError
+        ActiveMapError,
+
+        ImageError
     }
 }

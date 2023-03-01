@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Notl.MuseumMap.Core.Entities
 {
-    public class Map : EntityBase
+    public class ImageReference
     {
-
-        public ImageReference? Image { get; set; }
+        public Guid Id { get; set; }
+        public string Url { get; set; }
+        public string Thumbnail { get; set; }
     }
 }

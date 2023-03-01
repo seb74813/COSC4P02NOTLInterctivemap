@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using BlazorPanzoom;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
@@ -30,6 +31,7 @@ namespace Notl.MuseumMap.Mobile
 
             // Setup the mud services.
             builder.Services.AddMudServices();
+            builder.Services.AddBlazorPanzoomServices();
             builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddJsInteropExtensions();
             builder.Services.AddBlazoredLocalStorage(config =>
