@@ -1,28 +1,14 @@
+using Notl.MuseumMap.Core.Managers;
+
 namespace Notl.MuseumMap.Tests
 {
     [TestClass]
     public class MapTester
     {
-        [TestMethod]
-        public void MapCRUDTest()
-        {
-
-        }
+        MapManager mapManager;
 
         [TestMethod]
-        public void MapModificationTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void ActiveMapTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void UserMapTest()
+        public void GetMapTest()
         {
 
         }
