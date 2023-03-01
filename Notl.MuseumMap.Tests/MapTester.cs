@@ -6,6 +6,7 @@ namespace Notl.MuseumMap.Tests
     public class MapTester
     {
         MapManager mapManager;
+        AdminManager adminManager;
 
         [TestMethod]
         public void GetMapTest()
@@ -14,27 +15,15 @@ namespace Notl.MuseumMap.Tests
         }
 
         [TestMethod]
-        public void PoiCRUDTest()
-        {
-
+        public async Task GetPoiTest()
+        { 
+            
         }
 
         [TestMethod]
-        public void PoiModificationTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void MapErrorTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void POIErrorTest()
-        {
-
+        public async Task GetMapPoisTest()
+        { 
+            
         }
     }
 }

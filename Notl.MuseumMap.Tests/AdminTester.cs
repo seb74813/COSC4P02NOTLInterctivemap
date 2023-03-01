@@ -1,4 +1,7 @@
-﻿using Notl.MuseumMap.Core.Managers;
+﻿using Microsoft.AspNetCore.Builder.Extensions;
+using Notl.MuseumMap.Core.Common;
+using Notl.MuseumMap.Core.Entities;
+using Notl.MuseumMap.Core.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +16,47 @@ namespace Notl.MuseumMap.Tests
         AdminManager adminManager;
 
         [TestMethod]
-        public void MapCRUDTest()
+        public async Task MapCRUDTest()
         {
-            // Initializing 
+            Guid id = Guid.NewGuid();
+            var map = await adminManager.CreateMapAsync(id);
 
-            // Testing
+            Assert.IsNotNull(map);
 
-            // Clean up
+            var test = await adminManager.GetMapAsync(id);
+            Assert.IsNotNull(test);
+            Assert.AreEqual(map.Id, test.Id);
+            Assert.IsNull(map.Image);
+
+            ImageReference image = new ImageReference();
+            image.Id = id;
+            image.Url = "welp";
+            image.Thumbnail = "wlp";
+
+            test = await adminManager.UpdateMapAsync(id, image);
+            Assert.IsNotNull(test);
+            Assert.AreEqual(map.Id, test.Id);
+            Assert.IsNotNull(map.Image);
+            Assert.AreEqual(map.Image.Thumbnail, image.Thumbnail);
+            Assert.AreEqual(map.Image.Url, image.Url);
+
+            await adminManager.DeleteMapAsync(id);
+
+            var exception = await Assert.ThrowsExceptionAsync<MuseumMapException>(async () => await adminManager.GetMapAsync(id));
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.ErrorCode == MuseumMapErrorCode.InvalidMapError);
         }
 
         [TestMethod]
         public void MapModificationTest()
         {
 
+        }
+
+        [TestMethod]
+        public async Task GetMapsTest()
+        { 
+            
         }
 
         [TestMethod]
@@ -42,18 +73,6 @@ namespace Notl.MuseumMap.Tests
 
         [TestMethod]
         public void PoiModificationTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void MapErrorTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void POIErrorTest()
         {
 
         }
