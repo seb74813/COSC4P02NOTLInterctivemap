@@ -41,7 +41,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [Authorize(Roles = "Administrator,Readers")]
         [ProducesResponseType(typeof(SampleData), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> PingAsync([FromQuery] string? data)
+        public async Task<IActionResult> PingAuthAsync([FromQuery] string? data)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(MapModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetActiveMapAsync()
+        public async Task<IActionResult> GetActiveMapAuthAsync()
         {
             try
             {
@@ -270,7 +270,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetPOIAsync([FromRoute] Guid mapId)
+        public async Task<IActionResult> GetPOIAuthAsync([FromRoute] Guid mapId)
         {
             try
             {
@@ -293,7 +293,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(List<POIModel>), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetPOIsAsync([FromRoute] Guid mapId)
+        public async Task<IActionResult> GetPOIsAuthAsync([FromRoute] Guid mapId)
         {
             try
             {
