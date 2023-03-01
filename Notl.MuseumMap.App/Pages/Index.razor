@@ -4,17 +4,16 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy)
+@if (!IsBusy && pOIs != null && map != null)
 {
-    <MudPaper Class="pa-3" Elevation="0">
-        <MudText>@data?.Data</MudText>
-    </MudPaper>
     <Map></Map>
 }
 
 @code
 {
-    SampleData? data;
+
+    private List<POIModel>? pOIs;
+    private MapModel? map;
 
     protected async override Task OnInitializedAsync()
     {
@@ -23,7 +22,8 @@
         try
         {
             IsBusy = true;
-            data = await ClientContext.Maps.Ping2Async("Hello World");
+            map = await ClientContext.Maps.GetActiveMapAsync();
+            pOIs = await ClientContext.Maps.GetPOIsAsync();
             IsBusy = false;
         }
         catch(Exception ex)
