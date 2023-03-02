@@ -60,8 +60,14 @@ namespace Notl.MuseumMap.Tests
         }
 
         [TestMethod]
-        public void ActiveMapTest()
+        public async Task ActiveMapTest()
         {
+            var mapId= Guid.NewGuid();
+            var map = await adminManager.CreateMapAsync(mapId); 
+            var retrievedmap =await adminManager.GetMapAsync(mapId);
+            Assert.IsNotNull(retrievedmap);
+            Assert.IsNotNull(map);
+            Assert.Equals(map.Id, retrievedmap.Id);
 
         }
 
