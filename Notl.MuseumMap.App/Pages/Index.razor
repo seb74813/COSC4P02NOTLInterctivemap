@@ -4,9 +4,9 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy && pOIs != null && map != null)
+@if (!IsBusy)
 {
-    <Map></Map>
+    <TestMap></TestMap>
 }
 
 @code
@@ -22,8 +22,8 @@
         try
         {
             IsBusy = true;
-            map = await ClientContext.Maps.GetActiveMapAsync();
-            pOIs = await ClientContext.Maps.GetPOIsAsync();
+            //map = await ClientContext.Maps.GetActiveMapAsync();
+            //pOIs = await ClientContext.Maps.GetPOIsAsync();
             IsBusy = false;
         }
         catch(Exception ex)

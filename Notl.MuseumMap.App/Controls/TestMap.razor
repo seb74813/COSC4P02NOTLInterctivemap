@@ -1,0 +1,115 @@
+﻿<style>
+    .panzoom-parent {
+        border: 10px solid rgba(1, 1, 1, 1);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .panzoom {
+        border: 1px solid #ddd;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .coordinate-button {
+        position: absolute;
+        width: 100px;
+        height: 50px;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .coordinate-system {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .x-axis {
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: black;
+    }
+
+    .y-axis {
+        position: absolute;
+        top: 0;
+        left: -1px;
+        width: 2px;
+        height: 100%;
+        background-color: black;
+    }
+
+</style>
+
+<div class="buttons">
+    <MudButton @onclick="OnZoomInClick">Zoom in</MudButton>
+    <MudButton @onclick="OnZoomOutClick">Zoom out</MudButton>
+    <MudButton @onclick="OnResetClick">Reset</MudButton>
+</div>
+<div class="panzoom-parent">
+    <Panzoom @ref="_panzoom">
+        <div @ref="@context.ElementReference" class="panzoom">
+            <img src="map.png" alt="image" />
+            <div class="button-container">
+                <button class="coordinate-button" style="top: 10%; left: 10%;">Hello</button>
+                <button class="coordinate-button" style="top: 50%; left: 50%;">Goodbye</button>
+                <div class="coordinate-system">
+                    <div class="x-axis"></div>
+                    <div class="y-axis"></div>
+                </div>
+            </div>
+        </div>
+    </Panzoom>
+</div>
+
+
+@code {
+
+    private Panzoom _panzoom;
+
+
+    private async Task OnZoomInClick(MouseEventArgs args)
+    {
+        await AdjustScale(true);
+    }
+
+    private async Task OnZoomOutClick(MouseEventArgs args)
+    {
+        await AdjustScale(false);
+    }
+
+    private async Task OnResetClick(MouseEventArgs args)
+    {
+        await _panzoom.ResetAsync();
+    }
+
+    private async Task AdjustScale(bool zoomIn)
+    {
+        var oldScale = await _panzoom.GetScaleAsync();
+
+        if (zoomIn)
+        {
+            await _panzoom.ZoomInAsync();
+        }
+        else
+        {
+            await _panzoom.ZoomOutAsync();
+        }
+        var newScale = await _panzoom.GetScaleAsync();
+    }
+
+}
