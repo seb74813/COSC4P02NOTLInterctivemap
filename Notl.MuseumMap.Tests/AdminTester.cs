@@ -4,6 +4,7 @@ using Notl.MuseumMap.Core.Entities;
 using Notl.MuseumMap.Core.Managers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,9 +119,34 @@ namespace Notl.MuseumMap.Tests
         }
 
         [TestMethod]
-        public void PoiModificationTest()
+        public async Task PoiModificationTest()
         {
 
+            Guid id = Guid.NewGuid();
+            var map = await adminManager.CreateMapAsync(id);
+            Assert.IsNotNull(map);
+
+            Guid POIid = Guid.NewGuid();
+            var poi = await adminManager.CreatePOIAsync(POIid, id, 0, 0, Core.Entities.POIType.Exhibit);
+            Assert.IsNotNull(poi);
+
+            var test = await adminManager.UpdatePOIAsync(POIid, id, 1, 1, Core.Entities.POIType.Item);
+            Assert.IsNotNull(test);
+            Assert.AreNotEqual(test.x, poi.x);
+            Assert.AreNotEqual(test.y, poi.y);
+            Assert.AreNotEqual(test.POIType, poi.POIType);
+
+            poi = await adminManager.UpdatePOIContentAsync(POIid, "title", "description", "image");
+            Assert.IsNotNull(poi);
+            Assert.IsNotNull(poi.Title);
+            Assert.IsNotNull(poi.Description);
+            Assert.IsNotNull(poi.ImageURL);
+            Assert.IsTrue(poi.Title.Equals("title"));
+            Assert.IsTrue(poi.Description.Equals("description"));
+            Assert.IsTrue(poi.ImageURL.Equals("image"));
+
+            await adminManager.DeleteMapAsync(id);
+            await adminManager.DeletePOIAsync(POIid);
         }
     }
 }
