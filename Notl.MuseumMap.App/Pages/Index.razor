@@ -3,30 +3,10 @@
 
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
-<h1>Search</h1>
 
-<div class="form-group">
-    <div class ="text-center">
-
-    <input type="text" class="form-control" @bind-value="SearchTerm" placeholder="Enter search term" />
-    <button class="btn btn-primary" @onclick="Search">Search</button>
-</div>
-</div>
-
-@if (!IsBusy && pOIs != null && map != null)
+@if (!IsBusy)
 {
-    <Map></Map>
-
-    @if (SearchResults != null && SearchResults.Count > 0)
-    {
-        <h2>Search Results</h2>
-        <ul>
-            @foreach (var result in SearchResults)
-            {
-                <li>@result</li>
-            }
-        </ul>
-    }
+    <TestMap></TestMap>
 }
 
 @code
@@ -42,8 +22,8 @@
         try
         {
             IsBusy = true;
-            map = await ClientContext.Maps.GetActiveMapAsync();
-            pOIs = await ClientContext.Maps.GetPOIsAsync();
+            //map = await ClientContext.Maps.GetActiveMapAsync();
+            //pOIs = await ClientContext.Maps.GetPOIsAsync();
             IsBusy = false;
         }
         catch(Exception ex)
@@ -51,25 +31,4 @@
             ShowError(ex);
         }
     }
-    private string searchTerm;
-    private List<string> searchResults;
-
-    public string SearchTerm
-    {
-        get => searchTerm;
-        set => searchTerm = value;
-    }
-
-    public List<string> SearchResults
-    {
-        get => searchResults;
-        set => searchResults = value;
-    }
-
-    private void Search()
-    {
-    }
 }
-
-
-

@@ -1,0 +1,78 @@
+﻿<style>
+    .panzoom-parent {
+        border: 10px solid rgba(1, 1, 1, 1);
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+    }
+
+    .panzoom {
+        border: 1px solid #ddd;
+        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .coordinate-button {
+        position: absolute;
+    }
+
+</style>
+
+<div class="buttons">
+    <MudButton OnClick="OnZoomInClick">Zoom in</MudButton>
+    <MudButton OnClick="OnZoomOutClick">Zoom out</MudButton>
+    <MudButton OnClick="OnResetClick">Reset</MudButton>
+</div>
+<div class="panzoom-parent">
+    <Panzoom @ref="_panzoom">
+        <div @ref="@context.ElementReference" class="panzoom">
+            <img src="newmap.png" alt="image" />
+            <div class="button-container">
+                <MudButton class="coordinate-button" style="top: 10px; left: 10px;" OnClick="OnResetClick">Hello</MudButton>
+                <MudButton class="coordinate-button" style="top: 50px; left: 50px;" OnClick="OnResetClick">Hello Again</MudButton>
+            </div>
+        </div>
+    </Panzoom>
+</div>
+
+@code {
+
+    private Panzoom _panzoom;
+
+    private async Task OnZoomInClick(MouseEventArgs args)
+    {
+        await AdjustScale(true);
+    }
+
+    private async Task OnZoomOutClick(MouseEventArgs args)
+    {
+        await AdjustScale(false);
+    }
+
+    private async Task OnResetClick(MouseEventArgs args)
+    {
+        await _panzoom.ResetAsync();
+    }
+
+    private async Task AdjustScale(bool zoomIn)
+    {
+        var oldScale = await _panzoom.GetScaleAsync();
+
+        if (zoomIn)
+        {
+            await _panzoom.ZoomInAsync();
+        }
+        else
+        {
+            await _panzoom.ZoomOutAsync();
+        }
+        var newScale = await _panzoom.GetScaleAsync();
+    }
+
+}
