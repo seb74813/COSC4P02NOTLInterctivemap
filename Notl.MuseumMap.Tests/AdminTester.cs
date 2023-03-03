@@ -121,7 +121,6 @@ namespace Notl.MuseumMap.Tests
         [TestMethod]
         public async Task PoiModificationTest()
         {
-
             Guid id = Guid.NewGuid();
             var map = await adminManager.CreateMapAsync(id);
             Assert.IsNotNull(map);
