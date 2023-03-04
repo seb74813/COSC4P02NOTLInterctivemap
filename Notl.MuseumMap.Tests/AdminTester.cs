@@ -113,8 +113,46 @@ namespace Notl.MuseumMap.Tests
         }
 
         [TestMethod]
-        public void PoiCRUDTest()
+        public async void PoiCRUDTest()
         {
+            Guid poiID = Guid.NewGuid();
+            Guid poiID_2 = Guid.NewGuid();
+            Guid mapID = Guid.NewGuid();
+            var map = await adminManager.CreateMapAsync(mapID);
+            Assert.IsNotNull(map);
+
+            //Ensure the CreatePOIAsync function creates the POI properly
+            var poi = await adminManager.CreatePOIAsync(poiID,mapID,0,0, POIType.Exhibit);
+            var poi_2 = await adminManager.CreatePOIAsync(poiID_2, mapID, 1, 1, POIType.Bathroom);
+            Assert.IsNotNull(poi);
+            Assert.IsNotNull(poi_2);
+            //End
+
+            //Ensure the GetPOI function returns the POI
+            var poiGet = await adminManager.GetPOIAsync(poiID);
+            Assert.Equals(poi, poiGet.Id);
+            //End
+
+            //Ensure the GetPOIs function properly returns all POIs that are assigned to a map
+            var poiGetAll = await adminManager.GetPOIsAsync(mapID);
+            Assert.IsTrue(poiGetAll.Contains(poi) && poiGetAll.Contains(poi_2));
+            //End
+
+            //Ensure the Delete POI function deletes a POI
+            await adminManager.DeletePOIAsync(poiID);
+            await adminManager.DeletePOIAsync(poiID_2);
+
+            var exception = await Assert.ThrowsExceptionAsync<MuseumMapException>( async() => await adminManager.GetPOIAsync(poiID));
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.ErrorCode == MuseumMapErrorCode.InvalidPOIError);
+
+            exception = await Assert.ThrowsExceptionAsync<MuseumMapException>(async () => await adminManager.GetPOIAsync(poiID_2));
+            Assert.IsNotNull(exception);
+            Assert.IsTrue(exception.ErrorCode == MuseumMapErrorCode.InvalidPOIError);
+            //End
+
+            //Delete test map from DB
+            await adminManager.DeleteMapAsync(mapID);
 
         }
 
