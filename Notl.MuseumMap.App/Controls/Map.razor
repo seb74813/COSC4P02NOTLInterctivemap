@@ -1,28 +1,20 @@
-﻿<style>
-    .panzoom-parent {
-        border: 10px solid rgba(1, 1, 1, 1);;
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .panzoom {
-        border: 1px solid #ddd;
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-@if (MapData != null && POIs != null)
+﻿@if (MapData != null && POIs != null)
 {
-    <div class="buttons">
-        <MudButton @onclick="OnZoomInClick">Zoom in</MudButton>
-        <MudButton @onclick="OnZoomOutClick">Zoom out</MudButton>
-        <MudButton @onclick="OnResetClick">Reset</MudButton>
-    </div>
     <div class="panzoom-parent">
         <Panzoom @ref="panzoom">
+            <MudStack Class="absolute z-10 ma-2">
+                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
+                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
+                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
+            </MudStack>
             <div @ref="@context.ElementReference" class="panzoom">
-                <MudImage Src="" />
+                <MudImage Src=@MapData.Image.Url/>
+                <div class="button-container">
+                    @foreach (var item in POIs)
+                    {
+                        <MudFab class="coordinate-button" StartIcon="@Icons.Material.Filled.LocationOn" Color="Color.Error" Style=@styleString(item) OnClick="OnResetClick"></MudFab>
+                    }
+                </div>
             </div>
         </Panzoom>
     </div>
@@ -37,6 +29,11 @@
     public List<POIModel>? POIs { get; set; }
 
     private Panzoom? panzoom;
+
+    private string styleString(POIModel poi)
+    {
+        return $"top: {poi.Y}px; left: {poi.X}px;";
+    }
 
     private async Task OnZoomInClick(MouseEventArgs args)
     {

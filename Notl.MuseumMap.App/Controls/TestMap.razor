@@ -25,25 +25,48 @@
 </style>
 
 <div class="buttons">
-    <MudButton OnClick="OnZoomInClick">Zoom in</MudButton>
-    <MudButton OnClick="OnZoomOutClick">Zoom out</MudButton>
-    <MudButton OnClick="OnResetClick">Reset</MudButton>
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick"></MudFab>
+    <MudFab Color="Color.Secondary" StartIcon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick"></MudFab>
+    <MudFab Color="Color.Tertiary" StartIcon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick"></MudFab>
 </div>
 <div class="panzoom-parent">
-    <Panzoom @ref="_panzoom">
+    <Panzoom @ref="panzoom">
         <div @ref="@context.ElementReference" class="panzoom">
             <img src="newmap.png" alt="image" />
             <div class="button-container">
-                <MudButton class="coordinate-button" style="top: 10px; left: 10px;" OnClick="OnResetClick">Hello</MudButton>
-                <MudButton class="coordinate-button" style="top: 50px; left: 50px;" OnClick="OnResetClick">Hello Again</MudButton>
+                @foreach (var item in pois)
+                {
+                    <MudFab class="coordinate-button" StartIcon="@Icons.Material.Filled.LocationOn" Color="Color.Error" Style=@styleString(item) OnClick="OnResetClick"></MudFab>
+                }
             </div>
         </div>
     </Panzoom>
 </div>
 
+
 @code {
 
-    private Panzoom _panzoom;
+    private List<POIModel> pois;
+    private Panzoom panzoom;
+
+    protected override void OnInitialized(){
+
+        pois = new List<POIModel> 
+        {
+           // POIModel{X=1500,Y=916},
+           new POIModel{X=850,Y=500},
+           new POIModel{X=650,Y=500},
+           new POIModel{X=450,Y=450},
+           new POIModel{X=1200,Y=450},
+           new POIModel{X=1200,Y=250},
+        };
+        StateHasChanged();
+    }
+
+    private string styleString(POIModel poi)
+    {
+        return $"top: {poi.Y}px; left: {poi.X}px;";
+    }
 
     private async Task OnZoomInClick(MouseEventArgs args)
     {
@@ -57,22 +80,22 @@
 
     private async Task OnResetClick(MouseEventArgs args)
     {
-        await _panzoom.ResetAsync();
+        await panzoom.ResetAsync();
     }
 
     private async Task AdjustScale(bool zoomIn)
     {
-        var oldScale = await _panzoom.GetScaleAsync();
+        var oldScale = await panzoom.GetScaleAsync();
 
         if (zoomIn)
         {
-            await _panzoom.ZoomInAsync();
+            await panzoom.ZoomInAsync();
         }
         else
         {
-            await _panzoom.ZoomOutAsync();
+            await panzoom.ZoomOutAsync();
         }
-        var newScale = await _panzoom.GetScaleAsync();
+        var newScale = await panzoom.GetScaleAsync();
     }
 
 }

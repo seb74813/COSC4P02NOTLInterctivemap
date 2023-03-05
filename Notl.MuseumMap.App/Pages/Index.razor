@@ -6,13 +6,13 @@
 
 @if (!IsBusy)
 {
-    <TestMap></TestMap>
+    <Map MapData="map" POIs="pois"></Map>
 }
 
 @code
 {
 
-    private List<POIModel>? pOIs;
+    private List<POIModel>? pois;
     private MapModel? map;
 
     protected async override Task OnInitializedAsync()
@@ -22,6 +22,15 @@
         try
         {
             IsBusy = true;
+            pois = new List<POIModel>
+            {
+               new POIModel{X=850,Y=500},
+               new POIModel{X=650,Y=500},
+               new POIModel{X=450,Y=450},
+               new POIModel{X=1200,Y=450},
+               new POIModel{X=1200,Y=250},
+            };
+            map = new MapModel { Image = new ImageReference { Url = "newmap.png" } };
             //map = await ClientContext.Maps.GetActiveMapAsync();
             //pOIs = await ClientContext.Maps.GetPOIsAsync();
             IsBusy = false;
