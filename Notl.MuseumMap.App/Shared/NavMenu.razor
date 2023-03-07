@@ -1,12 +1,16 @@
 @inject IStringLocalizer<Resources.Resource> localizer
 
 <MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">@localizer["Menu_Home"]</MudNavLink>
-    <MudNavLink Href="/vendors" Match="NavLinkMatch.All">@localizer["Menu_Vendors"]</MudNavLink>
-    <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">@localizer["Menu_Users"]</MudNavLink>
-    <MudNavLink Href="/projects" Match="NavLinkMatch.Prefix">@localizer["Menu_Projects"]</MudNavLink>
-    <MudNavLink Href="/plots" Match="NavLinkMatch.Prefix">@localizer["Menu_Plots"]</MudNavLink>
-    <MudNavLink Href="/export" Match="NavLinkMatch.Prefix">@localizer["Menu_Export"]</MudNavLink>
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">Navigation</MudText>
+    </MudDrawerHeader>
+    <MudIconButton Icon="@Icons.Material.Filled.LocationOn" Variant="Variant.Text">Start</MudIconButton>
+    <MudNavLink Icon="@Icons.Material.Filled.LocationOn" Href="/" Match="NavLinkMatch.All">@localizer["Location1"]</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.LocationOn" Href="/" Match="NavLinkMatch.All">@localizer["Location2"]</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.LocationOn" Href="/" Match="NavLinkMatch.All">@localizer["Location3"]</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.LocationOn" Href="/" Match="NavLinkMatch.All">@localizer["Location4"]</MudNavLink>
+    <MudDivider />
+    <MudNavLink Icon="@Icons.Material.Filled.Logout" Href="https://www.notlmuseum.ca/" Match="NavLinkMatch.All">@localizer["Back to the Niagara On-The-Lake Museum home page"]</MudNavLink>
 </MudNavMenu>
 
 @code 

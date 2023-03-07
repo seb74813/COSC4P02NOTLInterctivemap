@@ -134,6 +134,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <returns></returns>
         public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
         {
+
             // Create POI
             var poi = new PointOfInterest { Id = id, MapId = mapId, x = x, y = y, POIType = pOIType };
 
@@ -178,7 +179,7 @@ namespace Notl.MuseumMap.Core.Managers
         }
 
         /// <summary>
-        /// Updates a POI
+        /// Updates POI position and type
         /// </summary>
         /// <param name="id"></param>
         /// <param name="mapId"></param>
