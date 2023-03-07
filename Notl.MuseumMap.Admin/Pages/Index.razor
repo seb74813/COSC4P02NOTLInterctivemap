@@ -7,7 +7,7 @@
 @if (!IsBusy)
 {
     <MudPaper Class="pa-3" Elevation="0">
-        <MudText>@data?.Data</MudText>
+        <MudButton OnClick=@move></MudButton>
     </MudPaper>
 }
 
@@ -23,12 +23,17 @@
         try
         {
             IsBusy = true;
-            data = await ClientContext.Admin.PingAsync("Hello World");
+            data = await ClientContext.Admin.PingAuthAsync("Hello World");
             IsBusy = false;
         }
         catch (Exception ex)
         {
             ShowError(ex);
         }
+    }
+
+    private void move()
+    {
+        Navigation.NavigateTo("initialize", true);
     }
 }

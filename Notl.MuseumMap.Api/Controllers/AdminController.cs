@@ -211,6 +211,29 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
+        /// Updates the active map.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <returns></returns>
+        [Route("map/active/{mapId}")]
+        [HttpPost]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        public async Task<IActionResult> UpdateActiveMapAsync([FromRoute] Guid mapId)
+        {
+            try
+            {
+                // Update the active in the database
+                var map = await adminManager.SetActiveMapAsync(mapId);
+                return Ok(new MapModel(map));
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
         /// Deletes a map 
         /// </summary>
         /// <param name="mapId"></param>

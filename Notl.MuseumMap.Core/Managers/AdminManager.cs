@@ -106,6 +106,27 @@ namespace Notl.MuseumMap.Core.Managers
             return map;
         }
 
+        public async Task<Map> SetActiveMapAsync(Guid id)
+        {
+            var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));
+            if (config == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.ConfigurationError);
+            }
+
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            config.ActiveMap = id;
+
+            await dbManager.UpdateAsync<Config>(config);
+
+            return map;
+        }
+
         /// <summary>
         /// Deletes a map
         /// </summary>
