@@ -132,7 +132,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="y"></param>
         /// <param name="pOIType"></param>
         /// <returns></returns>
-        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
+        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
         {
 
             // Create POI
@@ -188,7 +188,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="pOIType"></param>
         /// <returns></returns>
         /// <exception cref="MuseumMapException"></exception>
-        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
+        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
         {
             // Get POI
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
