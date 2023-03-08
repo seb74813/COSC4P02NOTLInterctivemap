@@ -24,10 +24,22 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="photoFilename"></param>
         /// <param name="photoStream"></param>
         /// <returns></returns>
-        public async Task<ImageReference> UploadImageAsync(Guid mapId, string photoFilename, Stream photoStream)
+        public async Task<Map> UpdateMapImageAsync(Guid mapId, string photoFilename, Stream photoStream)
         {
+            var map = await dbManager.GetAsync<Map>(mapId, Partition.Calculate(mapId));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
             // Upload the file into storage
-            return await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
+            var image = await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
+
+            map.Image = image;
+
+            // Update the map on the database
+            await dbManager.UpdateAsync(map);
+            return map;
         }
 
         /// <summary>

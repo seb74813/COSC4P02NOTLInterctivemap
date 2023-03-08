@@ -67,16 +67,16 @@ namespace Notl.MuseumMap.Api.Controllers
         /// <param name="file"></param>
         /// <returns></returns>
         [Route("map/photo")]
-        [ProducesResponseType(typeof(ImageReference), 200)]
+        [ProducesResponseType(typeof(MapModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
         [HttpPost]
-        public async Task<IActionResult> UploadMapImageAsync(Guid mapId, IFormFile file)
+        public async Task<IActionResult> UpdateMapImageAsync(Guid mapId, IFormFile file)
         {
             try
             {
-                var image = await adminManager.UploadImageAsync(mapId, file.FileName, file.OpenReadStream());
+                var map = await adminManager.UpdateMapImageAsync(mapId, file.FileName, file.OpenReadStream());
 
-                return Ok(image);
+                return Ok(new MapModel(map));
             }
             catch (Exception ex)
             {
@@ -174,35 +174,6 @@ namespace Notl.MuseumMap.Api.Controllers
                 }
 
                 return Ok(mapModels);
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-
-        /// <summary>
-        /// Update a map's image.
-        /// </summary>
-        /// <param name="mapId"></param>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        [Route("map/{mapId}")]
-        [HttpPost]
-        [ProducesResponseType(typeof(MapModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> UpdateMapAsync([FromRoute] Guid mapId, [FromQuery] ImageReference image)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(image.Thumbnail) || string.IsNullOrWhiteSpace(image.Url))
-                {
-                    throw new MuseumMapException(MuseumMapErrorCode.ImageError);
-                }
-
-                // Update a map in the database
-                var map = await adminManager.UpdateMapAsync(mapId, image);
-                return Ok(new MapModel(map));
             }
             catch (Exception ex)
             {

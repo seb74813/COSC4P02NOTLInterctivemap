@@ -53,7 +53,7 @@
 
             var stream = file.OpenReadStream();
 
-            var image = await ClientContext.Admin.UploadMapImageAsync(map.Id, new FileParameter(stream));
+            var image = await ClientContext.Admin.UpdateMapImageAsync(map.Id, new FileParameter(stream));
 
             foreach (var item in pois)
             {
