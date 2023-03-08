@@ -17,6 +17,11 @@ namespace Notl.MuseumMap.Tests
     {
         AdminManager adminManager;
 
+        public AdminTester() 
+        {
+            adminManager = new AdminManager(TestHelper.Db, new StorageManager(TestHelper.Options));
+        }
+
         [TestMethod]
         public async Task MapCRUDTest()
         {
@@ -38,9 +43,9 @@ namespace Notl.MuseumMap.Tests
             test = await adminManager.UpdateMapAsync(id, image);
             Assert.IsNotNull(test);
             Assert.AreEqual(map.Id, test.Id);
-            Assert.IsNotNull(map.Image);
-            Assert.AreEqual(map.Image.Thumbnail, image.Thumbnail);
-            Assert.AreEqual(map.Image.Url, image.Url);
+            Assert.IsNotNull(test.Image);
+            Assert.AreEqual(test.Image.Thumbnail, image.Thumbnail);
+            Assert.AreEqual(test.Image.Url, image.Url);
 
             await adminManager.DeleteMapAsync(id);
 
@@ -64,9 +69,9 @@ namespace Notl.MuseumMap.Tests
             test = await adminManager.UpdateMapAsync(id, image1);
             Assert.IsNotNull(test);
             Assert.AreEqual(map.Id, test.Id);
-            Assert.IsNotNull(map.Image);
-            Assert.AreEqual(map.Image.Thumbnail, image1.Thumbnail);
-            Assert.AreEqual(map.Image.Url, image1.Url);
+            Assert.IsNotNull(test.Image);
+            Assert.AreEqual(test.Image.Thumbnail, image1.Thumbnail);
+            Assert.AreEqual(test.Image.Url, image1.Url);
 
             ImageReference image2 = new ImageReference();
             image2.Id = id;
@@ -76,9 +81,9 @@ namespace Notl.MuseumMap.Tests
             test = await adminManager.UpdateMapAsync(id, image2);
             Assert.IsNotNull(test);
             Assert.AreEqual(map.Id, test.Id);
-            Assert.IsNotNull(map.Image);
-            Assert.AreEqual(map.Image.Thumbnail, image2.Thumbnail);
-            Assert.AreEqual(map.Image.Url, image2.Url);
+            Assert.IsNotNull(test.Image);
+            Assert.AreEqual(test.Image.Thumbnail, image2.Thumbnail);
+            Assert.AreEqual(test.Image.Url, image2.Url);
 
             await adminManager.DeleteMapAsync(id);
         }
@@ -107,13 +112,22 @@ namespace Notl.MuseumMap.Tests
         }
 
         [TestMethod]
-        public void ActiveMapTest()
+        public async Task ActiveMapTest()
         {
+            Guid id = Guid.NewGuid();
+            var map = await adminManager.CreateMapAsync(id);
+            Assert.IsNotNull(map);
+            Assert.AreEqual(map.Id, id);
 
+            await adminManager.SetActiveMapAsync(id);
+
+            var test = await adminManager.GetActiveMapAsync();
+            Assert.IsNotNull(test);
+            Assert.AreEqual(test.Id, map.Id);
         }
 
         [TestMethod]
-        public async void PoiCRUDTest()
+        public async Task PoiCRUDTest()
         {
             Guid poiID = Guid.NewGuid();
             Guid poiID_2 = Guid.NewGuid();
@@ -126,17 +140,18 @@ namespace Notl.MuseumMap.Tests
             var poi_2 = await adminManager.CreatePOIAsync(poiID_2, mapID, 1, 1, POIType.Bathroom);
             Assert.IsNotNull(poi);
             Assert.IsNotNull(poi_2);
-            //End
 
             //Ensure the GetPOI function returns the POI
             var poiGet = await adminManager.GetPOIAsync(poiID);
-            Assert.Equals(poi, poiGet.Id);
-            //End
+            Assert.IsNotNull(poiGet);
+            Assert.AreEqual(poi.Id, poiGet.Id);
 
             //Ensure the GetPOIs function properly returns all POIs that are assigned to a map
             var poiGetAll = await adminManager.GetPOIsAsync(mapID);
-            Assert.IsTrue(poiGetAll.Contains(poi) && poiGetAll.Contains(poi_2));
-            //End
+            Assert.IsNotNull(poiGetAll);
+
+            var test = poiGetAll.Where((p) => p.Id == poiID || p.Id == poiID_2);
+            Assert.IsTrue(test.Count() == 2);
 
             //Ensure the Delete POI function deletes a POI
             await adminManager.DeletePOIAsync(poiID);
@@ -149,11 +164,9 @@ namespace Notl.MuseumMap.Tests
             exception = await Assert.ThrowsExceptionAsync<MuseumMapException>(async () => await adminManager.GetPOIAsync(poiID_2));
             Assert.IsNotNull(exception);
             Assert.IsTrue(exception.ErrorCode == MuseumMapErrorCode.InvalidPOIError);
-            //End
 
             //Delete test map from DB
             await adminManager.DeleteMapAsync(mapID);
-
         }
 
         [TestMethod]

@@ -172,9 +172,7 @@ namespace Notl.MuseumMap.Core.Managers
         public async Task<PointOfInterest> GetPOIAsync(Guid id)
         {
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
-
-            var map = await GetActiveMapInternalAsync();
-            if (poi == null || poi.MapId != map.Id)
+            if (poi == null)
             {
                 throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
             }
