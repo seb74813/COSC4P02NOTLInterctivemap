@@ -67,16 +67,16 @@ namespace Notl.MuseumMap.Api.Controllers
         /// <param name="file"></param>
         /// <returns></returns>
         [Route("map/photo")]
-        [ProducesResponseType(typeof(ImageReference), 200)]
+        [ProducesResponseType(typeof(MapModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
         [HttpPost]
-        public async Task<IActionResult> UploadMapImageAsync(Guid mapId, IFormFile file)
+        public async Task<IActionResult> UpdateMapImageAsync(Guid mapId, IFormFile file)
         {
             try
             {
-                var image = await adminManager.UploadImageAsync(mapId, file.FileName, file.OpenReadStream());
+                var map = await adminManager.UpdateMapImageAsync(mapId, file.FileName, file.OpenReadStream());
 
-                return Ok(image);
+                return Ok(new MapModel(map));
             }
             catch (Exception ex)
             {
@@ -182,26 +182,20 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Update a map's image.
+        /// Updates the active map.
         /// </summary>
         /// <param name="mapId"></param>
-        /// <param name="image"></param>
         /// <returns></returns>
-        [Route("map/{mapId}")]
+        [Route("map/active/{mapId}")]
         [HttpPost]
         [ProducesResponseType(typeof(MapModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> UpdateMapAsync([FromRoute] Guid mapId, [FromQuery] ImageReference image)
+        public async Task<IActionResult> UpdateActiveMapAsync([FromRoute] Guid mapId)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(image.Thumbnail) || string.IsNullOrWhiteSpace(image.Url))
-                {
-                    throw new MuseumMapException(MuseumMapErrorCode.ImageError);
-                }
-
-                // Update a map in the database
-                var map = await adminManager.UpdateMapAsync(mapId, image);
+                // Update the active in the database
+                var map = await adminManager.SetActiveMapAsync(mapId);
                 return Ok(new MapModel(map));
             }
             catch (Exception ex)
@@ -245,12 +239,6 @@ namespace Notl.MuseumMap.Api.Controllers
         {
             try
             {
-                // POI Validation
-                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
-                {
-                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
-                }
-
                 // Add POI to the database
                 var poi = await adminManager.CreatePOIAsync(Guid.NewGuid(), model.MapId, model.x, model.y, model.POIType);
                 return Ok(new POIModel(poi));
@@ -328,12 +316,6 @@ namespace Notl.MuseumMap.Api.Controllers
         {
             try
             {
-                // POI Validation
-                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
-                {
-                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
-                }
-
                 // Add POI to the database
                 var poi = await adminManager.UpdatePOIAsync(model.Id, model.MapId, model.x, model.y, model.POIType);
                 return Ok(new POIModel(poi));
@@ -357,12 +339,6 @@ namespace Notl.MuseumMap.Api.Controllers
         {
             try
             {
-                // POI Validation
-                if (model.x < 0 || model.x >= 100 || model.x < 0 || model.x >= 100)
-                {
-                    throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError, "Cordinates are out of bounds");
-                }
-
                 // Add POI to the database
                 var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.ImageURL);
                 return Ok(new POIModel(poi));

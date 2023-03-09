@@ -4,7 +4,7 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy)
+@if (!IsBusy && map != null && pois != null)
 {
     <Map MapData="map" POIs="pois"></Map>
 }
@@ -22,17 +22,8 @@
         try
         {
             IsBusy = true;
-            pois = new List<POIModel>
-            {
-               new POIModel{X=850,Y=500},
-               new POIModel{X=650,Y=500},
-               new POIModel{X=450,Y=450},
-               new POIModel{X=1200,Y=450},
-               new POIModel{X=1200,Y=250},
-            };
-            map = new MapModel { Image = new ImageReference { Url = "newmap.png" } };
-            //map = await ClientContext.Maps.GetActiveMapAsync();
-            //pOIs = await ClientContext.Maps.GetPOIsAsync();
+            map = await ClientContext.Maps.GetActiveMapAsync();
+            pois = await ClientContext.Maps.GetPOIsAsync();
             IsBusy = false;
         }
         catch (Exception ex)

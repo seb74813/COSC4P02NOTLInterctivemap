@@ -46,12 +46,12 @@ namespace Notl.MuseumMap.Api.Models
         /// <summary>
         /// The location on the x axis
         /// </summary>
-        public double x { get; set; }
+        public int x { get; set; }
 
         /// <summary>
         /// The location on the y axis
         /// </summary>
-        public double y { get; set; }
+        public int y { get; set; }
 
         /// <summary>
         /// The URL of the image

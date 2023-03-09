@@ -24,10 +24,22 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="photoFilename"></param>
         /// <param name="photoStream"></param>
         /// <returns></returns>
-        public async Task<ImageReference> UploadImageAsync(Guid mapId, string photoFilename, Stream photoStream)
+        public async Task<Map> UpdateMapImageAsync(Guid mapId, string photoFilename, Stream photoStream)
         {
+            var map = await dbManager.GetAsync<Map>(mapId, Partition.Calculate(mapId));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
             // Upload the file into storage
-            return await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
+            var image = await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
+
+            map.Image = image;
+
+            // Update the map on the database
+            await dbManager.UpdateAsync(map);
+            return map;
         }
 
         /// <summary>
@@ -106,6 +118,27 @@ namespace Notl.MuseumMap.Core.Managers
             return map;
         }
 
+        public async Task<Map> SetActiveMapAsync(Guid id)
+        {
+            var config = await dbManager.GetAsync<Config>(configId, Partition.Calculate(configId));
+            if (config == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.ConfigurationError);
+            }
+
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id));
+            if (map == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            config.ActiveMap = id;
+
+            await dbManager.UpdateAsync<Config>(config);
+
+            return map;
+        }
+
         /// <summary>
         /// Deletes a map
         /// </summary>
@@ -132,7 +165,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="y"></param>
         /// <param name="pOIType"></param>
         /// <returns></returns>
-        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
+        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
         {
 
             // Create POI
@@ -151,9 +184,7 @@ namespace Notl.MuseumMap.Core.Managers
         public async Task<PointOfInterest> GetPOIAsync(Guid id)
         {
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
-
-            var map = await GetActiveMapInternalAsync();
-            if (poi == null || poi.MapId != map.Id)
+            if (poi == null)
             {
                 throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
             }
@@ -188,7 +219,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="pOIType"></param>
         /// <returns></returns>
         /// <exception cref="MuseumMapException"></exception>
-        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
+        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
         {
             // Get POI
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));

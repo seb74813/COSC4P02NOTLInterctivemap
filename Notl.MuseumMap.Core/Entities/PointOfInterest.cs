@@ -10,9 +10,9 @@ namespace Notl.MuseumMap.Core.Entities
     {
         public Guid MapId { get; set; }
 
-        public double x { get; set; }
+        public int x { get; set; }
 
-        public double y { get; set; }
+        public int y { get; set; }
 
         public string? ImageURL { get; set; }
 

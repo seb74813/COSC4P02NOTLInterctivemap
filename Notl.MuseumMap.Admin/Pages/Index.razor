@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inherits BasePage
+@attribute [Authorize]
 
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
@@ -7,13 +8,12 @@
 @if (!IsBusy)
 {
     <MudPaper Class="pa-3" Elevation="0">
-        <MudText>@data?.Data</MudText>
+        <MudButton OnClick=@move>Go</MudButton>
     </MudPaper>
 }
 
 @code
 {
-    SampleData? data;
 
     protected async override Task OnInitializedAsync()
     {
@@ -23,12 +23,16 @@
         try
         {
             IsBusy = true;
-            data = await ClientContext.Admin.PingAsync("Hello World");
             IsBusy = false;
         }
         catch (Exception ex)
         {
             ShowError(ex);
         }
+    }
+
+    private void move()
+    {
+        Navigation.NavigateTo("initialize");
     }
 }

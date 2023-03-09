@@ -10,14 +10,11 @@
 
 <MudLayout>
     <MudAppBar Color="Color.Primary">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => drawerOpen = !drawerOpen)" />
+        <MudIconButton Href="https://www.notlmuseum.ca/" Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Inherit" Edge="Edge.Start" />
         <MudText Class="ml-2">@localizer["AppName"]</MudText>
         <MudSpacer />
         <MudToggleIconButton Class="mr-3" ToggledColor="Color.Dark" Color="Color.Dark" Toggled="@(appTheme == AppTheme.Light)" ToggledIcon="@Icons.Material.Outlined.DarkMode" Title="@localizer["Tip_LightMode"]" Icon="@Icons.Material.Outlined.LightMode" ToggledTitle="@localizer["Tip_DarkMode"]" ToggledChanged="ToggleTheme" />
     </MudAppBar>
-    <MudDrawer Anchor="Anchor.Left" ClipMode="DrawerClipMode.Always" Elevation="2" Variant="DrawerVariant.Temporary" @bind-Open="@drawerOpen">
-        <NavMenu />
-    </MudDrawer>
     <MudMainContent Class="mt-20">
         @Body
     </MudMainContent>

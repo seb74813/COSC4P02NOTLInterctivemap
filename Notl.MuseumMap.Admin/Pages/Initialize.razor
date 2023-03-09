@@ -1,0 +1,71 @@
+﻿@page "/initialize"
+@inherits BasePage
+@attribute [Authorize]
+
+<BusyIndicator Model="@this" />
+<PageTitle>@Localizer["AppName"]</PageTitle>
+
+@if (!IsBusy)
+{
+    <InputFile accept="image/*" OnChange="UploadPhotoAsync" />
+}
+
+@code {
+    private List<POIModel>? pois;
+    private MapModel? map;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        IsInitialized = true;
+
+        try
+        {
+            IsBusy = true;
+            pois = new List<POIModel>
+            {
+               new POIModel{X=850,Y=500},
+               new POIModel{X=650,Y=500},
+               new POIModel{X=450,Y=450},
+               new POIModel{X=1200,Y=450},
+               new POIModel{X=1200,Y=250},
+            };
+
+            map = await ClientContext.Admin.CreateMapAsync();
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+
+    public async Task UploadPhotoAsync(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            if (map == null || pois == null)
+            {
+                throw new Exception();
+            }
+
+            var file = e.File;
+
+            var stream = file.OpenReadStream();
+
+            var image = await ClientContext.Admin.UpdateMapImageAsync(map.Id, new FileParameter(stream));
+
+            foreach (var item in pois)
+            {
+                await ClientContext.Admin.CreatePOIAsync(item.Id, map.Id, item.X, item.Y, "", "", "", POIType.Exhibit);
+            }
+
+            map = await ClientContext.Admin.UpdateActiveMapAsync(map.Id);
+            UpdatePage();
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+}
