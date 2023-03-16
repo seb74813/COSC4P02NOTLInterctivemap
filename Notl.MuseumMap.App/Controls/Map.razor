@@ -1,6 +1,17 @@
 ﻿@if (MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
+        <MudOverlay @bind-Visible="isVisible" OnClick="clear" DarkBackground="true" AutoClose="true" ZIndex="11">
+            @if (selectedPOI != null)
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="clear"/>
+                <MudPaper> 
+                    <MudImage Fluid="true" Src="@selectedPOI.ImageURL" Class="rounded-lg"/>
+                    <MudMarkdown Value="@selectedPOI.Description"/>
+                </MudPaper>
+            }
+        </MudOverlay>>
+
         <Panzoom @ref="panzoom">
             <MudStack Class="absolute z-10 ma-2">
                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
@@ -12,7 +23,7 @@
                 <div class="button-container">
                     @foreach (var item in POIs)
                     {
-                       <POI Data="item"></POI>
+                       <POI Data="item" OnClick="select"></POI>
                     }
                 </div>
             </div>
@@ -21,6 +32,8 @@
 }
 
 @code {
+    private bool isVisible = false;
+    private POIModel? selectedPOI;
 
     [Parameter]
     public MapModel? MapData { get; set; }
@@ -74,4 +87,17 @@
         var newScale = await panzoom.GetScaleAsync();
     }
 
+    private void select(POIModel data)
+    {
+        selectedPOI = data;
+        isVisible = true;
+        StateHasChanged();
+    }
+
+    private void clear()
+    {
+        selectedPOI = null;
+        isVisible = false;
+        StateHasChanged();
+    }
 }
