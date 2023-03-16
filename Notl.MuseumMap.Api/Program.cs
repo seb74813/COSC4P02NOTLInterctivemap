@@ -64,7 +64,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // The following line enables Azure Monitor Distro.
 builder.Services.AddAzureMonitor(o => 
-    o.ConnectionString = "InstrumentationKey=428d2bb1-0a4a-47a0-871e-262b3d84e5c1");
+    o.ConnectionString = builder.Configuration.GetValue<String>("AppInsightsConnectionString"));
 
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<DbManagerOptions>();
