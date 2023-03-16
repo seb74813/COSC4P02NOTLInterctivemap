@@ -12,7 +12,7 @@
                 <div class="button-container">
                     @foreach (var item in POIs)
                     {
-                        <MudFab class="coordinate-button" StartIcon="@Icons.Material.Filled.LocationOn" Color="Color.Error" Style=@styleString(item) OnClick="OnResetClick"></MudFab>
+                       <POI Data="item"></POI>
                     }
                 </div>
             </div>

@@ -1,0 +1,35 @@
+﻿@if (Data != null)
+{
+    <MudFab class="coordinate-button" 
+    StartIcon="@Icons.Material.Filled.LocationOn" 
+    Color="Color.Error" 
+    Style=@styleString() 
+    OnClick="Click">
+    </MudFab>
+}
+
+
+@code {
+    [Parameter]
+    public POIModel? Data { get; set; }
+
+    [Parameter]
+    public EventCallback<POIModel> OnClick { get; set; }
+
+    private string styleString()
+    {
+        if (Data != null)
+        {
+            return $"top: {Data.Y}px; left: {Data.X}px;";
+        }
+        return "";
+    }
+
+    private async Task Click()
+    {
+        await OnClick.InvokeAsync(Data);
+    }
+
+}
+
+
