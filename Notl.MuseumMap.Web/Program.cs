@@ -3,6 +3,7 @@ using BlazorPanzoom;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor;
 using MudBlazor.Services;
 using Notl.MuseumMap.App;
 using Notl.MuseumMap.App.Common;
@@ -52,6 +53,7 @@ builder.Services.AddSingleton<HttpClient>();
 
 // Setup the mud services.
 builder.Services.AddMudServices();
+builder.Services.AddMudMarkdownServices();
 builder.Services.AddLocalization();
 
 // Setup the pan zoom service

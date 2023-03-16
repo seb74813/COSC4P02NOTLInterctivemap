@@ -2,6 +2,7 @@
 using BlazorPanzoom;
 using Majorsoft.Blazor.Components.Common.JsInterop;
 using Microsoft.Extensions.Logging;
+using MudBlazor;
 using MudBlazor.Services;
 using Notl.MuseumMap.App.Common;
 using Notl.MuseumMap.Mobile.Services;
@@ -31,6 +32,7 @@ namespace Notl.MuseumMap.Mobile
 
             // Setup the mud services.
             builder.Services.AddMudServices();
+            builder.Services.AddMudMarkdownServices();
             builder.Services.AddBlazorPanzoomServices();
             builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddJsInteropExtensions();

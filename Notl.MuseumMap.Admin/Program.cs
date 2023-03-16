@@ -9,6 +9,7 @@ using Majorsoft.Blazor.Components.Common.JsInterop;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BlazorPanzoom;
+using MudBlazor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -53,6 +54,7 @@ builder.Services.AddMsalAuthentication(options =>
 
 // Setup the mud services.
 builder.Services.AddMudServices();
+builder.Services.AddMudMarkdownServices();
 builder.Services.AddLocalization();
 
 // Set up panzoom
