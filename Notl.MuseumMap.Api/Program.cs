@@ -6,6 +6,7 @@ using Notl.MuseumMap.Core.Tools;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 const string CorsPolicyName = "CorsPolicy";
 
@@ -60,6 +61,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 });
+
+// The following line enables Azure Monitor Distro.
+builder.Services.AddAzureMonitor(o => 
+    o.ConnectionString = "InstrumentationKey=428d2bb1-0a4a-47a0-871e-262b3d84e5c1");
 
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<DbManagerOptions>();
