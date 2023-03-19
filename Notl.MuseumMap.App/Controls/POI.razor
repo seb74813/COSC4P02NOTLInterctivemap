@@ -5,13 +5,13 @@
             {
             @if (Data.Title != null)
             {
-                <MudButton class="coordinate-icon" OnClick="Click">
+                <MudButton class="coordinate-exhibit" OnClick="Click" style="color: black;">
                     @Data.Title
                 </MudButton>
             }
             else
             {
-                 <MudButton class="coordinate-icon" OnClick="Click">
+                <MudButton class="coordinate-exhibit" OnClick="Click" style="color: black;">
                     PLACEHOLDER @Data.PoiType
                 </MudButton>
             }
