@@ -1,44 +1,63 @@
-﻿<style>
-    .coordinate-button {
-    position: absolute;
-}
-
-.coordinate-title {
-    position: absolute;
-    text-align: center;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.coordinate-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-.coordinate-image {
-    width: 30px; /* Adjust the size as needed */
-    height: 40px; /* Adjust the size as needed */
-    position: relative;
-    z-index: 0;
-}
-
-</style>
-
-@if (Data != null)
+﻿@if (Data != null)
 {
     <div class="coordinate-button" style=@styleString()>
-        <MudImage class="coordinate-image" Src="locationPin.png"></MudImage>
-        <MudIconButton class="coordinate-icon"
-                   Icon="@Icons.Material.Filled.EmojiEmotions"
+        @if (Data.PoiType == POIType.Exhibit)
+            {
+            @if (Data.Title != null)
+            {
+                <MudButton class="coordinate-icon" OnClick="Click">
+                    @Data.Title
+                </MudButton>
+            }
+            else
+            {
+                 <MudButton class="coordinate-icon" OnClick="Click">
+                    PLACEHOLDER @Data.PoiType
+                </MudButton>
+            }
+        }
+        else
+        {
+            @if (Data.PoiType == POIType.Item)
+            {
+                <MudIconButton class="coordinate-icon"
+                   Color="Color.Error"
+                   Icon=@Icons.Material.Filled.LocationOn
                    Size="Size.Small"
                    OnClick="Click">
-        </MudIconButton>
-        <div class="coordinate-title">
-            TEST TITLE
-        </div>
+                </MudIconButton>
+            }
+            else if (Data.PoiType == POIType.Bathroom)
+            {
+                <MudIconButton class="coordinate-icon"
+                   Color="Color.Error"
+                   Icon=@Icons.Material.Filled.FamilyRestroom
+                   Size="Size.Small"
+                   OnClick="Click">
+                </MudIconButton>
+            }
+            else if (Data.PoiType == POIType.Accessability)
+            {
+                <MudIconButton class="coordinate-icon"
+                   Color="Color.Error"
+                   Icon=@Icons.Material.Filled.Accessible
+                   Size="Size.Small"
+                   OnClick="Click">
+                </MudIconButton>
+            }
+            @if (Data.Title != null)
+            {
+                <span class="coordinate-title">
+                    @Data.Title
+                </span>
+            }
+            else
+            {
+                <span class="coordinate-title">
+                    PLACEHOLDER @Data.PoiType
+                </span>
+            }
+        }
     </div>
 }
 

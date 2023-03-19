@@ -4,10 +4,11 @@
 
 .coordinate-title {
     position: absolute;
-    text-align: center;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
+    color: black;
+    text-align: center;
 }
 
 .coordinate-icon {
@@ -15,11 +16,4 @@
     top: 0;
     left: 0;
     z-index: 1;
-}
-
-.coordinate-image {
-    width: 30px; /* Adjust the size as needed */
-    height: 40px; /* Adjust the size as needed */
-    position: relative;
-    z-index: 0;
 }
