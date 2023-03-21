@@ -1,39 +1,39 @@
 ﻿@if (Data != null)
 {
-    <div class="coordinate-button" style=@styleString()>
-        @if (Data.PoiType == POIType.Exhibit)
-        {
-            <MudButton class="coordinate-exhibit" OnClick="Click" style="color: black;">
-                @if (Data.Title != null)
-                {
-                    @Data.Title
-                }
-                else
-                {
-                    @Data.PoiType
-                }
-            </MudButton>
-        }
-        else
-        {
-            <MudIconButton class="coordinate-icon"
-                   Color="Color.Error"
-                   Icon=@getIcon()
-                   Size="Size.Small"
-                   OnClick="Click">
-            </MudIconButton>
-            <MudText class="coordinate-title">
-                @if (Data.Title != null)
-                {
-                    @Data.Title
-                }
-                else
-                {
-                    @Data.PoiType
-                }
-            </MudText>
-        }
-    </div>
+<div class="coordinate-button" style=@styleString()>
+    @if (Data.PoiType == POIType.Exhibit)
+    {
+        <MudButton class="coordinate-exhibit" OnClick="Click" style="color: black;">
+            @if (Data.Title != null)
+            {
+                @Data.Title
+            }
+            else
+            {
+                @Data.PoiType
+            }
+        </MudButton>
+    }
+    else
+    {
+        <MudIconButton class="coordinate-icon"
+                Color="Color.Error"
+                Icon=@getIcon()
+                Size="Size.Small"
+                OnClick="Click">
+        </MudIconButton>
+        <MudText class="coordinate-title">
+            @if (Data.Title != null)
+            {
+                @Data.Title
+            }
+            else
+            {
+                @Data.PoiType
+            }
+        </MudText>
+    }
+</div>
 }
 
 @code {

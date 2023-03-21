@@ -8,14 +8,14 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
+<MudLayout Style="width: 100vw; height: 100vh;">
     <MudAppBar Color="Color.Primary">
         <MudIconButton Href="https://www.notlmuseum.ca/" Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Inherit" Edge="Edge.Start" />
         <MudText Class="ml-2">@localizer["AppName"]</MudText>
         <MudSpacer />
         <MudToggleIconButton Class="mr-3" ToggledColor="Color.Dark" Color="Color.Dark" Toggled="@(appTheme == AppTheme.Light)" ToggledIcon="@Icons.Material.Outlined.DarkMode" Title="@localizer["Tip_LightMode"]" Icon="@Icons.Material.Outlined.LightMode" ToggledTitle="@localizer["Tip_DarkMode"]" ToggledChanged="ToggleTheme" />
     </MudAppBar>
-    <MudMainContent Class="mt-20">
+    <MudMainContent Style="width: 100vw; height: 100vh;">
         @Body
     </MudMainContent>
 </MudLayout>
