@@ -7,13 +7,13 @@
 
 @if (!IsBusy)
 {
-    <MudPaper Class="pa-3" Elevation="0">
-        <MudButton OnClick=@move>Go</MudButton>
-    </MudPaper>
+    <MapEditor MapData="map" POIs="pois" />
 }
 
 @code
 {
+    private List<POIModel>? pois;
+    private MapModel? map;
 
     protected async override Task OnInitializedAsync()
     {
@@ -23,6 +23,10 @@
         try
         {
             IsBusy = true;
+            map = await ClientContext.Admin.GetActiveMapAuthAsync();
+            pois = await ClientContext.Admin.GetPOIsAuthAsync(map.Id);
+
+            Console.WriteLine($"POIs loaded: {pois.Count}");
             IsBusy = false;
         }
         catch (Exception ex)

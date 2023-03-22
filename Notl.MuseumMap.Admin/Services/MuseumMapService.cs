@@ -1097,9 +1097,9 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<POIModel> GetPOIAuthAsync(System.Guid mapId)
+        public virtual System.Threading.Tasks.Task<POIModel> GetPOIAuthAsync(System.Guid id, string mapId)
         {
-            return GetPOIAuthAsync(mapId, System.Threading.CancellationToken.None);
+            return GetPOIAuthAsync(id, mapId, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -1108,13 +1108,17 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<POIModel> GetPOIAuthAsync(System.Guid mapId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<POIModel> GetPOIAuthAsync(System.Guid id, string mapId, System.Threading.CancellationToken cancellationToken)
         {
+            if (id == null)
+                throw new System.ArgumentNullException("id");
+
             if (mapId == null)
                 throw new System.ArgumentNullException("mapId");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Admin/poi/{mapId}");
+            urlBuilder_.Replace("{Id}", System.Uri.EscapeDataString(ConvertToString(id, System.Globalization.CultureInfo.InvariantCulture)));
             urlBuilder_.Replace("{mapId}", System.Uri.EscapeDataString(ConvertToString(mapId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;
@@ -1302,7 +1306,7 @@ namespace Notl.MuseumMap.Admin.Services
                 throw new System.ArgumentNullException("mapId");
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Admin/pois");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/Admin/pois/{mapId}");
             urlBuilder_.Replace("{mapId}", System.Uri.EscapeDataString(ConvertToString(mapId, System.Globalization.CultureInfo.InvariantCulture)));
 
             var client_ = _httpClient;

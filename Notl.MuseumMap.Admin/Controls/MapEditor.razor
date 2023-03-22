@@ -12,7 +12,7 @@
             }
         </MudOverlay>
 
-        <Panzoom @ref="panzoom">
+        <Panzoom @ref="parent">
             <MudStack Class="absolute z-10 ma-2">
                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
@@ -23,8 +23,7 @@
                 <div class="button-container">
                     @foreach (var item in POIs)
                     {
-                       <POI Data="item" OnClick="select"></POI>
-
+                       <POI Data="item" OnClick="select" Parent="parent" />
                     }
                 </div>
             </div>
@@ -35,6 +34,8 @@
 @code {
     private bool isVisible = false;
     private POIModel? selectedPOI;
+    private List<POIModel>? newPOIs;
+    private Panzoom? parent;
 
     [Parameter]
     public MapModel? MapData { get; set; }
@@ -42,7 +43,12 @@
     [Parameter]
     public List<POIModel>? POIs { get; set; }
 
-    private Panzoom? panzoom;
+    protected override void OnInitialized()
+    {
+        newPOIs = new List<POIModel>();
+
+        base.OnInitialized();
+    }
 
     private async Task OnZoomInClick(MouseEventArgs args)
     {
@@ -56,31 +62,31 @@
 
     private async Task OnResetClick(MouseEventArgs args)
     {
-        if (panzoom == null)
+        if (parent == null)
         {
             throw new Exception("panzoom is null");
         }
 
-        await panzoom.ResetAsync();
+        await parent.ResetAsync();
     }
 
     private async Task AdjustScale(bool zoomIn)
     {
-        if (panzoom == null)
+        if (parent == null)
         {
             throw new Exception("panzoom is null");
         }
-        var oldScale = await panzoom.GetScaleAsync();
+        var oldScale = await parent.GetScaleAsync();
 
         if (zoomIn)
         {
-            await panzoom.ZoomInAsync();
+            await parent.ZoomInAsync();
         }
         else
         {
-            await panzoom.ZoomOutAsync();
+            await parent.ZoomOutAsync();
         }
-        var newScale = await panzoom.GetScaleAsync();
+        var newScale = await parent.GetScaleAsync();
     }
 
     private void select(POIModel data)
