@@ -35,6 +35,8 @@
 @code {
     private bool isVisible = false;
     private POIModel? selectedPOI;
+    double minZoom = 0.8;
+    double maxZoom = 2.0;
 
     [Parameter]
     public MapModel? MapData { get; set; }
@@ -71,16 +73,20 @@
             throw new Exception("panzoom is null");
         }
         var oldScale = await panzoom.GetScaleAsync();
-
-        if (zoomIn)
+        double scaleFactor = zoomIn ? 1.2 : 0.8;
+        double newScale = oldScale * scaleFactor;
+        if (newScale >= minZoom && newScale <= maxZoom)
         {
-            await panzoom.ZoomInAsync();
+            if (zoomIn)
+            {
+                await panzoom.ZoomInAsync();
+            }
+            else
+            {
+                await panzoom.ZoomOutAsync();
+            }
         }
-        else
-        {
-            await panzoom.ZoomOutAsync();
-        }
-        var newScale = await panzoom.GetScaleAsync();
+        var CurrentScale = await panzoom.GetScaleAsync();
     }
 
     private void select(POIModel data)
