@@ -7,14 +7,11 @@
 
 @if (!IsBusy)
 {
-    <MapEditor MapData="map" POIs="pois" />
+    
 }
 
 @code
 {
-    private List<POIModel>? pois;
-    private MapModel? map;
-
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -23,10 +20,7 @@
         try
         {
             IsBusy = true;
-            map = await ClientContext.Admin.GetActiveMapAuthAsync();
-            pois = await ClientContext.Admin.GetPOIsAuthAsync(map.Id);
 
-            Console.WriteLine($"POIs loaded: {pois.Count}");
             IsBusy = false;
         }
         catch (Exception ex)
@@ -35,8 +29,13 @@
         }
     }
 
-    private void move()
+    private void SelectMap(MapModel model)
     {
-        Navigation.NavigateTo("initialize");
+        Navigation.NavigateTo($"map/{model.Id}");
+    }
+
+    private void NavigateUploadImage(MapModel model)
+    {
+        Navigation.NavigateTo($"map/{model.Id}");
     }
 }

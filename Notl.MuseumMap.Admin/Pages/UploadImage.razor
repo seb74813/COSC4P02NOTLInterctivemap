@@ -1,0 +1,74 @@
+﻿@page "/upload/{Id:guid}"
+@inherits BasePage
+@attribute [Authorize]
+
+<BusyIndicator Model="@this"/>
+<PageTitle>@Localizer["AppName"]</PageTitle>
+
+@if (!IsBusy && map != null)
+{
+    <MudContainer MaxWidth="MaxWidth.Medium">
+        <MudPaper>
+            if (map.Image != null)
+            {
+                <MudImage Src="@map.Image.Url" Fluid=true/>
+            }
+            <MudButton HtmlTag="label" 
+                Variant="Variant.Filled"
+                Color="Color.Primary" 
+                StartIcon="@Icons.Material.Filled.CloudUpload"
+                for="upload">
+                Upload Image
+            </MudButton>
+
+            <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none"/>
+        </MudPaper>
+    </MudContainer>
+}
+
+@code {
+    private MapModel? map;
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        IsInitialized = true;
+
+        try
+        {
+            IsBusy = true;
+            map = await ClientContext.Admin.GetMapAsync(Id);
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+
+    public async Task UploadPhotoAsync(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            if (map == null)
+            {
+                throw new Exception();
+            }
+
+            var file = e.File;
+
+            var stream = file.OpenReadStream();
+
+            map = await ClientContext.Admin.UpdateMapImageAsync(map.Id, new FileParameter(stream));
+
+            UpdatePage();
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+}

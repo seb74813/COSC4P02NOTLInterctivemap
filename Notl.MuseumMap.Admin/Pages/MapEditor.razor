@@ -1,4 +1,11 @@
-﻿@if (MapData != null && POIs != null)
+﻿@page "/map/{Id:guid}"
+@inherits BasePage
+@attribute [Authorize]
+
+<BusyIndicator Model="@this" />
+<PageTitle>@Localizer["AppName"]</PageTitle>
+
+@if (!IsBusy && MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
         <MudOverlay @bind-Visible="isVisible" OnClick="clear" DarkBackground="true" AutoClose="true" ZIndex="11">
@@ -37,17 +44,28 @@
     private List<POIModel>? newPOIs;
     private Panzoom? parent;
 
-    [Parameter]
     public MapModel? MapData { get; set; }
 
-    [Parameter]
     public List<POIModel>? POIs { get; set; }
 
-    protected override void OnInitialized()
-    {
-        newPOIs = new List<POIModel>();
+    [Parameter]
+    public Guid Id { get; set; }
 
-        base.OnInitialized();
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        IsInitialized = true;
+
+        try
+        {
+            IsBusy = true;
+            newPOIs = new List<POIModel>();
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
     }
 
     private async Task OnZoomInClick(MouseEventArgs args)
