@@ -68,6 +68,11 @@
         }
     }
 
+    private void NavigateUploadImage(MapModel model)
+    {
+        Navigation.NavigateTo($"map/{model.Id}");
+    }
+
     private async Task OnZoomInClick(MouseEventArgs args)
     {
         await AdjustScale(true);
