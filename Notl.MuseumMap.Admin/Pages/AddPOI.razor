@@ -1,28 +1,28 @@
-﻿@page "/"
+﻿@page "/poi/add/{Id:guid}"
 @inherits BasePage
+@attribute [Authorize]
 
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy && map != null && pois != null)
+@if (!IsBusy)
 {
-    <Map MapData="map" POIs="pois"></Map>
+
 }
 
-@code
-{
-    private List<POIModel>? pois;
-    private MapModel? map;
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         IsInitialized = true;
 
         try
         {
             IsBusy = true;
-            map = await ClientContext.Maps.GetActiveMapAsync();
-            pois = await ClientContext.Maps.GetPOIsAsync();
+
             IsBusy = false;
         }
         catch (Exception ex)

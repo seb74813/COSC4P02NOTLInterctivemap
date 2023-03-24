@@ -7,14 +7,11 @@
 
 @if (!IsBusy)
 {
-    <MudPaper Class="pa-3" Elevation="0">
-        <MudButton OnClick=@move>Go</MudButton>
-    </MudPaper>
+    
 }
 
 @code
 {
-
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -23,6 +20,7 @@
         try
         {
             IsBusy = true;
+
             IsBusy = false;
         }
         catch (Exception ex)
@@ -31,8 +29,13 @@
         }
     }
 
-    private void move()
+    private void SelectMap(MapModel model)
     {
-        Navigation.NavigateTo("initialize");
+        Navigation.NavigateTo($"map/{model.Id}");
+    }
+
+    private void NavigateUploadImage(MapModel model)
+    {
+        Navigation.NavigateTo($"map/{model.Id}");
     }
 }
