@@ -8,14 +8,14 @@
 @if (!IsBusy && maps!=null && activeMap!=null)
 {
     <MudGrid>
-        <MapView Data="activeMap" OnClick="SelectMap"  />
+        <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
 
      
         @foreach (var map in maps)
         {
             if (map.Id != activeMap.Id)
             {
-                <MapView Data="map" OnClick="SelectMap" />
+                <MapView Data="map" OnClick="SelectMap" OnDelete="DeleteMap" OnActive="SetActiveMap" IsActive=false />
             }
            
         }
@@ -36,8 +36,57 @@
         try
         {
             IsBusy = true;
-            maps = await ClientContext.Admin.GetMapsAsync();
+            await Refresh();
+
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+    private async Task Refresh()
+    {   
+        maps = await ClientContext.Admin.GetMapsAsync();
+        if (maps == null || maps.Count == 0)
+        {
+            activeMap = await ClientContext.Admin.CreateMapAsync();
+            
+        }
+        else
+        {
             activeMap = await ClientContext.Admin.GetActiveMapAuthAsync();
+           
+        }
+        if (activeMap.Image == null)
+        {
+            NavigateUploadImage(activeMap);
+        }
+    }
+
+    private async Task DeleteMap(MapModel map)
+    {
+        try
+        {
+            IsBusy = true;
+            await ClientContext.Admin.DeleteMapAsync(map.Id);
+            await Refresh();
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
+
+    private async Task SetActiveMap(MapModel map)
+
+    {
+        try
+        {
+            IsBusy = true;
+            await ClientContext.Admin.UpdateActiveMapAsync(map.Id);
+            await Refresh();
             IsBusy = false;
         }
         catch (Exception ex)

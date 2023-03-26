@@ -5,11 +5,18 @@
             <MudStack>
                 <MudImage Src="@Data.Image.Url" Fluid=true @onclick="() => Click()" />
                 <MudStack Row=true>
-                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" />
-                    <MudButton>
-                        Set Active
+                   <MudSpacer/>
+                   @if (!IsActive)
+                    {
+                        <MudButton OnClick="Active">
+                            Set Active
+                        </MudButton>
+                        <MudSpacer />
+                    }
+                    <MudButton Color="Color.Warning" OnClick="Delete">
+                        Delete
                     </MudButton>
-                    <MudFab Color="Color.Warning" StartIcon="@Icons.Material.Filled.Delete" />                      
+                    <MudSpacer />
                 </MudStack>
             </MudStack>
         </MudPaper>
@@ -21,11 +28,29 @@
     public MapModel? Data { get; set; }
 
     [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
     public EventCallback<MapModel> OnClick { get; set; }
+
+    [Parameter]
+    public EventCallback<MapModel> OnActive { get; set; }
+
+    [Parameter]
+    public EventCallback<MapModel> OnDelete { get; set; }
 
     private async Task Click()
     {
         await OnClick.InvokeAsync(Data);   
     }
 
+    private async Task Active()
+    {
+        await OnActive.InvokeAsync(Data);
+    }
+
+    private async Task Delete()
+    {
+        await OnDelete.InvokeAsync(Data);
+    }
 }
