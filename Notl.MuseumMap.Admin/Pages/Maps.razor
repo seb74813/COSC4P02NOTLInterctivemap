@@ -5,13 +5,29 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy)
+@if (!IsBusy && maps!=null && activeMap!=null)
 {
-    
+    <MudGrid>
+        <MapView Data="activeMap" OnClick="SelectMap"  />
+
+     
+        @foreach (var map in maps)
+        {
+            if (map.Id != activeMap.Id)
+            {
+                <MapView Data="map" OnClick="SelectMap" />
+            }
+           
+        }
+    </MudGrid>
 }
 
 @code
 {
+    private List<MapModel>? maps;
+    private MapModel? activeMap;
+
+
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -20,7 +36,8 @@
         try
         {
             IsBusy = true;
-
+            maps = await ClientContext.Admin.GetMapsAsync();
+            activeMap = await ClientContext.Admin.GetActiveMapAuthAsync();
             IsBusy = false;
         }
         catch (Exception ex)

@@ -1,0 +1,31 @@
+﻿@if (Data != null)
+{
+    <MudItem xs="12" md="6" lg="4" @onclick="() => Click()">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack>
+                <MudImage Src="@Data.Image.Url" Fluid=true @onclick="() => Click()" />
+                <MudStack Row=true>
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" />
+                    <MudButton>
+                        Set Active
+                    </MudButton>
+                    <MudFab Color="Color.Warning" StartIcon="@Icons.Material.Filled.Delete" />                      
+                </MudStack>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+}
+
+@code {
+    [Parameter]
+    public MapModel? Data { get; set; }
+
+    [Parameter]
+    public EventCallback<MapModel> OnClick { get; set; }
+
+    private async Task Click()
+    {
+        await OnClick.InvokeAsync(Data);   
+    }
+
+}
