@@ -20,10 +20,22 @@
         </MudOverlay>
 
         <Panzoom @ref="parent">
-            <MudStack Class="absolute z-10 ma-2">
-                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
-                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
-                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
+            <MudStack Class="absolute z-10" Row=true>
+                <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" /> 
+                <MudSpacer />
+                <MudPaper Elevation="25">
+                    <MudToolBar> 
+                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
+                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
+                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
+                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.FileUpload" OnClick="NavigateUploadImage" />
+                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" />
+                    </MudToolBar>
+
+                </MudPaper>
+                <MudSpacer/>
+
+                
             </MudStack>
             <div @ref="@context.ElementReference" class="panzoom">
                 <MudImage Src=@MapData.Image.Url/>
@@ -60,6 +72,8 @@
         {
             IsBusy = true;
             newPOIs = new List<POIModel>();
+            MapData = await ClientContext.Admin.GetMapAsync(Id);
+            POIs = await ClientContext.Admin.GetPOIsAuthAsync(Id);
             IsBusy = false;
         }
         catch (Exception ex)
@@ -124,5 +138,15 @@
         selectedPOI = null;
         isVisible = false;
         StateHasChanged();
+    }
+
+    private async void addPOI(POIModel poiModel)
+    {
+        //var poi = await ClientContext.Admin.CreatePOIAsync(poiModel.Id, Id, poiModel.X);
+    }
+
+    private void NavigateUploadImage()
+    {
+        Navigation.NavigateTo($"map/{Id}");
     }
 }
