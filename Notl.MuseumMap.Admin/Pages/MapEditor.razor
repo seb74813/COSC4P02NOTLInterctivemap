@@ -24,19 +24,21 @@
                 <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" /> 
                 <MudSpacer />
                 <MudPaper Elevation="25">
-                    <MudToolBar> 
-                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
-                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
-                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
-                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.FileUpload" OnClick="NavigateUploadImage" />
-                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" OnClick="NewPOI" />
-                    </MudToolBar>
+                    <MudToolBar>  
+                        <MudStack Row=true>
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.FileUpload" OnClick="NavigateUploadImage" />
+                            <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" OnClick="NewPOI" />
+                        </MudStack>
+                        </MudToolBar>
 
                 </MudPaper>
                 <MudSpacer/>
                 @if (isEdited)
                 {
-                    <MudButton Variant="Variant.Filled" Size="Size.Large" OnClick="SaveChangesAsync">Save Changes</MudButton>
+                    <MudButton Color="Color.Success" Variant="Variant.Filled" Size="Size.Large" OnClick="SaveChangesAsync" Style="margin-right: 16px;">Save Changes</MudButton>
                 }
 
             </MudStack>
