@@ -32,6 +32,7 @@ builder.Services.AddBlazoredLocalStorage(config =>
 });
 builder.Services.AddSingleton<HttpClient>();
 
+builder.Services.AddBlazorContextMenu();
 
 builder.Services.AddScoped(sp => 
 {

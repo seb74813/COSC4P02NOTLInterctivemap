@@ -66,12 +66,33 @@
 
     private async Task DeleteMap(MapModel map)
     {
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this Map? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = Dialog.Show<DeleteDialog>("Delete", parameters, options);
+
+        var result = await dialog.Result;
+
         try
         {
             IsBusy = true;
-            await ClientContext.Admin.DeleteMapAsync(map.Id);
-            await Refresh();
+
+           
+
+            if (!result.Canceled)
+            {
+                await ClientContext.Admin.DeleteMapAsync(map.Id);
+                await Refresh();
+                
+            }
+
             IsBusy = false;
+
         }
         catch (Exception ex)
         {

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazor.ContextMenu" Version="1.16.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Majorsoft.Blazor.Components.Common.JsInterop" Version="1.5.0" />
     <PackageReference Include="BlazorPanzoom" Version="0.2.1" />
