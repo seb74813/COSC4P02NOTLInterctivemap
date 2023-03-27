@@ -8,16 +8,6 @@
 @if (!IsBusy && MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
-        <MudOverlay @bind-Visible="isVisible" OnClick="clear" DarkBackground="true" AutoClose="true" ZIndex="11">
-            @if (selectedPOI != null)
-            {
-                <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="clear"/>
-                <MudPaper> 
-                    <MudImage Fluid="true" Src="@selectedPOI.ImageURL" Class="rounded-lg"/>
-                    <MudMarkdown Value="@selectedPOI.Description"/>
-                </MudPaper>
-            }
-        </MudOverlay>
 
         <Panzoom @ref="parent">
             <MudStack Class="absolute z-10" Row=true Style="width:100%">
@@ -46,9 +36,10 @@
                 <MudImage Src=@MapData.Image.Url/>
                 <div class="button-container">
                     @foreach (var item in POIs)
-                    {
-                       <POI Data="item" OnClick="select" Parent="parent" OnChange="SetEdited"/>
+                    {                  
+                        <POI Data="item" Parent="parent" OnChange="SetEdited" OnDelete="DeletePOI" OnEdit="EditPOI" />
                     }
+
                 </div>
             </div>
         </Panzoom>
@@ -57,7 +48,6 @@
 
 @code {
     private bool isVisible = false;
-    private POIModel? selectedPOI;
     private List<POIModel>? editPOIs;
     private Panzoom? parent;
     private bool isEdited = false;
@@ -88,9 +78,52 @@
         }
     }
 
+    private async Task DeletePOI(POIModel poi)
+    {
+        if(editPOIs == null || POIs == null)
+        {
+            throw new Exception("Edit list was empty");
+        }
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this POI? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+
+        var dialog = Dialog.Show<DeleteDialog>("Delete", parameters, options);
+
+        var result = await dialog.Result;
+
+        try
+        {
+            IsBusy = true;
+            if (!result.Canceled)
+            {
+                editPOIs.Remove(poi);
+                POIs.Remove(poi);
+                await ClientContext.Admin.DeletePOIAsync(poi.Id);
+            }
+
+            IsBusy = false;
+
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+
+
+    }
+
     private void NavigateUploadImage(MapModel model)
     {
         Navigation.NavigateTo($"map/{model.Id}");
+    }
+
+    private void EditPOI(POIModel model)
+    {
+        Navigation.NavigateTo($"poi/edit/{model.Id}");
     }
 
     private void SetEdited(POIModel poi)
@@ -173,20 +206,6 @@
             await parent.ZoomOutAsync();
         }
         var newScale = await parent.GetScaleAsync();
-    }
-
-    private void select(POIModel data)
-    {
-        selectedPOI = data;
-        isVisible = true;
-        StateHasChanged();
-    }
-
-    private void clear()
-    {
-        selectedPOI = null;
-        isVisible = false;
-        StateHasChanged();
     }
 
     private void NavigateUploadImage()

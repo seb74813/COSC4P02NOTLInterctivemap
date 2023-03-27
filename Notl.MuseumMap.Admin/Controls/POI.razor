@@ -1,18 +1,22 @@
 ﻿@if (Data != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
+       
         <div @ref="@panzoom.ElementReference" class="d-inline-block">
+
+            <ContextMenuTrigger MenuId="POIMenu">
+
             @if (Data.PoiType == POIType.Exhibit)
             {
-                <MudButton  class="coordinate-exhibit" style="color: black;">
-                @if (Data.Title != null)
-                {
-                    @Data.Title
-                }
-                else
-                {
-                    @Data.PoiType
-                }
+                <MudButton class="coordinate-exhibit" style="color: black;">
+                    @if (Data.Title != null)
+                    {
+                        @Data.Title
+                    }
+                    else
+                    {
+                        @Data.PoiType
+                    }
                 </MudButton>
             }
             else
@@ -32,9 +36,17 @@
                         @Data.PoiType
                     }
                 </MudText>
+
             }
+            </ContextMenuTrigger>
         </div>
+           
     </Panzoom>
+
+    <ContextMenu Id="POIMenu">
+        <Item OnClick="Edit">Edit Content</Item>
+        <Item OnClick="Delete">Delete</Item>
+    </ContextMenu>
 }
 else
 {
@@ -50,7 +62,10 @@ else
     public POIModel? Data { get; set; }
 
     [Parameter]
-    public EventCallback<POIModel> OnClick { get; set; }
+    public EventCallback<POIModel> OnEdit { get; set; }
+
+    [Parameter]
+    public EventCallback<POIModel> OnDelete { get; set; }
 
     [Parameter]
     public Panzoom? Parent { get; set; }
@@ -114,8 +129,14 @@ else
         return "";
     }
 
-    private async Task Click()
+    private async Task Edit()
     {
-        await OnClick.InvokeAsync(Data);
+        await OnEdit.InvokeAsync(Data);
     }
+    
+    private async Task Delete()
+    {
+        await OnDelete.InvokeAsync(Data);
+    }
+
 }
