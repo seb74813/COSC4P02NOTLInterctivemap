@@ -211,7 +211,7 @@ namespace Notl.MuseumMap.Api.Controllers
         /// <returns></returns>
         [Route("map/{mapId}")]
         [HttpDelete]
-        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
         public async Task<IActionResult> DeleteMapAsync([FromRoute] Guid mapId)
         {
@@ -356,7 +356,7 @@ namespace Notl.MuseumMap.Api.Controllers
         /// <returns></returns>
         [Route("poi/{mapId}")]
         [HttpDelete]
-        [ProducesResponseType(typeof(POIModel), 200)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
         public async Task<IActionResult> DeletePOIAsync([FromRoute] Guid mapId)
         {

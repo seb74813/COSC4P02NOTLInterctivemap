@@ -538,7 +538,7 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<POIModel> DeleteMapAsync(System.Guid mapId)
+        public virtual System.Threading.Tasks.Task DeleteMapAsync(System.Guid mapId)
         {
             return DeleteMapAsync(mapId, System.Threading.CancellationToken.None);
         }
@@ -549,7 +549,7 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<POIModel> DeleteMapAsync(System.Guid mapId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task DeleteMapAsync(System.Guid mapId, System.Threading.CancellationToken cancellationToken)
         {
             if (mapId == null)
                 throw new System.ArgumentNullException("mapId");
@@ -565,7 +565,6 @@ namespace Notl.MuseumMap.Admin.Services
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -590,12 +589,7 @@ namespace Notl.MuseumMap.Admin.Services
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<POIModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         if (status_ == 400)
@@ -1195,7 +1189,7 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<POIModel> DeletePOIAsync(System.Guid mapId)
+        public virtual System.Threading.Tasks.Task DeletePOIAsync(System.Guid mapId)
         {
             return DeletePOIAsync(mapId, System.Threading.CancellationToken.None);
         }
@@ -1206,7 +1200,7 @@ namespace Notl.MuseumMap.Admin.Services
         /// </summary>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<POIModel> DeletePOIAsync(System.Guid mapId, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task DeletePOIAsync(System.Guid mapId, System.Threading.CancellationToken cancellationToken)
         {
             if (mapId == null)
                 throw new System.ArgumentNullException("mapId");
@@ -1222,7 +1216,6 @@ namespace Notl.MuseumMap.Admin.Services
                 using (var request_ = await CreateHttpRequestMessageAsync(cancellationToken).ConfigureAwait(false))
                 {
                     request_.Method = new System.Net.Http.HttpMethod("DELETE");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("text/plain"));
 
                     PrepareRequest(client_, request_, urlBuilder_);
 
@@ -1247,12 +1240,7 @@ namespace Notl.MuseumMap.Admin.Services
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<POIModel>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                            if (objectResponse_.Object == null)
-                            {
-                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
-                            return objectResponse_.Object;
+                            return;
                         }
                         else
                         if (status_ == 400)
