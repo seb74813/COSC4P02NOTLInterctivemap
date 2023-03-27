@@ -6,7 +6,7 @@
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
 @if (!IsBusy && maps!=null && activeMap!=null)
-{
+{<MudStack>
     <MudGrid>
         <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
 
@@ -19,7 +19,14 @@
             }
            
         }
+       
     </MudGrid>
+    
+        <MudGrid xs="12" sm="6" md="4" lg="3" xl="2" class="mx-auto" Align="Align.End" Justify="Justify.Center">
+            <MudIconButton  Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" />
+        </MudGrid>
+       </MudStack>
+       
 }
 
 @code
