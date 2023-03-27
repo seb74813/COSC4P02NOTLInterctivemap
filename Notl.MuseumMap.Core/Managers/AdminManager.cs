@@ -55,6 +55,17 @@ namespace Notl.MuseumMap.Core.Managers
 
             // Add to the database and return
             await dbManager.CreateAsync(map);
+
+            var maps = await GetMapsAsync();
+            if (maps == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+            if (maps.Count == 1)
+            {
+                await SetActiveMapAsync(map.Id);
+            }
+
             return map;
         }
 
@@ -151,6 +162,20 @@ namespace Notl.MuseumMap.Core.Managers
             if (map == null)
             {
                 throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            }
+
+            var active = await GetActiveMapAsync();
+            if (map.Id == active.Id)
+            {
+                var maps = await GetMapsAsync();
+                foreach (var item in maps)
+                {
+                    if (item.Id != map.Id)
+                    {
+                        await SetActiveMapAsync(item.Id);
+                        break;
+                    }
+                }
             }
 
             await dbManager.DeleteAsync(map);
