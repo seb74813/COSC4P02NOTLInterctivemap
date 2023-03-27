@@ -1,10 +1,10 @@
 ﻿@if (Data != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
-        <div @ref="@panzoom.ElementReference" class="d-block">
+        <div @ref="@panzoom.ElementReference" class="d-inline-block" style=@styleString()>
             @if (Data.PoiType == POIType.Exhibit)
             {
-                <MudButton  class="coordinate-exhibit" OnClick="Click" style="color: black;">
+                <MudButton  class="coordinate-exhibit" style="color: black;">
                 @if (Data.Title != null)
                 {
                     @Data.Title
@@ -20,8 +20,7 @@
                 <MudIconButton class="coordinate-icon"
                         Color="Color.Error"
                         Icon=@getIcon()
-                        Size="Size.Small"
-                        OnClick="Click">
+                        Size="Size.Small">
                 </MudIconButton>
                 <MudText class="coordinate-title">
                     @if (Data.Title != null)
@@ -45,6 +44,8 @@ else
 @code {
     private Panzoom? panzoom;
 
+    private bool initialize = false;
+
     [Parameter]
     public POIModel? Data { get; set; }
 
@@ -54,24 +55,44 @@ else
     [Parameter]
     public Panzoom? Parent { get; set; }
 
+    [Parameter]
+    public EventCallback<POIModel> OnChange { get; set; }
+
     private async Task SetTransformCustom(SetTransformEventArgs eventArgs)
     {
+        Console.WriteLine("it ran :)");
         if (Parent != null && panzoom != null && Data != null)
         {
-            var parentScale = await Parent.GetScaleAsync();
-            await panzoom.SetStyleAsync(
-                "transform",
-                $"scale({eventArgs.Scale}) translate({eventArgs.X / parentScale}px, {eventArgs.Y / parentScale}px)");
-            Data.X = (int) (eventArgs.X / parentScale);
-            Data.Y = (int) (eventArgs.Y / parentScale);
+            if (!initialize)
+            {
+
+                var parentScale = await Parent.GetScaleAsync();
+                await panzoom.SetStyleAsync(
+                    "transform",
+                    $"scale({eventArgs.Scale}) translate({Data.X / parentScale}px, {Data.Y / parentScale}px)");
+                initialize = true;
+            }
+            else
+            {
+
+                var parentScale = await Parent.GetScaleAsync();
+                await panzoom.SetStyleAsync(
+                    "transform",
+                    $"scale({eventArgs.Scale}) translate({eventArgs.X / parentScale}px, {eventArgs.Y / parentScale}px)");
+                Data.X = (int)(eventArgs.X / parentScale);
+                Data.Y = (int)(eventArgs.Y / parentScale);
+                await OnChange.InvokeAsync(Data);
+
+            }
         }
     }
 
-    private string styleString()
+    private async Task<string> styleString()
     {
-        if (Data != null)
+        if (Data != null && panzoom != null && Parent != null)
         {
-            return $"top: {Data.Y}px; left: {Data.X}px;";
+            var parentScale = await Parent.GetScaleAsync();
+            return $"cursor: move; user-select: none; touch-action: none; transform-origin: 50% 50%; transition: none 0s ease 0s; transform: scale({await panzoom.GetScaleAsync()}) translate({Data.X / parentScale}px, {Data.Y / parentScale}px);";
         }
         return "";
     }

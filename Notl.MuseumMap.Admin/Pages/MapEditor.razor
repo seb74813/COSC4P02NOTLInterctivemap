@@ -20,7 +20,7 @@
         </MudOverlay>
 
         <Panzoom @ref="parent">
-            <MudStack Class="absolute z-10" Row=true>
+            <MudStack Class="absolute z-10" Row=true Style="width:100%">
                 <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" /> 
                 <MudSpacer />
                 <MudPaper Elevation="25">
@@ -29,20 +29,23 @@
                         <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
                         <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
                         <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.FileUpload" OnClick="NavigateUploadImage" />
-                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" />
+                        <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" OnClick="NewPOI" />
                     </MudToolBar>
 
                 </MudPaper>
                 <MudSpacer/>
+                @if (isEdited)
+                {
+                    <MudButton Variant="Variant.Filled" Size="Size.Large" OnClick="SaveChangesAsync">Save Changes</MudButton>
+                }
 
-                
             </MudStack>
             <div @ref="@context.ElementReference" class="panzoom">
                 <MudImage Src=@MapData.Image.Url/>
                 <div class="button-container">
                     @foreach (var item in POIs)
                     {
-                       <POI Data="item" OnClick="select" Parent="parent" />
+                       <POI Data="item" OnClick="select" Parent="parent" OnChange="SetEdited"/>
                     }
                 </div>
             </div>
@@ -53,8 +56,9 @@
 @code {
     private bool isVisible = false;
     private POIModel? selectedPOI;
-    private List<POIModel>? newPOIs;
+    private List<POIModel>? editPOIs;
     private Panzoom? parent;
+    private bool isEdited = false;
 
     public MapModel? MapData { get; set; }
 
@@ -71,7 +75,7 @@
         try
         {
             IsBusy = true;
-            newPOIs = new List<POIModel>();
+            editPOIs = new List<POIModel>();
             MapData = await ClientContext.Admin.GetMapAsync(Id);
             POIs = await ClientContext.Admin.GetPOIsAuthAsync(Id);
             IsBusy = false;
@@ -85,6 +89,49 @@
     private void NavigateUploadImage(MapModel model)
     {
         Navigation.NavigateTo($"map/{model.Id}");
+    }
+
+    private void SetEdited(POIModel poi)
+    {
+        if (!isEdited) 
+        {
+            isEdited = true;
+            StateHasChanged();
+
+        }
+
+        if (editPOIs != null && editPOIs.Contains(poi))
+        {
+            editPOIs.Add(poi);
+        }
+    }
+
+    private async Task SaveChangesAsync()
+    {
+        if (editPOIs != null)
+        {
+            foreach (var poi in editPOIs)
+            {
+                await ClientContext.Admin.UpdatePOIAsync(poi.Id, Id, poi.X, poi.Y, poi.ImageURL, poi.Title, poi.Description, poi.PoiType);
+            }
+        }
+    }
+
+    private void NewPOI()
+    {
+        if (!isEdited)
+        {
+            isEdited = true;
+        }
+        var poi = new POIModel();
+        poi.Id = Guid.NewGuid();
+        poi.MapId = Id;
+        if (editPOIs != null && POIs != null)
+        {
+            POIs.Add(poi);
+            editPOIs.Add(poi);
+            StateHasChanged();
+        }
     }
 
     private async Task OnZoomInClick(MouseEventArgs args)
@@ -138,11 +185,6 @@
         selectedPOI = null;
         isVisible = false;
         StateHasChanged();
-    }
-
-    private async void addPOI(POIModel poiModel)
-    {
-        //var poi = await ClientContext.Admin.CreatePOIAsync(poiModel.Id, Id, poiModel.X);
     }
 
     private void NavigateUploadImage()
