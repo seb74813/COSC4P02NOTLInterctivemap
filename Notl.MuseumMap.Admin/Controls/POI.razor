@@ -1,7 +1,7 @@
 ﻿@if (Data != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
-        <div @ref="@panzoom.ElementReference" class="d-inline-block" style=@styleString()>
+        <div @ref="@panzoom.ElementReference" class="d-inline-block">
             @if (Data.PoiType == POIType.Exhibit)
             {
                 <MudButton  class="coordinate-exhibit" style="color: black;">
@@ -60,7 +60,6 @@ else
 
     private async Task SetTransformCustom(SetTransformEventArgs eventArgs)
     {
-        Console.WriteLine("it ran :)");
         if (Parent != null && panzoom != null && Data != null)
         {
             if (!initialize)
@@ -85,16 +84,6 @@ else
 
             }
         }
-    }
-
-    private async Task<string> styleString()
-    {
-        if (Data != null && panzoom != null && Parent != null)
-        {
-            var parentScale = await Parent.GetScaleAsync();
-            return $"cursor: move; user-select: none; touch-action: none; transform-origin: 50% 50%; transition: none 0s ease 0s; transform: scale({await panzoom.GetScaleAsync()}) translate({Data.X / parentScale}px, {Data.Y / parentScale}px);";
-        }
-        return "";
     }
 
     private string getName()
