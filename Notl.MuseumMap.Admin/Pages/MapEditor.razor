@@ -69,6 +69,10 @@
             IsBusy = true;
             editPOIs = new List<POIModel>();
             MapData = await ClientContext.Admin.GetMapAsync(Id);
+            if (MapData.Image == null)
+            {
+                NavigateUploadImage(MapData);
+            }
             POIs = await ClientContext.Admin.GetPOIsAuthAsync(Id);
             IsBusy = false;
         }
