@@ -6,26 +6,30 @@
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
 @if (!IsBusy && maps!=null && activeMap!=null)
-{<MudStack>
-    <MudGrid>
-        <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
+{   
+    <div style="width:100%; height:100%">
+        <MudGrid>
+            <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
 
-     
-        @foreach (var map in maps)
-        {
-            if (map.Id != activeMap.Id)
+
+            @foreach (var map in maps)
             {
-                <MapView Data="map" OnClick="SelectMap" OnDelete="DeleteMap" OnActive="SetActiveMap" IsActive=false />
+                if (map.Id != activeMap.Id)
+                {
+                    <MapView Data="map" OnClick="SelectMap" OnDelete="DeleteMap" OnActive="SetActiveMap" IsActive=false />
+                }
+
             }
-           
-        }
-       
-    </MudGrid>
-    
-        <MudGrid xs="12" sm="6" md="4" lg="3" xl="2" class="mx-auto" Align="Align.End" Justify="Justify.Center">
-            <MudIconButton  Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" />
+
         </MudGrid>
-       </MudStack>
+
+
+        <MudIconButton  Style="postion:sticky; bottom:0%; left:50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
+
+    </div>
+    
+        
+      
        
 }
 
@@ -58,17 +62,38 @@
         if (maps == null || maps.Count == 0)
         {
             activeMap = await ClientContext.Admin.CreateMapAsync();
-            
+
         }
         else
         {
             activeMap = await ClientContext.Admin.GetActiveMapAuthAsync();
-           
+
         }
         if (activeMap.Image == null)
         {
             NavigateUploadImage(activeMap);
         }
+    }
+
+    private async Task CreateMap()
+    {
+        MapModel? map =null;
+        try
+        {
+            IsBusy = true;
+            map = await ClientContext.Admin.CreateMapAsync();
+
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+
+        if (map != null) { 
+            NavigateUploadImage(map);
+        }
+        
     }
 
     private async Task DeleteMap(MapModel map)
@@ -130,6 +155,6 @@
 
     private void NavigateUploadImage(MapModel model)
     {
-        Navigation.NavigateTo($"map/{model.Id}");
+        Navigation.NavigateTo($"upload/{model.Id}");
     }
 }
