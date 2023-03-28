@@ -7,10 +7,9 @@
                 {
                    <MudImage Src="@Data.Image.Url" Fluid=true @onclick="() => Click()" /> 
                 }
-                
                 <MudStack Row=true>
-                   <MudSpacer/>
-                   @if (!IsActive)
+                    <MudSpacer/>
+                    @if (!IsActive)
                     {
                         <MudButton OnClick="Active">
                             Set Active

@@ -62,9 +62,9 @@
 
             var stream = file.OpenReadStream();
 
+            IsBusy = true;
             map = await ClientContext.Admin.UpdateMapImageAsync(map.Id, new FileParameter(stream));
-
-            UpdatePage();
+            IsBusy = false;
         }
         catch (Exception ex)
         {

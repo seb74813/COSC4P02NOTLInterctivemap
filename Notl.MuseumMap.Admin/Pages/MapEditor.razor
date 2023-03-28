@@ -8,7 +8,6 @@
 @if (!IsBusy && MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
-
         <Panzoom @ref="parent">
             <MudStack Class="absolute z-10" Row=true Style="width:100%">
                 <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" /> 
@@ -22,15 +21,13 @@
                             <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.FileUpload" OnClick="NavigateUploadImage" />
                             <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" OnClick="NewPOI" />
                         </MudStack>
-                        </MudToolBar>
-
+                    </MudToolBar>
                 </MudPaper>
                 <MudSpacer/>
                 @if (isEdited)
                 {
                     <MudButton Color="Color.Success" Variant="Variant.Filled" Size="Size.Large" OnClick="SaveChangesAsync" Style="margin-right: 16px;">Save Changes</MudButton>
                 }
-
             </MudStack>
             <div @ref="@context.ElementReference" class="panzoom">
                 <MudImage Src=@MapData.Image.Url/>
@@ -39,7 +36,6 @@
                     {                  
                         <POI Data="item" Parent="parent" OnChange="SetEdited" OnDelete="DeletePOI" OnEdit="EditPOI" />
                     }
-
                 </div>
             </div>
         </Panzoom>
@@ -47,14 +43,11 @@
 }
 
 @code {
-    private bool isVisible = false;
     private List<POIModel>? editPOIs;
     private Panzoom? parent;
     private bool isEdited = false;
-
-    public MapModel? MapData { get; set; }
-
-    public List<POIModel>? POIs { get; set; }
+    private MapModel? MapData { get; set; }
+    private List<POIModel>? POIs { get; set; }
 
     [Parameter]
     public Guid Id { get; set; }
@@ -108,27 +101,15 @@
                 POIs.Remove(poi);
                 await ClientContext.Admin.DeletePOIAsync(poi.Id);
             }
-
             IsBusy = false;
-
         }
         catch (Exception ex)
         {
             ShowError(ex);
         }
-
-
     }
 
-    private void NavigateUploadImage(MapModel model)
-    {
-        Navigation.NavigateTo($"upload/{model.Id}");
-    }
-
-    private void EditPOI(POIModel model)
-    {
-        Navigation.NavigateTo($"poi/edit/{model.Id}");
-    }
+    
 
     private void SetEdited(POIModel poi)
     {
@@ -149,9 +130,18 @@
     {
         if (editPOIs != null)
         {
-            foreach (var poi in editPOIs)
+            try
             {
-                await ClientContext.Admin.UpdatePOIAsync(poi.Id, Id, poi.X, poi.Y, poi.ImageURL, poi.Title, poi.Description, poi.PoiType);
+                IsBusy = true;
+                foreach (var poi in editPOIs)
+                {
+                    await ClientContext.Admin.UpdatePOIAsync(poi.Id, Id, poi.X, poi.Y, poi.ImageURL, poi.Title, poi.Description, poi.PoiType);
+                }
+                IsBusy = false;
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex);
             }
         }
     }
@@ -212,8 +202,13 @@
         var newScale = await parent.GetScaleAsync();
     }
 
-    private void NavigateUploadImage()
+    private void NavigateUploadImage(MapModel model)
     {
-        Navigation.NavigateTo($"map/{Id}");
+        Navigation.NavigateTo($"upload/{model.Id}");
+    }
+
+    private void EditPOI(POIModel model)
+    {
+        Navigation.NavigateTo($"poi/edit/{model.Id}");
     }
 }

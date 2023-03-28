@@ -10,34 +10,22 @@
     <div style="width:100%; height:100%">
         <MudGrid>
             <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
-
-
             @foreach (var map in maps)
             {
                 if (map.Id != activeMap.Id)
                 {
                     <MapView Data="map" OnClick="SelectMap" OnDelete="DeleteMap" OnActive="SetActiveMap" IsActive=false />
                 }
-
             }
-
         </MudGrid>
-
-
         <MudIconButton  Style="postion:sticky; bottom:0%; left:50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
-
     </div>
-    
-        
-      
-       
 }
 
 @code
 {
     private List<MapModel>? maps;
     private MapModel? activeMap;
-
 
     protected async override Task OnInitializedAsync()
     {
@@ -48,7 +36,6 @@
         {
             IsBusy = true;
             await Refresh();
-
             IsBusy = false;
         }
         catch (Exception ex)
@@ -56,18 +43,17 @@
             ShowError(ex);
         }
     }
+
     private async Task Refresh()
     {   
         maps = await ClientContext.Admin.GetMapsAsync();
         if (maps == null || maps.Count == 0)
         {
             activeMap = await ClientContext.Admin.CreateMapAsync();
-
         }
         else
         {
             activeMap = await ClientContext.Admin.GetActiveMapAuthAsync();
-
         }
         if (activeMap.Image == null)
         {
@@ -82,7 +68,6 @@
         {
             IsBusy = true;
             map = await ClientContext.Admin.CreateMapAsync();
-
             IsBusy = false;
         }
         catch (Exception ex)
@@ -93,12 +78,10 @@
         if (map != null) { 
             NavigateUploadImage(map);
         }
-        
     }
 
     private async Task DeleteMap(MapModel map)
     {
-
         var parameters = new DialogParameters();
         parameters.Add("ContentText", "Do you really want to delete this Map? This process cannot be undone.");
         parameters.Add("ButtonText", "Delete");
@@ -113,18 +96,12 @@
         try
         {
             IsBusy = true;
-
-           
-
             if (!result.Canceled)
             {
                 await ClientContext.Admin.DeleteMapAsync(map.Id);
                 await Refresh();
-                
             }
-
             IsBusy = false;
-
         }
         catch (Exception ex)
         {
@@ -133,7 +110,6 @@
     }
 
     private async Task SetActiveMap(MapModel map)
-
     {
         try
         {

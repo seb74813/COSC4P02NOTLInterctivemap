@@ -1,11 +1,8 @@
 ﻿@if (Data != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
-       
         <div @ref="@panzoom.ElementReference" class="d-inline-block">
-
             <ContextMenuTrigger MenuId="POIMenu">
-
             @if (Data.PoiType == POIType.Exhibit)
             {
                 <MudButton class="coordinate-exhibit" style="color: black;">
@@ -36,11 +33,9 @@
                         @Data.PoiType
                     }
                 </MudText>
-
             }
             </ContextMenuTrigger>
         </div>
-           
     </Panzoom>
 
     <ContextMenu Id="POIMenu">
@@ -48,14 +43,9 @@
         <Item OnClick="Delete">Delete</Item>
     </ContextMenu>
 }
-else
-{
-    <div>Welp</div>
-}
 
 @code {
     private Panzoom? panzoom;
-
     private bool initialize = false;
 
     [Parameter]
@@ -88,7 +78,6 @@ else
             }
             else
             {
-
                 var parentScale = await Parent.GetScaleAsync();
                 await panzoom.SetStyleAsync(
                     "transform",
@@ -96,18 +85,8 @@ else
                 Data.X = (int)(eventArgs.X / parentScale);
                 Data.Y = (int)(eventArgs.Y / parentScale);
                 await OnChange.InvokeAsync(Data);
-
             }
         }
-    }
-
-    private string getName()
-    {
-        if (Data != null)
-        {
-            return Data.Id.ToString();
-        }
-        return "";
     }
 
     private string getIcon()
@@ -138,5 +117,4 @@ else
     {
         await OnDelete.InvokeAsync(Data);
     }
-
 }
