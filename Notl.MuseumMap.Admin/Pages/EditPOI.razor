@@ -5,11 +5,57 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy)
+@if (!IsBusy && poi != null)
 {
    <MudContainer MaxWidth="MaxWidth.Medium">
-       <EditForm Model="">
+       <EditForm Model="poi">
+           <MudCard>
+               <MudCardHeader>
+                   <MudText Typo="Typo.h4">
+                       New POI
+                   </MudText>
+               </MudCardHeader>
+               <MudCardContent>
+                   <MudStack>
+                        <MudPaper>
+                            @if (poi.ImageURL != null && string.IsNullOrWhiteSpace(poi.ImageURL))
+                            {
+                                <MudImage Src="@poi.ImageURL" Fluid=true />
+                            }
+                            <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="upload">
+                                Upload Image
+                            </MudButton>
 
+                            <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
+                        </MudPaper>
+                        <MudPaper>
+                            <MudForm>
+                                <MudTextField T="string" Label="POI title" Required="true" RequiredError="POI title is required."/>
+                                
+                                <MudField Label="Select POI Type" Variant="Variant.Text">
+                                    <MudRadioGroup T="string">
+                                        <MudRadio T="string">Exhibit</MudRadio>
+                                        <MudRadio T="string">Washroom</MudRadio>
+                                        <MudRadio T="string">Accessibility</MudRadio>
+                                    </MudRadioGroup>
+                                </MudField>
+                                <MudTextField T="string" Label="Description" Variant="Variant.Outlined" Text="@poi.Description" Lines="8"/>
+                            </MudForm>
+                            <MudItem>
+                                
+                                
+                            </MudItem>
+                        </MudPaper>
+                        <MudPaper>
+
+                        </MudPaper>
+                   </MudStack>
+               </MudCardContent>
+           </MudCard>
        </EditForm>
    </MudContainer>
 }
@@ -36,4 +82,27 @@
             ShowError(ex);
         }
     }
+    public async Task UploadPhotoAsync(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            if (poi == null)
+            {
+                throw new Exception();
+            }
+
+            var file = e.File;
+
+            var stream = file.OpenReadStream();
+
+            IsBusy = true;
+            poi = await ClientContext.Admin.UpdatePOIContentAsync();
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
 }
+
