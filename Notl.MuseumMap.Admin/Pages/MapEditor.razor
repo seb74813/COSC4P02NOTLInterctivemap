@@ -18,7 +18,7 @@
         </MudOverlay>
         <Panzoom @ref="parent">
             <MudStack Class="absolute z-10" Row=true Style="width:100%">
-                <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" /> 
+                <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="ToMaps"/> 
                 <MudSpacer />
                 <MudPaper Elevation="25">
                     <MudToolBar>  
@@ -227,5 +227,10 @@
         selectedPOI = poi;
         isVisible = true;
         StateHasChanged();
+    }
+
+    private void ToMaps()
+    {
+        Navigation.NavigateTo($"");
     }
 }
