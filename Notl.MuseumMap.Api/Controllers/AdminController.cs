@@ -341,7 +341,7 @@ namespace Notl.MuseumMap.Api.Controllers
             try
             {
                 // Add POI to the database
-                var poi = await adminManager.UpdatePOIAsync(model.Id, model.MapId, model.x, model.y, model.POIType);
+                var poi = await adminManager.UpdatePOIAsync(model.Id, model.MapId, model.x, model.y);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)
@@ -364,7 +364,7 @@ namespace Notl.MuseumMap.Api.Controllers
             try
             {
                 // Add POI to the database
-                var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.Image);
+                var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.POIType, model.Title, model.Description, model.Image);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)

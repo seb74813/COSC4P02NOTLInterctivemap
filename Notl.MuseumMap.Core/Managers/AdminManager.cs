@@ -265,7 +265,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="pOIType"></param>
         /// <returns></returns>
         /// <exception cref="MuseumMapException"></exception>
-        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
+        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, int x, int y)
         {
             // Get POI
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
@@ -276,7 +276,6 @@ namespace Notl.MuseumMap.Core.Managers
 
             // Update position and type
             poi.x = x; poi.y = y;
-            poi.POIType = pOIType;
 
             // Add to the database and return
             await dbManager.UpdateAsync(poi);
@@ -292,7 +291,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="newImageURL"></param>
         /// <returns></returns>
         /// <exception cref="MuseumMapException"></exception>
-        public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, string? newTitle, string? newDesc, ImageReference? image)
+        public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, POIType type, string? newTitle, string? newDesc, ImageReference? image)
         {
             // Get POI
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
@@ -302,6 +301,7 @@ namespace Notl.MuseumMap.Core.Managers
             }
 
             // Update POI content
+            poi.POIType = type;
             poi.Title = newTitle;
             poi.Description= newDesc;
             poi.Image = image;
