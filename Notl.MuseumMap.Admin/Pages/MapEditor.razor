@@ -5,9 +5,17 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
+
+
 @if (!IsBusy && MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
+        <MudOverlay @bind-Visible="isVisible" DarkBackground="true" AutoClose="false" ZIndex="11">
+            @if (selectedPOI != null)
+            {
+                <EditPOI Poi="selectedPOI" OnExit="Clear"/>
+            }
+        </MudOverlay>
         <Panzoom @ref="parent">
             <MudStack Class="absolute z-10" Row=true Style="width:100%">
                 <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" /> 
@@ -34,7 +42,7 @@
                 <div class="button-container">
                     @foreach (var item in POIs)
                     {                  
-                        <POI Data="item" Parent="parent" OnChange="SetEdited" OnDelete="DeletePOI" OnEdit="EditPOI" />
+                        <POI Data="item" Parent="parent" OnChange="SetEdited" OnDelete="DeletePOI" OnEdit="OnEdit" />
                     }
                 </div>
             </div>
@@ -44,11 +52,12 @@
 
 @code {
     private List<POIModel>? editPOIs;
+    private List<POIModel>? POIs { get; set; }
     private Panzoom? parent;
     private bool isEdited = false;
+    private bool isVisible = false;
     private MapModel? MapData { get; set; }
-    private List<POIModel>? POIs { get; set; }
-
+    private POIModel? selectedPOI;
     [Parameter]
     public Guid Id { get; set; }
 
@@ -109,7 +118,12 @@
         }
     }
 
-
+    private void Clear()
+    {
+        selectedPOI = null;
+        isVisible = false;
+        StateHasChanged();
+    }
 
     private void SetEdited(POIModel poi)
     {
@@ -208,8 +222,10 @@
         Navigation.NavigateTo($"upload/{Id}");
     }
 
-    private void EditPOI(POIModel model)
+    private void OnEdit(POIModel poi)
     {
-        Navigation.NavigateTo($"poi/edit/{model.Id}");
+        selectedPOI = poi;
+        isVisible = true;
+        StateHasChanged();
     }
 }

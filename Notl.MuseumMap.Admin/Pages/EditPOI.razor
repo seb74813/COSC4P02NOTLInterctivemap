@@ -1,108 +1,102 @@
-﻿@page "/poi/edit/{Id:guid}"
-@inherits BasePage
+﻿@inherits BasePage
 @attribute [Authorize]
-
 <BusyIndicator Model="@this" />
-<PageTitle>@Localizer["AppName"]</PageTitle>
 
-@if (!IsBusy && poi != null)
+@if (!IsBusy && Poi != null)
 {
-   <MudContainer MaxWidth="MaxWidth.Medium">
-       <EditForm Model="poi">
-           <MudCard>
-               <MudCardHeader>
-                   <MudText Typo="Typo.h4">
-                       New POI
-                   </MudText>
-               </MudCardHeader>
-               <MudCardContent>
-                   <MudStack>
-                        <MudPaper>
-                            @if (poi.ImageURL != null && string.IsNullOrWhiteSpace(poi.ImageURL))
-                            {
-                                <MudImage Src="@poi.ImageURL" Fluid=true />
-                            }
-                            <MudButton HtmlTag="label"
-                                   Variant="Variant.Filled"
-                                   Color="Color.Primary"
-                                   StartIcon="@Icons.Material.Filled.CloudUpload"
-                                   for="upload">
-                                Upload Image
-                            </MudButton>
+	<MudContainer MaxWidth="MaxWidth.Large">
+		<EditForm Model="Poi" OnValidSubmit="ReturnToMap">
+			<MudCard>
+				<MudCardHeader>
+					<MudText Typo="Typo.h4">
+						New POI
+					</MudText>
+				</MudCardHeader>
+				<MudCardContent>
+					<MudStack>
+						<MudPaper>
+							@if (Poi.Image != null)
+							{
+								<MudImage Src="@Poi.Image.Url" Fluid=true />
+							}
+							<MudButton HtmlTag="label"
+								   Variant="Variant.Filled"
+								   Color="Color.Primary"
+								   StartIcon="@Icons.Material.Filled.CloudUpload"
+								   for="upload">
+								Upload Image
+							</MudButton>
 
-                            <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
-                        </MudPaper>
-                        <MudPaper>
-                            <MudForm>
-                                <MudTextField T="string" Label="POI title" Required="true" RequiredError="POI title is required."/>
-                                
-                                <MudField Label="Select POI Type" Variant="Variant.Text">
-                                    <MudRadioGroup T="string">
-                                        <MudRadio T="string">Exhibit</MudRadio>
-                                        <MudRadio T="string">Washroom</MudRadio>
-                                        <MudRadio T="string">Accessibility</MudRadio>
-                                    </MudRadioGroup>
-                                </MudField>
-                                <MudTextField T="string" Label="Description" Variant="Variant.Outlined" Text="@poi.Description" Lines="8"/>
-                            </MudForm>
-                            <MudItem>
-                                
-                                
-                            </MudItem>
-                        </MudPaper>
-                        <MudPaper>
+							<InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
+						</MudPaper>
 
-                        </MudPaper>
-                   </MudStack>
-               </MudCardContent>
-           </MudCard>
-       </EditForm>
-   </MudContainer>
+						<MudTextField @bind-Value=Poi.Title Label="POI Title"/>
+						
+							<MudRadioGroup @bind-SelectedOption=Poi.PoiType>
+								<MudRadio Option="POIType.Exhibit">Exhibit</MudRadio>
+								<MudRadio Option="POIType.Item">Item</MudRadio>
+								<MudRadio Option="POIType.Bathroom">Bathroom</MudRadio>
+								<MudRadio Option="POIType.Accessability">Accessibility</MudRadio>
+							</MudRadioGroup>
+						<MarkdownEditor @bind-Value="Poi.Description"/>
+					</MudStack>
+				</MudCardContent>
+				<MudCardActions>
+					<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="ml-auto mr-6 mb-3">
+						Close
+					</MudButton>
+				</MudCardActions>
+			</MudCard>
+		</EditForm>
+	</MudContainer>
 }
 
 @code {
-    private POIModel? poi;
+	[Parameter]
+	public POIModel? Poi { get; set; }
+	[Parameter]
+	public EventCallback OnExit { get; set; }
 
-    [Parameter]
-    public Guid Id { get; set; }
+	protected async override Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
+		IsInitialized = true;
+		IsBusy = false;
 
-    protected async override Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        IsInitialized = true;
+	}
+	
+	Task OnMarkdownValueChanged(string value)
+	{
 
-        try
-        {
-            IsBusy = true;
-            poi = await ClientContext.Admin.GetPOIAuthAsync(Id);
-            IsBusy = false;
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
-        }
-    }
-    public async Task UploadPhotoAsync(InputFileChangeEventArgs e)
-    {
-        try
-        {
-            if (poi == null)
-            {
-                throw new Exception();
-            }
+		return Task.CompletedTask;
+	}
+	public async Task UploadPhotoAsync(InputFileChangeEventArgs e)
+	{
+		try
+		{
+			if (Poi == null)
+			{
+				throw new Exception();
+			}
 
-            var file = e.File;
+			var file = e.File;
 
-            var stream = file.OpenReadStream();
+			var stream = file.OpenReadStream();
 
-            IsBusy = true;
-            poi = await ClientContext.Admin.UpdatePOIContentAsync();
-            IsBusy = false;
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex);
-        }
-    }
+			IsBusy = true;
+			var image = await ClientContext.Admin.UpdatePOIImageAsync(Poi.Id, new FileParameter(stream));
+			Poi.Image = image;
+			IsBusy = false;
+		}
+		catch (Exception ex)
+		{
+			ShowError(ex);
+		}
+	}
+	private async Task ReturnToMap()
+	{
+		await OnExit.InvokeAsync();
+	}
+
 }
 
