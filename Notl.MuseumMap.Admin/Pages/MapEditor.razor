@@ -64,7 +64,7 @@
             MapData = await ClientContext.Admin.GetMapAsync(Id);
             if (MapData.Image == null)
             {
-                NavigateUploadImage(MapData);
+                NavigateUploadImage();
             }
             POIs = await ClientContext.Admin.GetPOIsAuthAsync(Id);
             IsBusy = false;
@@ -135,7 +135,7 @@
                 IsBusy = true;
                 foreach (var poi in editPOIs)
                 {
-                    await ClientContext.Admin.UpdatePOIAsync(poi.Id, Id, poi.X, poi.Y, poi.ImageURL, poi.Title, poi.Description, poi.PoiType);
+                    await ClientContext.Admin.UpdatePOIAsync(poi);
                 }
                 IsBusy = false;
             }
@@ -203,9 +203,9 @@
         var newScale = await parent.GetScaleAsync();
     }
 
-    private void NavigateUploadImage(MapModel model)
+    private void NavigateUploadImage()
     {
-        Navigation.NavigateTo($"upload/{model.Id}");
+        Navigation.NavigateTo($"upload/{Id}");
     }
 
     private void EditPOI(POIModel model)

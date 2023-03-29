@@ -30,7 +30,7 @@ namespace Notl.MuseumMap.Api.Models
             POIType = poi.POIType;
             Description = poi.Description;
             Title = poi.Title;
-            ImageURL = poi.ImageURL;
+            Image = poi.Image;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Notl.MuseumMap.Api.Models
         /// <summary>
         /// The URL of the image
         /// </summary>
-        public string? ImageURL { get; set; }
+        public ImageReference? Image { get; set; }
 
         /// <summary>
         /// The Title text of the POI

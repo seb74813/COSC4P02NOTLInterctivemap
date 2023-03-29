@@ -186,14 +186,14 @@ namespace Notl.MuseumMap.Tests
             Assert.AreNotEqual(test.y, poi.y);
             Assert.AreNotEqual(test.POIType, poi.POIType);
 
-            poi = await adminManager.UpdatePOIContentAsync(POIid, "title", "description", "image");
+            poi = await adminManager.UpdatePOIContentAsync(POIid, "title", "description", new ImageReference { Thumbnail = "welp", Url = "Welp"});
             Assert.IsNotNull(poi);
             Assert.IsNotNull(poi.Title);
             Assert.IsNotNull(poi.Description);
-            Assert.IsNotNull(poi.ImageURL);
+            Assert.IsNotNull(poi.Image);
             Assert.IsTrue(poi.Title.Equals("title"));
             Assert.IsTrue(poi.Description.Equals("description"));
-            Assert.IsTrue(poi.ImageURL.Equals("image"));
+            Assert.IsTrue(poi.Image.Url.Equals("Welp"));
 
             await adminManager.DeleteMapAsync(id);
             await adminManager.DeletePOIAsync(POIid);

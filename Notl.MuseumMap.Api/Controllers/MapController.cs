@@ -39,7 +39,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(SampleData), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> PingAsync([FromQuery]string? data)
+        public async Task<IActionResult> PingAsync([FromBody] string? data)
         {
             try
             {

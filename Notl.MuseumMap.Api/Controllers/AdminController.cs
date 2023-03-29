@@ -41,7 +41,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [Authorize(Roles = "Administrator,Readers")]
         [ProducesResponseType(typeof(SampleData), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> PingAuthAsync([FromQuery] string? data)
+        public async Task<IActionResult> PingAuthAsync([FromBody] string? data)
         {
             try
             {
@@ -227,6 +227,30 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
+        /// Adds a new photo to storage.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [Route("poi/photo/{id}")]
+        [ProducesResponseType(typeof(ImageReference), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        [HttpPost]
+        public async Task<IActionResult> UpdatePOIImageAsync([FromRoute] Guid id, IFormFile file)
+        {
+            try
+            {
+                var image = await adminManager.UploadPOIImageAsync(id, file.FileName, file.OpenReadStream());
+
+                return Ok(image);
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
         /// Creates a point of interest.
         /// </summary>
         /// <param name="model"></param>
@@ -235,7 +259,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> CreatePOIAsync([FromQuery] POIModel model)
+        public async Task<IActionResult> CreatePOIAsync([FromBody] POIModel model)
         {
             try
             {
@@ -312,7 +336,7 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> UpdatePOIAsync([FromQuery] POIModel model)
+        public async Task<IActionResult> UpdatePOIAsync([FromBody] POIModel model)
         {
             try
             {
@@ -335,12 +359,12 @@ namespace Notl.MuseumMap.Api.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> UpdatePOIContentAsync([FromQuery] POIModel model)
+        public async Task<IActionResult> UpdatePOIContentAsync([FromBody] POIModel model)
         {
             try
             {
                 // Add POI to the database
-                var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.ImageURL);
+                var poi = await adminManager.UpdatePOIContentAsync(model.Id, model.Title, model.Description, model.Image);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)

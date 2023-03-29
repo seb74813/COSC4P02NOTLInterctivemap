@@ -14,7 +14,7 @@ namespace Notl.MuseumMap.Core.Entities
 
         public int y { get; set; }
 
-        public string? ImageURL { get; set; }
+        public ImageReference? Image { get; set; }
 
         public string? Title { get; set; }
 

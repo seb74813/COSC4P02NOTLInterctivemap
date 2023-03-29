@@ -182,6 +182,27 @@ namespace Notl.MuseumMap.Core.Managers
         }
 
         /// <summary>
+        /// Uploads a new photo.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="photoFilename"></param>
+        /// <param name="photoStream"></param>
+        /// <returns></returns>
+        public async Task<ImageReference> UploadPOIImageAsync(Guid id, string photoFilename, Stream photoStream)
+        {
+            var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
+            if (poi == null)
+            {
+                throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
+            }
+
+            // Upload the file into storage
+            var image = await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, poi.Id, photoFilename, photoStream);
+
+            return image;
+        }
+
+        /// <summary>
         /// Creates a POI associated with a map in the database
         /// </summary>
         /// <param name="id"></param>
@@ -271,7 +292,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="newImageURL"></param>
         /// <returns></returns>
         /// <exception cref="MuseumMapException"></exception>
-        public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, string? newTitle, string? newDesc, string? newImageURL)
+        public async Task<PointOfInterest> UpdatePOIContentAsync(Guid id, string? newTitle, string? newDesc, ImageReference? image)
         {
             // Get POI
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id));
@@ -283,7 +304,7 @@ namespace Notl.MuseumMap.Core.Managers
             // Update POI content
             poi.Title = newTitle;
             poi.Description= newDesc;
-            poi.ImageURL = newImageURL;
+            poi.Image = image;
 
             // Add to the database and return
             await dbManager.UpdateAsync(poi); 
