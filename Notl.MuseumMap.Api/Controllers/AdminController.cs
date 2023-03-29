@@ -252,18 +252,18 @@ namespace Notl.MuseumMap.Api.Controllers
         /// <summary>
         /// Get a map poi.
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [Route("poi/{mapId}")]
+        [Route("poi/{id}")]
         [HttpGet]
         [ProducesResponseType(typeof(POIModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
-        public async Task<IActionResult> GetPOIAuthAsync([FromRoute] Guid Id)
+        public async Task<IActionResult> GetPOIAuthAsync([FromRoute] Guid id)
         {
             try
             {
                 // Get POI from the database
-                var poi = await adminManager.GetPOIAsync(Id);
+                var poi = await adminManager.GetPOIAsync(id);
                 return Ok(new POIModel(poi));
             }
             catch (Exception ex)

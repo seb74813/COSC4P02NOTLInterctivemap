@@ -109,7 +109,7 @@
         }
     }
 
-    
+
 
     private void SetEdited(POIModel poi)
     {
@@ -155,6 +155,7 @@
         var poi = new POIModel();
         poi.Id = Guid.NewGuid();
         poi.MapId = Id;
+        poi.PoiType = POIType.Item;
         if (editPOIs != null && POIs != null)
         {
             POIs.Add(poi);
