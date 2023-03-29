@@ -7,10 +7,16 @@
 
 @if (!IsBusy)
 {
+   <MudContainer MaxWidth="MaxWidth.Medium">
+       <EditForm Model="">
 
+       </EditForm>
+   </MudContainer>
 }
 
 @code {
+    private POIModel? poi;
+
     [Parameter]
     public Guid Id { get; set; }
 
@@ -22,7 +28,7 @@
         try
         {
             IsBusy = true;
-       
+            poi = await ClientContext.Admin.GetPOIAuthAsync(Id);
             IsBusy = false;
         }
         catch (Exception ex)
