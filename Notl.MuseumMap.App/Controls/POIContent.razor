@@ -1,0 +1,30 @@
+﻿@if (Poi != null)
+{
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h4">
+                @Poi.Title 
+            </MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudStack>
+                <MudPaper>
+                    @if (Poi.Image != null)
+                    {
+                        <MudImage Src="@Poi.Image.Url" Fluid=true />
+                    }
+                </MudPaper>
+
+                <MudMarkdown Value="@Poi.Description"></MudMarkdown>
+            </MudStack>
+        </MudCardContent>
+    </MudCard>
+}
+
+
+
+@code {
+    [Parameter]
+    public POIModel? Poi { get; set; }
+
+}

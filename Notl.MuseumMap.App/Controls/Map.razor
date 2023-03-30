@@ -4,6 +4,18 @@
         <MudOverlay @bind-Visible="isVisible" OnClick="clear" DarkBackground="true" AutoClose="true" ZIndex="11">
             @if (selectedPOI != null)
             {
+                <MudHidden Breakpoint="Breakpoint.LgAndUp">
+                    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+                        <POIContent Poi="selectedPOI"/>
+                    </MudContainer>
+                </MudHidden> 
+                
+                <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert=true>
+                    <MudContainer MaxWidth="MaxWidth.Medium">
+                        <POIContent Poi="selectedPOI"/>
+                    </MudContainer>
+                </MudHidden> 
+
                 <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="clear"/>
                 <MudPaper> 
                     <MudImage Fluid="true" Src="@selectedPOI.Image.Url" Class="rounded-lg"/>
