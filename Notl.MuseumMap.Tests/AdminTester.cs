@@ -180,20 +180,22 @@ namespace Notl.MuseumMap.Tests
             var poi = await adminManager.CreatePOIAsync(POIid, id, 0, 0, Core.Entities.POIType.Exhibit);
             Assert.IsNotNull(poi);
 
-            var test = await adminManager.UpdatePOIAsync(POIid, id, 1, 1, Core.Entities.POIType.Item);
+            var test = await adminManager.UpdatePOIAsync(POIid, id, 1, 1);
             Assert.IsNotNull(test);
             Assert.AreNotEqual(test.x, poi.x);
             Assert.AreNotEqual(test.y, poi.y);
             Assert.AreNotEqual(test.POIType, poi.POIType);
 
-            poi = await adminManager.UpdatePOIContentAsync(POIid, "title", "description", new ImageReference { Thumbnail = "welp", Url = "Welp"});
+            poi = await adminManager.UpdatePOIContentAsync(POIid, POIType.Item, "title", "description", new ImageReference { Thumbnail = "welp", Url = "Welp"});
             Assert.IsNotNull(poi);
             Assert.IsNotNull(poi.Title);
             Assert.IsNotNull(poi.Description);
             Assert.IsNotNull(poi.Image);
+            Assert.IsNotNull(poi.Image.Url);
             Assert.IsTrue(poi.Title.Equals("title"));
             Assert.IsTrue(poi.Description.Equals("description"));
             Assert.IsTrue(poi.Image.Url.Equals("Welp"));
+            Assert.IsTrue(poi.POIType == POIType.Item);
 
             await adminManager.DeleteMapAsync(id);
             await adminManager.DeletePOIAsync(POIid);
