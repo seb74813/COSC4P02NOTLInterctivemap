@@ -126,7 +126,14 @@
 
     private void SelectMap(MapModel model)
     {
-        Navigation.NavigateTo($"map/{model.Id}");
+        if (model.Image == null)
+        {
+            Navigation.NavigateTo($"upload/{model.Id}");
+        }
+        else
+        {
+            Navigation.NavigateTo($"map/{model.Id}");
+        }
     }
 
     private void NavigateUploadImage(MapModel model)
