@@ -77,7 +77,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <returns></returns>
         public async Task<Map> GetMapAsync(Guid id)
         {
-            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id)); ?? throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+            var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id)) ?? throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
 
             return map;
         }
@@ -178,7 +178,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="y"></param>
         /// <param name="pOIType"></param>
         /// <returns></returns>
-        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, int x, int y, POIType pOIType)
+        public async Task<PointOfInterest> CreatePOIAsync(Guid id, Guid mapId, double x, double y, POIType pOIType)
         {
             // Create POI
             var poi = new PointOfInterest { Id = id, MapId = mapId, x = x, y = y, POIType = pOIType };
@@ -227,7 +227,7 @@ namespace Notl.MuseumMap.Core.Managers
         /// <param name="pOIType"></param>
         /// <returns></returns>
         /// <exception cref="MuseumMapException"></exception>
-        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, int x, int y)
+        public async Task<PointOfInterest> UpdatePOIAsync(Guid id, Guid mapId, double x, double y)
         {
             // Get POI
             var poi = await dbManager.GetAsync<PointOfInterest>(id, Partition.Calculate(id)) ?? throw new MuseumMapException(MuseumMapErrorCode.InvalidPOIError);
