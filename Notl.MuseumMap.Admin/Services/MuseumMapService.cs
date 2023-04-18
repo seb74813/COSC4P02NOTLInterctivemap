@@ -2158,13 +2158,13 @@ namespace Notl.MuseumMap.Admin.Services
         /// The location on the x axis
         /// </summary>
         [Newtonsoft.Json.JsonProperty("x", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int X { get; set; }
+        public double X { get; set; }
 
         /// <summary>
         /// The location on the y axis
         /// </summary>
         [Newtonsoft.Json.JsonProperty("y", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int Y { get; set; }
+        public double Y { get; set; }
 
         [Newtonsoft.Json.JsonProperty("image", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public ImageReference Image { get; set; }
