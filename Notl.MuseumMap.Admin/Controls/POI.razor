@@ -47,6 +47,7 @@
 @code {
     private Panzoom? panzoom;
     private bool initialize = false;
+    private bool shortcut = false;
 
     [Parameter]
     public POIModel? Data { get; set; }
@@ -74,17 +75,37 @@
                 await panzoom.SetStyleAsync(
                     "transform",
                     $"scale({eventArgs.Scale}) translate({Data.X / parentScale}px, {Data.Y / parentScale}px)");
+                PanzoomOptions options = new PanzoomOptions
+                    {
+                        Cursor = Cursor.Auto,
+                        StartX = Data.X / parentScale,
+                        StartY = Data.Y / parentScale,
+                    };
+                await panzoom.SetOptionsAsync(options);
                 initialize = true;
             }
             else
             {
-                var parentScale = await Parent.GetScaleAsync();
-                await panzoom.SetStyleAsync(
-                    "transform",
-                    $"scale({eventArgs.Scale}) translate({eventArgs.X / parentScale}px, {eventArgs.Y / parentScale}px)");
-                Data.X = (int)(eventArgs.X / parentScale);
-                Data.Y = (int)(eventArgs.Y / parentScale);
-                await OnChange.InvokeAsync(Data);
+                if ((eventArgs.X < -1 || eventArgs.X > 1) && (eventArgs.Y < -1 || eventArgs.Y > 1 ))
+                {
+                    var parentScale = await Parent.GetScaleAsync();
+                    await panzoom.SetStyleAsync(
+                        "transform",
+                        $"scale({eventArgs.Scale}) translate({eventArgs.X / parentScale}px, {eventArgs.Y / parentScale}px)");
+                    Data.X = (int)(eventArgs.X / parentScale);
+                    Data.Y = (int)(eventArgs.Y / parentScale);
+                    await OnChange.InvokeAsync(Data);
+                }
+                else
+                {
+                    var parentScale = await Parent.GetScaleAsync();
+                    await panzoom.SetStyleAsync(
+                        "transform",
+                        $"scale({eventArgs.Scale}) translate({(Data.X + eventArgs.X) / parentScale}px, {(Data.Y + eventArgs.Y) / parentScale}px)");
+                    Data.X = (int)((Data.X + eventArgs.X) / parentScale);
+                    Data.Y = (int)((Data.Y + eventArgs.Y) / parentScale);
+                    await OnChange.InvokeAsync(Data);
+                }
             }
         }
     }
