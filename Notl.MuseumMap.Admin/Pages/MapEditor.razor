@@ -13,7 +13,7 @@
         <MudOverlay @bind-Visible="isVisible" DarkBackground="true" AutoClose="false" ZIndex="11">
             @if (selectedPOI != null)
             {
-                <EditPOI Poi="selectedPOI" OnExit="Clear"/>
+                <EditPOI Poi="selectedPOI" OnExit="Clear" OnSubmit="Changed"/>
             }
         </MudOverlay>
         <Panzoom @ref="parent">
@@ -124,6 +124,24 @@
         isVisible = false;
         StateHasChanged();
     }
+
+
+    private void Changed(POIModel poi)
+    {
+        selectedPOI = null;
+        isVisible = false;
+        if (!isEdited)
+        {
+            isEdited = true;
+        }
+
+        if (editPOIs != null && editPOIs.Contains(poi))
+        {
+            editPOIs.Add(poi);
+        }
+        StateHasChanged();
+    }
+
 
     private void SetEdited(POIModel poi)
     {

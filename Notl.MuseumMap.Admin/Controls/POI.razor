@@ -2,7 +2,7 @@
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
         <div @ref="@panzoom.ElementReference" class="d-inline-block">
-            <ContextMenuTrigger MenuId="POIMenu">
+            <ContextMenuTrigger MenuId=@getMenuId()>
             @if (Data.PoiType == POIType.Exhibit)
             {
                 <MudButton class="coordinate-exhibit" style="color: black;">
@@ -38,7 +38,7 @@
         </div>
     </Panzoom>
 
-    <ContextMenu Id="POIMenu">
+    <ContextMenu Id=@getMenuId()>
         <Item OnClick="Edit">Edit Content</Item>
         <Item OnClick="Delete">Delete</Item>
     </ContextMenu>
@@ -87,6 +87,15 @@
                 await OnChange.InvokeAsync(Data);
             }
         }
+    }
+
+    private string getMenuId()
+    {
+        if(Data != null)
+        {
+            return $"MenuId-{Data.Id}";
+        }
+        return "";
     }
 
     private string getIcon()

@@ -5,7 +5,7 @@
 @if (!IsBusy && Poi != null)
 {
 	<MudContainer MaxWidth="MaxWidth.Large">
-		<EditForm Model="Poi" OnValidSubmit="ReturnToMap">
+		<EditForm Model="poi" OnValidSubmit="Submit">
 			<MudCard>
 				<MudCardHeader>
 					<MudText Typo="Typo.h4">
@@ -15,9 +15,9 @@
 				<MudCardContent>
 					<MudStack>
 						<MudPaper>
-							@if (Poi.Image != null)
+							@if (poi.Image != null)
 							{
-								<MudImage Src="@Poi.Image.Url" Fluid=true />
+								<MudImage Src="@poi.Image.Url" Fluid=true />
 							}
 							<MudButton HtmlTag="label"
 								   Variant="Variant.Filled"
@@ -30,21 +30,23 @@
 							<InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
 						</MudPaper>
 
-						<MudTextField @bind-Value=Poi.Title Label="POI Title"/>
-						
-							<MudRadioGroup @bind-SelectedOption=Poi.PoiType>
-								<MudRadio Option="POIType.Exhibit">Exhibit</MudRadio>
-								<MudRadio Option="POIType.Item">Item</MudRadio>
-								<MudRadio Option="POIType.Bathroom">Bathroom</MudRadio>
-								<MudRadio Option="POIType.Accessability">Accessibility</MudRadio>
-							</MudRadioGroup>
-						<MarkdownEditor @bind-Value="Poi.Description"/>
+						<MudTextField @bind-Value=poi.Title Label="POI Title" />
+
+						<MudRadioGroup @bind-SelectedOption=poi.PoiType>
+							<MudRadio Option="POIType.Exhibit">Exhibit</MudRadio>
+							<MudRadio Option="POIType.Item">Item</MudRadio>
+							<MudRadio Option="POIType.Bathroom">Bathroom</MudRadio>
+							<MudRadio Option="POIType.Accessability">Accessibility</MudRadio>
+						</MudRadioGroup>
+						<MarkdownEditor @bind-Value="poi.Description" />
 					</MudStack>
 				</MudCardContent>
 				<MudCardActions>
-					<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="ml-auto mr-6 mb-3">
-						Close
+					<MudButton Color="Color.Warning" Class="ml-auto mr-6 mb-3" OnClick="Cancel">Cancel</MudButton>
+					<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="mr-auto ml-6 mb-3">
+						Save
 					</MudButton>
+					
 				</MudCardActions>
 			</MudCard>
 		</EditForm>
@@ -52,10 +54,41 @@
 }
 
 @code {
+
+	private bool initalize = false;
+
+	private POIModel? copy,poi;
 	[Parameter]
-	public POIModel? Poi { get; set; }
+	public POIModel? Poi 
+	{
+		get { return poi; } 
+		set 
+		{ 
+			poi = value;
+
+			if (!initalize)
+			{
+				copy = new POIModel
+				{
+					Id = value.Id,
+					Description = value.Description,
+					Image = value.Image,
+					MapId = value.MapId,
+					PoiType = value.PoiType,
+					Title = value.Title,
+					X = value.X,
+					Y = value.Y
+				};
+
+				initalize = true;
+			}
+		} 
+	}
 	[Parameter]
 	public EventCallback OnExit { get; set; }
+	[Parameter]
+	public EventCallback<POIModel> OnSubmit { get; set; }
+
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -64,7 +97,9 @@
 		IsBusy = false;
 
 	}
-	
+
+
+
 	Task OnMarkdownValueChanged(string value)
 	{
 
@@ -93,9 +128,22 @@
 			ShowError(ex);
 		}
 	}
-	private async Task ReturnToMap()
+	private async Task Cancel()
 	{
+
+		if (poi != null && copy != null)
+		{
+			poi.Description = copy.Description;
+			poi.Image = copy.Image;
+			poi.PoiType = copy.PoiType;
+			poi.Title = copy.Title;
+		}
 		await OnExit.InvokeAsync();
+	}
+
+	private async Task Submit()
+	{
+		await OnSubmit.InvokeAsync(poi);
 	}
 
 }
