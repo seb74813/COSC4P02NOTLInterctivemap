@@ -3,11 +3,23 @@
     <MudItem xs="12" md="6" lg="4" @onclick="() => Click()">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
             <MudStack>
+                @if (string.IsNullOrWhiteSpace(Data.Name))
+                {
+                    <MudText Typo="Typo.h5">@Data.Name</MudText>    
+                }
                 @if (Data.Image != null)
                 {
-                   <MudImage Src="@Data.Image.Url" Fluid=true @onclick="() => Click()" /> 
+                    <MudImage Src="@Data.Image.Url" ObjectFit=ObjectFit.Contain Height="300" Width="600" @onclick="() => Click()" />
+                }
+                else
+                {
+                    <MudImage Src="placeholder.png" ObjectFit=ObjectFit.Contain Height="300" Width="600" @onclick="() => Click()" />
                 }
                 <MudStack Row=true>
+                    <MudSpacer/>
+                    <MudButton OnClick="Edit" Color="Color.Secondary">
+                        Edit Info
+                    </MudButton>
                     <MudSpacer/>
                     @if (!IsActive)
                     {
@@ -42,6 +54,9 @@
     [Parameter]
     public EventCallback<MapModel> OnDelete { get; set; }
 
+    [Parameter]
+    public EventCallback<MapModel> OnEdit { get; set; }
+
     private async Task Click()
     {
         await OnClick.InvokeAsync(Data);   
@@ -55,5 +70,10 @@
     private async Task Delete()
     {
         await OnDelete.InvokeAsync(Data);
+    }
+
+    private async Task Edit()
+    {
+        await OnEdit.InvokeAsync(Data);
     }
 }

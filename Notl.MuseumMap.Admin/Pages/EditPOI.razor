@@ -2,7 +2,7 @@
 @attribute [Authorize]
 <BusyIndicator Model="@this" />
 
-@if (!IsBusy && Poi != null)
+@if (!IsBusy && Poi != null && poi != null)
 {
 	<MudContainer MaxWidth="MaxWidth.Large">
 		<EditForm Model="poi" OnValidSubmit="Submit">
@@ -59,14 +59,14 @@
 
 	private POIModel? copy,poi;
 	[Parameter]
-	public POIModel? Poi 
+	public POIModel? Poi
 	{
 		get { return poi; } 
 		set 
 		{ 
 			poi = value;
 
-			if (!initalize)
+			if (!initalize && value != null)
 			{
 				copy = new POIModel
 				{

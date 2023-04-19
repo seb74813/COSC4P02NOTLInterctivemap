@@ -61,30 +61,6 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Adds a new photo to storage.
-        /// </summary>
-        /// <param name="mapId"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        [Route("map/photo")]
-        [ProducesResponseType(typeof(MapModel), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        [HttpPost]
-        public async Task<IActionResult> UpdateMapImageAsync(Guid mapId, IFormFile file)
-        {
-            try
-            {
-                var map = await adminManager.UpdateMapImageAsync(mapId, file.FileName, file.OpenReadStream());
-
-                return Ok(new MapModel(map));
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-
-        /// <summary>
         /// Creates a map.
         /// </summary>
         /// <returns></returns>
@@ -174,6 +150,58 @@ namespace Notl.MuseumMap.Api.Controllers
                 }
 
                 return Ok(mapModels);
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new photo to storage.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [Route("map/{mapId}/upload")]
+        [ProducesResponseType(typeof(ImageReference), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        [HttpPost]
+        public async Task<IActionResult> UploadMapImageAsync(Guid mapId, IFormFile file)
+        {
+            try
+            {
+                var image = await adminManager.UploadMapImageAsync(mapId, file.FileName, file.OpenReadStream());
+
+                return Ok(image);
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Change the image of a map.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        [Route("map/{mapId}")]
+        [ProducesResponseType(typeof(MapModel), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        [HttpPost]
+        public async Task<IActionResult> UpdateMapAsync([FromRoute] Guid mapId, [FromBody] MapModel map)
+        {
+            try
+            {
+                if (map.Image == null || string.IsNullOrWhiteSpace(map.Name))
+                {
+                    throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+                }
+                var newMap = await adminManager.UpdateMapAsync(mapId, map.Image, map.Name);
+
+                return Ok(new MapModel(newMap));
             }
             catch (Exception ex)
             {

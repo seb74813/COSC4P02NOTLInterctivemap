@@ -8,21 +8,42 @@
 @if (!IsBusy && map != null)
 {
     <MudContainer MaxWidth="MaxWidth.Medium">
-        <MudPaper>
-            @if (map.Image != null)
-            {
-                <MudImage Src="@map.Image.Url" Fluid=true/>
-            }
-            <MudButton HtmlTag="label" 
-                Variant="Variant.Filled"
-                Color="Color.Primary" 
-                StartIcon="@Icons.Material.Filled.CloudUpload"
-                for="upload">
-                Upload Image
-            </MudButton>
-
-            <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none"/>
-        </MudPaper>
+        <EditForm Model="map" OnValidSubmit="Submit">
+            <MudPaper Class="justify-center pa-3 mt-3">
+                <MudStack>
+                    <MudTextField @bind-Value=map.Name Label="Map Name" />
+                    @if (map.Image != null)
+                    {
+                        <MudImage 
+                            Src="@map.Image.Url"
+                            Fluid=true/>
+                    }
+                    else
+                    {
+                        <MudImage 
+                            Src="placeholder.png"
+                            Fluid=true/>
+                    }
+                    <MudStack Row=true>
+                        <MudButton 
+                                Variant="Variant.Filled"
+                                Color="Color.Warning"
+                                OnClick="Cancel">
+                            Cancel
+                        </MudButton>
+                        <MudSpacer/>
+                        <MudButton HtmlTag="label"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.CloudUpload"
+                               for="upload">
+                            Upload Image
+                        </MudButton>
+                    </MudStack>
+                </MudStack>
+                <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none"/>
+            </MudPaper>
+		</EditForm>
     </MudContainer>
 }
 
@@ -63,14 +84,41 @@
             var stream = file.OpenReadStream();
 
             IsBusy = true;
-            map = await ClientContext.Admin.UpdateMapImageAsync(map.Id, new FileParameter(stream));
+            map.Image = await ClientContext.Admin.UploadMapImageAsync(map.Id, new FileParameter(stream));
             IsBusy = false;
         }
         catch (Exception ex)
         {
             ShowError(ex);
         }
+    }
 
+    private async Task Submit()
+    { 
+        if (map == null)
+        {
+            throw new Exception();
+        }
+
+        if (!string.IsNullOrWhiteSpace(map.Name) && map.Image != null)
+        {
+            try
+            {
+                IsBusy = true;
+                await ClientContext.Admin.UpdateMapAsync(map.Id, map);
+                IsBusy = false;
+            }
+            catch (Exception ex)
+            {
+                ShowError(ex);
+            }
+
+            Navigation.NavigateTo($"");
+        }
+    }
+
+    private void Cancel()
+    {
         Navigation.NavigateTo($"");
     }
 }

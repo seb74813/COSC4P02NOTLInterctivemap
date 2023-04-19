@@ -8,17 +8,17 @@
 @if (!IsBusy && maps!=null && activeMap!=null)
 {   
     <div style="width:100%; height:100%">
-        <MudGrid>
+        <MudGrid Class="ma-4">
             <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
             @foreach (var map in maps)
             {
                 if (map.Id != activeMap.Id)
                 {
-                    <MapView Data="map" OnClick="SelectMap" OnDelete="DeleteMap" OnActive="SetActiveMap" IsActive=false />
+                    <MapView Data="map" OnClick="SelectMap" OnDelete="DeleteMap" OnActive="SetActiveMap" OnEdit="NavigateUploadImage" IsActive=false />
                 }
             }
         </MudGrid>
-        <MudIconButton  Style="postion:sticky; bottom:0%; left:50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
+        <MudIconButton  Style="position: sticky; bottom: 1rem; left: 50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
     </div>
 }
 

@@ -18,27 +18,6 @@ namespace Notl.MuseumMap.Core.Managers
         }
 
         /// <summary>
-        /// Uploads a new photo.
-        /// </summary>
-        /// <param name="mapId"></param>
-        /// <param name="photoFilename"></param>
-        /// <param name="photoStream"></param>
-        /// <returns></returns>
-        public async Task<Map> UpdateMapImageAsync(Guid mapId, string photoFilename, Stream photoStream)
-        {
-            var map = await dbManager.GetAsync<Map>(mapId, Partition.Calculate(mapId)) ?? throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
-
-            // Upload the file into storage
-            var image = await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
-
-            map.Image = image;
-
-            // Update the map on the database
-            await dbManager.UpdateAsync(map);
-            return map;
-        }
-
-        /// <summary>
         /// Creates a map in the database
         /// </summary>
         /// <param name="id"></param>
@@ -96,16 +75,34 @@ namespace Notl.MuseumMap.Core.Managers
         }
 
         /// <summary>
+        /// Uploads a new photo.
+        /// </summary>
+        /// <param name="mapId"></param>
+        /// <param name="photoFilename"></param>
+        /// <param name="photoStream"></param>
+        /// <returns></returns>
+        public async Task<ImageReference> UploadMapImageAsync(Guid mapId, string photoFilename, Stream photoStream)
+        {
+            var map = await dbManager.GetAsync<Map>(mapId, Partition.Calculate(mapId)) ?? throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
+
+            // Upload the file into storage
+            var image = await storageManager.UploadFileAndCreateThumbnail(StorageContainerType.PublicMaps, mapId, photoFilename, photoStream);
+
+            return image;
+        }
+
+        /// <summary>
         /// Updates a map in the database
         /// </summary>
         /// <param name="id"></param>
         /// <param name="image"></param>
         /// <returns></returns>
-        public async Task<Map> UpdateMapAsync(Guid id, ImageReference image)
+        public async Task<Map> UpdateMapAsync(Guid id, ImageReference image, string name)
         {
             var map = await dbManager.GetAsync<Map>(id, Partition.Calculate(id)) ?? throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
 
             map.Image = image;
+            map.Name = name;
 
             // Update the map on the database
             await dbManager.UpdateAsync(map);
