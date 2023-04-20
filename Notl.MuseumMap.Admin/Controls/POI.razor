@@ -21,6 +21,7 @@
                 <MudIconButton class="coordinate-icon"
                         Color="Color.Error"
                         Icon=@getIcon()
+                        Variant="Variant.Filled"
                         Size="Size.Small">
                 </MudIconButton>
                 <MudText class="coordinate-title">
@@ -85,26 +86,13 @@
             }
             else
             {
-                if ((eventArgs.X < -1 || eventArgs.X > 1) && (eventArgs.Y < -1 || eventArgs.Y > 1 ))
-                {
                     var parentScale = await Parent.GetScaleAsync();
                     await panzoom.SetStyleAsync(
                         "transform",
-                        $"scale({eventArgs.Scale}) translate({eventArgs.X / parentScale}px, {eventArgs.Y / parentScale}px)");
+                        $"scale({eventArgs.Scale}) translate({ eventArgs.X / parentScale}px, { eventArgs.Y / parentScale}px)");
                     Data.X = (int)(eventArgs.X / parentScale);
-                    Data.Y = (int)(eventArgs.Y / parentScale);
+                    Data.Y = (int)( eventArgs.Y / parentScale);
                     await OnChange.InvokeAsync(Data);
-                }
-                else
-                {
-                    var parentScale = await Parent.GetScaleAsync();
-                    await panzoom.SetStyleAsync(
-                        "transform",
-                        $"scale({eventArgs.Scale}) translate({(Data.X + eventArgs.X) / parentScale}px, {(Data.Y + eventArgs.Y) / parentScale}px)");
-                    Data.X = (int)((Data.X + eventArgs.X) / parentScale);
-                    Data.Y = (int)((Data.Y + eventArgs.Y) / parentScale);
-                    await OnChange.InvokeAsync(Data);
-                }
             }
         }
     }
