@@ -1,4 +1,6 @@
-﻿@if (MapData != null && POIs != null)
+﻿@inherits BasePage
+
+@if (MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
         <MudOverlay @bind-Visible="isVisible" OnClick="clear" DarkBackground="true" AutoClose="true" ZIndex="11">
@@ -26,9 +28,15 @@
 
         <Panzoom @ref="panzoom">
             <MudStack Class="absolute z-10 ma-2">
-                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
-                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
-                <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
+                <MudTooltip Text="@Localizer["ToolTip_ZoomIn"]" Placement="Placement.Right">
+                    <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
+                </MudTooltip>
+                <MudTooltip Text="@Localizer["ToolTip_ZoomOut"]" Placement="Placement.Right">
+                    <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
+                </MudTooltip>
+                <MudTooltip Text="@Localizer["ToolTip_Reset"]" Placement="Placement.Right">
+                    <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
+                </MudTooltip>
             </MudStack>
             <div @ref="@context.ElementReference" class="panzoom">
                 <MudImage Src=@MapData.Image.Url/>

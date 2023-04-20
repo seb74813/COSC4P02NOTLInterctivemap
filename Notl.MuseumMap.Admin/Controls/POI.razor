@@ -1,4 +1,6 @@
-﻿@if (Data != null)
+﻿@inherits BasePage
+
+@if (Data != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
         <div @ref="@panzoom.ElementReference" class="d-inline-block">
@@ -39,8 +41,8 @@
     </Panzoom>
 
     <ContextMenu Id=@getMenuId()>
-        <Item OnClick="Edit">Edit Content</Item>
-        <Item OnClick="Delete">Delete</Item>
+        <Item OnClick="Edit">@Localizer["Option_EditContent"]</Item>
+        <Item OnClick="Delete">@Localizer["Option_Delete"]</Item>
     </ContextMenu>
 }
 

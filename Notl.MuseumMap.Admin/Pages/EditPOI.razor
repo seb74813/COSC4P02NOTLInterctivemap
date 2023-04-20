@@ -9,42 +9,46 @@
 			<MudCard>
 				<MudCardHeader>
 					<MudText Typo="Typo.h4">
-						New POI
+					 @Localizer["Text_NewPOI"]
 					</MudText>
 				</MudCardHeader>
 				<MudCardContent>
 					<MudStack>
-						<MudPaper>
-							@if (poi.Image != null)
-							{
-								<MudImage Src="@poi.Image.Url" Fluid=true />
-							}
+						@if (poi.Image != null)
+						{
+							<MudImage Src="@poi.Image.Url" Fluid=true />
+						}
+						else
+						{
+							<MudImage Src="placeholder.png"
+								Fluid=true />
+						}
+						<MudTooltip Text="@Localizer["ToolTip_UploadImagePOI"]">
 							<MudButton HtmlTag="label"
-								   Variant="Variant.Filled"
-								   Color="Color.Primary"
-								   StartIcon="@Icons.Material.Filled.CloudUpload"
-								   for="upload">
-								Upload Image
+									Variant="Variant.Filled"
+									Color="Color.Primary"
+									StartIcon="@Icons.Material.Filled.CloudUpload"
+									for="upload">
+								@Localizer["Button_UploadImage"]
 							</MudButton>
+						</MudTooltip>
+						<InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
 
-							<InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
-						</MudPaper>
-
-						<MudTextField @bind-Value=poi.Title Label="POI Title" />
+						<MudTextField @bind-Value=poi.Title Label="@Localizer["Label_POITitle"]" />
 
 						<MudRadioGroup @bind-SelectedOption=poi.PoiType>
-							<MudRadio Option="POIType.Exhibit">Exhibit</MudRadio>
-							<MudRadio Option="POIType.Item">Item</MudRadio>
-							<MudRadio Option="POIType.Bathroom">Bathroom</MudRadio>
-							<MudRadio Option="POIType.Accessability">Accessibility</MudRadio>
+							<MudRadio Option="POIType.Exhibit">@Localizer["Option_Exhibit"]</MudRadio>
+							<MudRadio Option="POIType.Item">@Localizer["Option_Item"]</MudRadio>
+							<MudRadio Option="POIType.Bathroom">@Localizer["Option_Bathroom"]</MudRadio>
+							<MudRadio Option="POIType.Accessability">@Localizer["Option_Accessability"]</MudRadio>
 						</MudRadioGroup>
 						<MarkdownEditor @bind-Value="poi.Description" />
 					</MudStack>
 				</MudCardContent>
 				<MudCardActions>
-					<MudButton Color="Color.Warning" Class="ml-auto mr-6 mb-3" OnClick="Cancel">Cancel</MudButton>
+					<MudButton Color="Color.Warning" Class="ml-auto mr-6 mb-3" OnClick="Cancel">@Localizer["Button_Cancel"]</MudButton>
 					<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="mr-auto ml-6 mb-3">
-						Save
+						@Localizer["Button_Save"]
 					</MudButton>
 					
 				</MudCardActions>

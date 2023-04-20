@@ -254,30 +254,6 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Adds a new photo to storage.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        [Route("poi/photo/{id}")]
-        [ProducesResponseType(typeof(ImageReference), 200)]
-        [ProducesResponseType(typeof(ErrorModel), 400)]
-        [HttpPost]
-        public async Task<IActionResult> UpdatePOIImageAsync([FromRoute] Guid id, IFormFile file)
-        {
-            try
-            {
-                var image = await adminManager.UploadPOIImageAsync(id, file.FileName, file.OpenReadStream());
-
-                return Ok(image);
-            }
-            catch (Exception ex)
-            {
-                return HandleError(ex);
-            }
-        }
-
-        /// <summary>
         /// Creates a point of interest.
         /// </summary>
         /// <param name="model"></param>
@@ -347,6 +323,30 @@ namespace Notl.MuseumMap.Api.Controllers
                 }
 
                 return Ok(poiModels);
+            }
+            catch (Exception ex)
+            {
+                return HandleError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new photo to storage.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [Route("poi/photo/{id}")]
+        [ProducesResponseType(typeof(ImageReference), 200)]
+        [ProducesResponseType(typeof(ErrorModel), 400)]
+        [HttpPost]
+        public async Task<IActionResult> UpdatePOIImageAsync([FromRoute] Guid id, IFormFile file)
+        {
+            try
+            {
+                var image = await adminManager.UploadPOIImageAsync(id, file.FileName, file.OpenReadStream());
+
+                return Ok(image);
             }
             catch (Exception ex)
             {

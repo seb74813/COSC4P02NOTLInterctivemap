@@ -68,5 +68,329 @@ namespace Notl.MuseumMap.Admin.Resources {
                 return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Button_Cancel {
+            get {
+                return ResourceManager.GetString("Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Button_Close {
+            get {
+                return ResourceManager.GetString("Button_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Button_Delete {
+            get {
+                return ResourceManager.GetString("Button_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Info.
+        /// </summary>
+        public static string Button_EditMapInfo {
+            get {
+                return ResourceManager.GetString("Button_EditMapInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Button_Save {
+            get {
+                return ResourceManager.GetString("Button_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Active.
+        /// </summary>
+        public static string Button_SetActive {
+            get {
+                return ResourceManager.GetString("Button_SetActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Image.
+        /// </summary>
+        public static string Button_UploadImage {
+            get {
+                return ResourceManager.GetString("Button_UploadImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uh Oh An Error Occured.
+        /// </summary>
+        public static string Dialogs_ErrorDialog_Title {
+            get {
+                return ResourceManager.GetString("Dialogs_ErrorDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Name.
+        /// </summary>
+        public static string Label_MapName {
+            get {
+                return ResourceManager.GetString("Label_MapName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marker Title.
+        /// </summary>
+        public static string Label_POITitle {
+            get {
+                return ResourceManager.GetString("Label_POITitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessibility.
+        /// </summary>
+        public static string Option_Accessibility {
+            get {
+                return ResourceManager.GetString("Option_Accessibility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bathroom.
+        /// </summary>
+        public static string Option_Bathroom {
+            get {
+                return ResourceManager.GetString("Option_Bathroom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Option_Delete {
+            get {
+                return ResourceManager.GetString("Option_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Content.
+        /// </summary>
+        public static string Option_EditContent {
+            get {
+                return ResourceManager.GetString("Option_EditContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exhibit.
+        /// </summary>
+        public static string Option_Exhibit {
+            get {
+                return ResourceManager.GetString("Option_Exhibit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item.
+        /// </summary>
+        public static string Option_Item {
+            get {
+                return ResourceManager.GetString("Option_Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete this map? This process cannot be undone..
+        /// </summary>
+        public static string Text_DeleteMap {
+            get {
+                return ResourceManager.GetString("Text_DeleteMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete this marker? This process cannot be undone..
+        /// </summary>
+        public static string Text_DeletePOI {
+            get {
+                return ResourceManager.GetString("Text_DeletePOI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Map.
+        /// </summary>
+        public static string Text_NewMap {
+            get {
+                return ResourceManager.GetString("Text_NewMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Marker.
+        /// </summary>
+        public static string Text_NewPOI {
+            get {
+                return ResourceManager.GetString("Text_NewPOI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Mode.
+        /// </summary>
+        public static string Tip_DarkMode {
+            get {
+                return ResourceManager.GetString("Tip_DarkMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Mode.
+        /// </summary>
+        public static string Tip_LightMode {
+            get {
+                return ResourceManager.GetString("Tip_LightMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete map?.
+        /// </summary>
+        public static string Title_DeleteMap {
+            get {
+                return ResourceManager.GetString("Title_DeleteMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete marker?.
+        /// </summary>
+        public static string Title_DeletePOI {
+            get {
+                return ResourceManager.GetString("Title_DeletePOI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go back.
+        /// </summary>
+        public static string ToolTip_Back {
+            get {
+                return ResourceManager.GetString("ToolTip_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deletes the map.
+        /// </summary>
+        public static string ToolTip_DeleteMap {
+            get {
+                return ResourceManager.GetString("ToolTip_DeleteMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit the image and name of a map.
+        /// </summary>
+        public static string ToolTip_EditMapInfo {
+            get {
+                return ResourceManager.GetString("ToolTip_EditMapInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new map.
+        /// </summary>
+        public static string ToolTip_NewMap {
+            get {
+                return ResourceManager.GetString("ToolTip_NewMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creates a new marker.
+        /// </summary>
+        public static string ToolTip_NewPOI {
+            get {
+                return ResourceManager.GetString("ToolTip_NewPOI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset zoom.
+        /// </summary>
+        public static string ToolTip_ResetMap {
+            get {
+                return ResourceManager.GetString("ToolTip_ResetMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save the map info.
+        /// </summary>
+        public static string ToolTip_SaveMap {
+            get {
+                return ResourceManager.GetString("ToolTip_SaveMap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sets map to presented map.
+        /// </summary>
+        public static string ToolTip_SetActive {
+            get {
+                return ResourceManager.GetString("ToolTip_SetActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload an image for the map background.
+        /// </summary>
+        public static string ToolTip_UploadImage {
+            get {
+                return ResourceManager.GetString("ToolTip_UploadImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload an image to be displayed with marker content.
+        /// </summary>
+        public static string ToolTip_UploadImagePOI {
+            get {
+                return ResourceManager.GetString("ToolTip_UploadImagePOI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom in.
+        /// </summary>
+        public static string ToolTip_ZoomIn {
+            get {
+                return ResourceManager.GetString("ToolTip_ZoomIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom out.
+        /// </summary>
+        public static string ToolTip_ZoomOut {
+            get {
+                return ResourceManager.GetString("ToolTip_ZoomOut", resourceCulture);
+            }
+        }
     }
 }

@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject IStringLocalizer<Resources.Resource> localizer
+@inject NavigationManager navigation
+@inject ClientContext clientContext
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -6,24 +9,41 @@
 
 <MudLayout Style="width: 100vw; height: 100vh;">
     <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        My Application
+        <MudText Class="ml-2">@localizer["AppName"]</MudText>
+        <MudSpacer />
+        <MudToggleIconButton Class="mr-3" ToggledColor="Color.Dark" Color="Color.Dark" Toggled="@(appTheme == AppTheme.Light)" ToggledIcon="@Icons.Material.Outlined.DarkMode" Title="@localizer["Tip_LightMode"]" Icon="@Icons.Material.Outlined.LightMode" ToggledTitle="@localizer["Tip_DarkMode"]" ToggledChanged="ToggleTheme" />
     </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu>
-
-        </NavMenu>
-    </MudDrawer>
     <MudMainContent Style="width: 100vw; height: 100vh;">
         @Body
     </MudMainContent>
 </MudLayout>
-@code {
-    bool _drawerOpen = false;
 
-    void DrawerToggle()
+@code {
+    AppTheme appTheme;
+    MudTheme? mudTheme;
+
+    protected override void OnInitialized()
     {
-        _drawerOpen = !_drawerOpen;
+        appTheme = clientContext.Theme;
+        mudTheme = ThemeHelper.GetTheme(appTheme);
+    }
+
+    private void ToggleTheme()
+    {
+        // Toggle the current theme.
+        if (appTheme == AppTheme.Light)
+        {
+            appTheme = AppTheme.Dark;
+        }
+        else
+        {
+            appTheme = AppTheme.Light;
+        }
+
+        // Switch the theme and save the setting.
+        mudTheme = ThemeHelper.GetTheme(appTheme);
+        clientContext.Theme = appTheme;
+
+        StateHasChanged();
     }
 }
-

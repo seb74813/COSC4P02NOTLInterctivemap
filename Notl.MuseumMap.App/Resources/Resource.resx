@@ -118,6 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppName" xml:space="preserve">
-    <value>Interactive Map</value>
+    <value>Niagara On The Lake Museun Map</value>
+  </data>
+  <data name="Button_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Dialogs_ErrorDialog_Title" xml:space="preserve">
+    <value>Uh Oh An Error Occured</value>
+  </data>
+  <data name="Tip_DarkMode" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="Tip_LightMode" xml:space="preserve">
+    <value>Light Mode</value>
+  </data>
+  <data name="ToolTip_Home" xml:space="preserve">
+    <value>Go to homepage</value>
+  </data>
+  <data name="ToolTip_Reset" xml:space="preserve">
+    <value>Reset View</value>
+  </data>
+  <data name="ToolTip_ZoomIn" xml:space="preserve">
+    <value>Zoom In</value>
+  </data>
+  <data name="ToolTip_ZoomOut" xml:space="preserve">
+    <value>Zoom Out</value>
   </data>
 </root>

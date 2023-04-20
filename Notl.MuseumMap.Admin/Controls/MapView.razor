@@ -1,4 +1,7 @@
-﻿@if (Data != null)
+﻿@inherits BasePage
+@attribute [Authorize]
+
+@if (Data != null)
 {
     <MudItem xs="12" md="6" lg="4" @onclick="() => Click()">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-3">
@@ -17,20 +20,26 @@
                 }
                 <MudStack Row=true>
                     <MudSpacer/>
-                    <MudButton OnClick="Edit" Color="Color.Secondary">
-                        Edit Info
-                    </MudButton>
-                    <MudSpacer/>
+                    <MudTooltip Text="@Localizer["ToolTip_EditMapInfo"]">
+                        <MudButton OnClick="Edit" Color="Color.Secondary">
+                            @Localizer["Button_EditMapInfo"]
+                        </MudButton>
+                    </MudTooltip>
+                    <MudSpacer />
                     @if (!IsActive)
                     {
-                        <MudButton OnClick="Active">
-                            Set Active
+                        <MudTooltip Text="@Localizer["ToolTip_SetActive"]">
+                            <MudButton OnClick="Active">
+                            @Localizer["Button_SetActive"]
                         </MudButton>
+                        </MudTooltip>
                         <MudSpacer />
                     }
-                    <MudButton Color="Color.Warning" OnClick="Delete">
-                        Delete
-                    </MudButton>
+                    <MudTooltip Text="@Localizer["ToolTip_DeleteMap"]">
+                        <MudButton Color="Color.Warning" OnClick="Delete">
+                            @Localizer["Button_Delete"]
+                        </MudButton>
+                    </MudTooltip>
                     <MudSpacer />
                 </MudStack>
             </MudStack>

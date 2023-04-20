@@ -61,11 +61,83 @@ namespace Notl.MuseumMap.App.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Interactive Map.
+        ///   Looks up a localized string similar to Niagara On The Lake Museun Map.
         /// </summary>
         public static string AppName {
             get {
                 return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Button_Close {
+            get {
+                return ResourceManager.GetString("Button_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uh Oh An Error Occured.
+        /// </summary>
+        public static string Dialogs_ErrorDialog_Title {
+            get {
+                return ResourceManager.GetString("Dialogs_ErrorDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark Mode.
+        /// </summary>
+        public static string Tip_DarkMode {
+            get {
+                return ResourceManager.GetString("Tip_DarkMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Mode.
+        /// </summary>
+        public static string Tip_LightMode {
+            get {
+                return ResourceManager.GetString("Tip_LightMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to homepage.
+        /// </summary>
+        public static string ToolTip_Home {
+            get {
+                return ResourceManager.GetString("ToolTip_Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset View.
+        /// </summary>
+        public static string ToolTip_Reset {
+            get {
+                return ResourceManager.GetString("ToolTip_Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom In.
+        /// </summary>
+        public static string ToolTip_ZoomIn {
+            get {
+                return ResourceManager.GetString("ToolTip_ZoomIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom Out.
+        /// </summary>
+        public static string ToolTip_ZoomOut {
+            get {
+                return ResourceManager.GetString("ToolTip_ZoomOut", resourceCulture);
             }
         }
     }

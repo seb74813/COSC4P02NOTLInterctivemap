@@ -18,24 +18,27 @@
         </MudOverlay>
         <Panzoom @ref="parent">
             <MudStack Class="absolute z-10" Row=true Style="width:100%">
-                <MudFab StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="ToMaps"/> 
+                <MudTooltip Text="@Localizer["ToolTip_Back"]">
+
+                </MudTooltip>
+                <MudFab Style="transform:translate(16px, 16px)" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="ToMaps"/> 
                 <MudSpacer />
                 <MudPaper Elevation="25">
                     <MudToolBar>  
                         <MudStack Row=true>
-                            <MudTooltip Text="Reset Zoom">
+                            <MudTooltip Text="@Localizer["ToolTip_ResetMap"]">
                                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.LocationSearching" OnClick="OnResetClick" />
                             </MudTooltip>
-                            <MudTooltip Text="Zoom In">
+                            <MudTooltip Text="@Localizer["ToolTip_ZoomIn"]">
                                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomIn" OnClick="OnZoomInClick" />
                             </MudTooltip>
-                            <MudTooltip Text="Zoom Out">
+                            <MudTooltip Text="@Localizer["ToolTip_ZoomOut"]">
                                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ZoomOut" OnClick="OnZoomOutClick" />
                             </MudTooltip>
-                            <MudTooltip Text="Upload new map image">
+                            <MudTooltip Text="@Localizer["ToolTip_EditMapInfo"]">
                                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.FileUpload" OnClick="NavigateUploadImage" />
                             </MudTooltip>
-                            <MudTooltip Text="Create new point of interest">
+                            <MudTooltip Text="@Localizer["ToolTip_NewPOI"]">
                                 <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.AddLocation" OnClick="NewPOI" />
                             </MudTooltip>
                         </MudStack>
@@ -101,13 +104,13 @@
             throw new Exception("Edit list was empty");
         }
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Do you really want to delete this POI? This process cannot be undone.");
-        parameters.Add("ButtonText", "Delete");
+        parameters.Add("ContentText", Localizer["Text_DeletePOI"]);
+        parameters.Add("ButtonText", Localizer["Button_Delete"]);
         parameters.Add("Color", Color.Error);
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
 
-        var dialog = Dialog.Show<DeleteDialog>("Delete", parameters, options);
+        var dialog = Dialog.Show<DeleteDialog>(Localizer["Title_DeletePOI"], parameters, options);
 
         var result = await dialog.Result;
 

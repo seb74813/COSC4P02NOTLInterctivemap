@@ -18,7 +18,9 @@
                 }
             }
         </MudGrid>
-        <MudIconButton  Style="position: sticky; bottom: 1rem; left: 50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
+        <MudTooltip Text="@Localizer["ToolTip_NewMap"]">
+            <MudIconButton Style="position: sticky; bottom: 1rem; left: 50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
+        </MudTooltip>
     </div>
 }
 
@@ -83,13 +85,13 @@
     private async Task DeleteMap(MapModel map)
     {
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Do you really want to delete this Map? This process cannot be undone.");
-        parameters.Add("ButtonText", "Delete");
+        parameters.Add("ContentText", Localizer["Text_DeleteMap"]);
+        parameters.Add("ButtonText", Localizer["Button_Delete"]);
         parameters.Add("Color", Color.Error);
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
 
-        var dialog = Dialog.Show<DeleteDialog>("Delete", parameters, options);
+        var dialog = Dialog.Show<DeleteDialog>(Localizer["Title_DeleteMap"], parameters, options);
 
         var result = await dialog.Result;
 

@@ -11,7 +11,10 @@
         <EditForm Model="map" OnValidSubmit="Submit">
             <MudPaper Class="justify-center pa-3 mt-3">
                 <MudStack>
-                    <MudTextField @bind-Value=map.Name Label="Map Name" />
+                    <MudText Class="ma-2" Typo="Typo.h4">
+                        @Localizer["Text_NewMap"]
+                    </MudText>
+                    <MudTextField @bind-Value=map.Name Label="@Localizer["Label_MapName"]" />
                     @if (map.Image != null)
                     {
                         <MudImage 
@@ -25,26 +28,28 @@
                             Fluid=true/>
                     }
                     <MudStack Row=true>
-                        <MudButton 
-                                Variant="Variant.Filled"
-                                Color="Color.Warning"
-                                OnClick="Cancel">
-                            Cancel
+                        <MudButton Variant="Variant.Filled"
+                               Color="Color.Warning"
+                               OnClick="Cancel">
+                            @Localizer["Button_Cancel"]
                         </MudButton>
-                        <MudSpacer/>
-                        <MudButton HtmlTag="label"
-                               Variant="Variant.Filled"
-                               Color="Color.Primary"
-                               StartIcon="@Icons.Material.Filled.CloudUpload"
-                               for="upload">
-                            Upload Image
-                        </MudButton>
-                        <MudSpacer/>
-                        <MudButton 
-                            ButtonType="ButtonType.Submit" 
-                            Variant="Variant.Filled">
-                            Save
-                        </MudButton>
+                        <MudSpacer />
+                        <MudTooltip Text="@Localizer["ToolTip_UploadImage"]">
+                            <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="upload">
+                                @Localizer["Button_UploadImage"]
+                            </MudButton>
+                        </MudTooltip>
+                        <MudSpacer />
+                        <MudTooltip Text="@Localizer["ToolTip_SaveMap"]">
+                            <MudButton ButtonType="ButtonType.Submit"
+                                   Variant="Variant.Filled">
+                                @Localizer["Button_Save"]
+                            </MudButton>
+                        </MudTooltip>
                     </MudStack>
                 </MudStack>
                 <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none"/>
