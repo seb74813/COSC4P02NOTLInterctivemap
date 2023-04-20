@@ -182,16 +182,15 @@ namespace Notl.MuseumMap.Api.Controllers
         }
 
         /// <summary>
-        /// Change the image of a map.
+        /// Change the map's image and name.
         /// </summary>
-        /// <param name="mapId"></param>
         /// <param name="map"></param>
         /// <returns></returns>
-        [Route("map/{mapId}")]
+        [Route("map/update")]
         [ProducesResponseType(typeof(MapModel), 200)]
         [ProducesResponseType(typeof(ErrorModel), 400)]
         [HttpPost]
-        public async Task<IActionResult> UpdateMapAsync([FromRoute] Guid mapId, [FromBody] MapModel map)
+        public async Task<IActionResult> UpdateMapAsync([FromBody] MapModel map)
         {
             try
             {
@@ -199,7 +198,7 @@ namespace Notl.MuseumMap.Api.Controllers
                 {
                     throw new MuseumMapException(MuseumMapErrorCode.InvalidMapError);
                 }
-                var newMap = await adminManager.UpdateMapAsync(mapId, map.Image, map.Name);
+                var newMap = await adminManager.UpdateMapAsync(map.Id, map.Image, map.Name);
 
                 return Ok(new MapModel(newMap));
             }

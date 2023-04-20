@@ -39,6 +39,12 @@
                                for="upload">
                             Upload Image
                         </MudButton>
+                        <MudSpacer/>
+                        <MudButton 
+                            ButtonType="ButtonType.Submit" 
+                            Variant="Variant.Filled">
+                            Save
+                        </MudButton>
                     </MudStack>
                 </MudStack>
                 <InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none"/>
@@ -91,6 +97,7 @@
         {
             ShowError(ex);
         }
+        StateHasChanged();
     }
 
     private async Task Submit()
@@ -105,7 +112,7 @@
             try
             {
                 IsBusy = true;
-                await ClientContext.Admin.UpdateMapAsync(map.Id, map);
+                await ClientContext.Admin.UpdateMapAsync(map);
                 IsBusy = false;
             }
             catch (Exception ex)

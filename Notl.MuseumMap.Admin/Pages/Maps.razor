@@ -9,7 +9,7 @@
 {   
     <div style="width:100%; height:100%">
         <MudGrid Class="ma-4">
-            <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" IsActive=true />
+            <MapView Data="activeMap" OnClick="SelectMap" OnDelete="DeleteMap" OnEdit="NavigateUploadImage" IsActive=true />
             @foreach (var map in maps)
             {
                 if (map.Id != activeMap.Id)

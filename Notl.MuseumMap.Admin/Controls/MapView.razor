@@ -1,11 +1,11 @@
 ﻿@if (Data != null)
 {
     <MudItem xs="12" md="6" lg="4" @onclick="() => Click()">
-        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
-            <MudStack>
-                @if (string.IsNullOrWhiteSpace(Data.Name))
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-3">
+            <MudStack Class="justify-center">
+                @if (!string.IsNullOrWhiteSpace(Data.Name))
                 {
-                    <MudText Typo="Typo.h5">@Data.Name</MudText>    
+                    <MudText Align="Align.Center" Typo="Typo.h5">@Data.Name</MudText>    
                 }
                 @if (Data.Image != null)
                 {

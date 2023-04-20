@@ -8,6 +8,14 @@ namespace Notl.MuseumMap.Api.Models
     public class MapModel
     {
         /// <summary>
+        /// Default constructor
+        /// </summary>
+        public MapModel()
+        { 
+            
+        }
+
+        /// <summary>
         /// Converts a map into a model
         /// </summary>
         /// <param name="map"></param>
