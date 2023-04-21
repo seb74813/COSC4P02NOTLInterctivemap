@@ -195,6 +195,9 @@
   <data name="ToolTip_Back" xml:space="preserve">
     <value>Go back</value>
   </data>
+  <data name="ToolTip_BackButton" xml:space="preserve">
+    <value>Return to main menu</value>
+  </data>
   <data name="ToolTip_DeleteMap" xml:space="preserve">
     <value>Deletes the map</value>
   </data>
