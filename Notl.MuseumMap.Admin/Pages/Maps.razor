@@ -18,9 +18,7 @@
                 }
             }
         </MudGrid>
-        <MudTooltip Text="@Localizer["ToolTip_NewMap"]">
-            <MudIconButton Style="position: sticky; bottom: 1rem; left: 50%;" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
-        </MudTooltip>
+        <MudIconButton Style="position: sticky; bottom: 1rem; left: 50%;" Color="Color.Primary" Title="@Localizer["ToolTip_NewMap"]" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Sharp.Map" OnClick="CreateMap" />
     </div>
 }
 
@@ -85,8 +83,8 @@
     private async Task DeleteMap(MapModel map)
     {
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", Localizer["Text_DeleteMap"]);
-        parameters.Add("ButtonText", Localizer["Button_Delete"]);
+        parameters.Add("ContentText", Localizer["Text_DeleteMap"].Value);
+        parameters.Add("ButtonText", Localizer["Button_Delete"].Value);
         parameters.Add("Color", Color.Error);
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };

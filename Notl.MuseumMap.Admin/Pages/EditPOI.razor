@@ -1,56 +1,61 @@
-﻿@inherits BasePage
+﻿@page "/poi/{Id:guid}"
+@inherits BasePage
 @attribute [Authorize]
 <BusyIndicator Model="@this" />
 
-@if (!IsBusy && Poi != null && poi != null)
+@if (!IsBusy && poi != null)
 {
 	<MudContainer MaxWidth="MaxWidth.Large">
-		<EditForm Model="poi" OnValidSubmit="Submit">
+		<EditForm Model="poi" OnValidSubmit="OnSubmit">
 			<MudCard>
-				<MudCardHeader>
+				<MudCardHeader Class="justify-center">
 					<MudText Typo="Typo.h4">
 					 @Localizer["Text_NewPOI"]
 					</MudText>
 				</MudCardHeader>
 				<MudCardContent>
-					<MudStack>
-						@if (poi.Image != null)
-						{
-							<MudImage Src="@poi.Image.Url" Fluid=true />
-						}
-						else
-						{
-							<MudImage Src="placeholder.png"
-								Fluid=true />
-						}
-						<MudTooltip Text="@Localizer["ToolTip_UploadImagePOI"]">
-							<MudButton HtmlTag="label"
-									Variant="Variant.Filled"
-									Color="Color.Primary"
-									StartIcon="@Icons.Material.Filled.CloudUpload"
-									for="upload">
-								@Localizer["Button_UploadImage"]
-							</MudButton>
-						</MudTooltip>
-						<InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
-
-						<MudTextField @bind-Value=poi.Title Label="@Localizer["Label_POITitle"]" />
-
-						<MudRadioGroup @bind-SelectedOption=poi.PoiType>
-							<MudRadio Option="POIType.Exhibit">@Localizer["Option_Exhibit"]</MudRadio>
-							<MudRadio Option="POIType.Item">@Localizer["Option_Item"]</MudRadio>
-							<MudRadio Option="POIType.Bathroom">@Localizer["Option_Bathroom"]</MudRadio>
-							<MudRadio Option="POIType.Accessability">@Localizer["Option_Accessability"]</MudRadio>
-						</MudRadioGroup>
-						<MarkdownEditor @bind-Value="poi.Description" />
+					<MudStack Row=true>
+						<MudStack Class="justify-center">
+							@if (poi.Image != null)
+							{
+								<MudImage Src="@poi.Image.Url" ObjectFit=ObjectFit.Contain Height="200" Width="400" />
+							}
+							else
+							{
+								<MudImage Src="placeholder.png" ObjectFit=ObjectFit.Contain Height="200" Width="400" />
+							}
+							<MudStack Row=true>
+								<MudSpacer/>
+								<MudTooltip Text="@Localizer["ToolTip_UploadImagePOI"]">
+									<MudButton HtmlTag="label"
+										   Variant="Variant.Filled"
+										   Color="Color.Primary"
+										   StartIcon="@Icons.Material.Filled.CloudUpload"
+										   for="upload">
+										@Localizer["Button_UploadImage"]
+									</MudButton>
+								</MudTooltip>
+								<MudSpacer />
+							</MudStack>
+							<InputFile id="upload" accept="image/*" OnChange="UploadPhotoAsync" class="d-none" />
+						</MudStack>
+						<MudStack>
+							<MudTextField @bind-Value=poi.Title Label="@Localizer["Label_POITitle"]" />
+							<MudRadioGroup @bind-SelectedOption=poi.PoiType>
+								<MudRadio Option="POIType.Exhibit">@Localizer["Option_Exhibit"]</MudRadio>
+								<MudRadio Option="POIType.Item">@Localizer["Option_Item"]</MudRadio>
+								<MudRadio Option="POIType.Bathroom">@Localizer["Option_Bathroom"]</MudRadio>
+								<MudRadio Option="POIType.Accessability">@Localizer["Option_Accessability"]</MudRadio>
+							</MudRadioGroup>
+							<MarkdownEditor @bind-Value="poi.Description" />
+						</MudStack>
 					</MudStack>
 				</MudCardContent>
 				<MudCardActions>
-					<MudButton Color="Color.Warning" Class="ml-auto mr-6 mb-3" OnClick="Cancel">@Localizer["Button_Cancel"]</MudButton>
+					<MudButton Color="Color.Warning" Class="ml-auto mr-6 mb-3" OnClick="OnCancel">@Localizer["Button_Cancel"]</MudButton>
 					<MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="mr-auto ml-6 mb-3">
 						@Localizer["Button_Save"]
 					</MudButton>
-					
 				</MudCardActions>
 			</MudCard>
 		</EditForm>
@@ -58,62 +63,38 @@
 }
 
 @code {
+	private POIModel? poi;
 
-	private bool initalize = false;
-
-	private POIModel? copy,poi;
 	[Parameter]
-	public POIModel? Poi
-	{
-		get { return poi; } 
-		set 
-		{ 
-			poi = value;
-
-			if (!initalize && value != null)
-			{
-				copy = new POIModel
-				{
-					Id = value.Id,
-					Description = value.Description,
-					Image = value.Image,
-					MapId = value.MapId,
-					PoiType = value.PoiType,
-					Title = value.Title,
-					X = value.X,
-					Y = value.Y
-				};
-
-				initalize = true;
-			}
-		} 
-	}
-	[Parameter]
-	public EventCallback OnExit { get; set; }
-	[Parameter]
-	public EventCallback<POIModel> OnSubmit { get; set; }
-
+	public Guid Id { get; set; }
 
 	protected async override Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
 		IsInitialized = true;
-		IsBusy = false;
 
+		try
+		{
+			IsBusy = true;
+			poi = await ClientContext.Admin.GetPOIAuthAsync(Id);
+			IsBusy = false;
+		}
+		catch (Exception ex)
+		{
+			ShowError(ex);
+		}
 	}
-
-
 
 	Task OnMarkdownValueChanged(string value)
 	{
-
 		return Task.CompletedTask;
 	}
+
 	public async Task UploadPhotoAsync(InputFileChangeEventArgs e)
 	{
 		try
 		{
-			if (Poi == null)
+			if (poi == null)
 			{
 				throw new Exception();
 			}
@@ -123,8 +104,8 @@
 			var stream = file.OpenReadStream();
 
 			IsBusy = true;
-			var image = await ClientContext.Admin.UpdatePOIImageAsync(Poi.Id, new FileParameter(stream));
-			Poi.Image = image;
+			var image = await ClientContext.Admin.UpdatePOIImageAsync(poi.Id, new FileParameter(stream));
+			poi.Image = image;
 			IsBusy = false;
 		}
 		catch (Exception ex)
@@ -132,23 +113,33 @@
 			ShowError(ex);
 		}
 	}
-	private async Task Cancel()
-	{
 
-		if (poi != null && copy != null)
+	private void OnCancel()
+	{
+		if (poi != null)
 		{
-			poi.Description = copy.Description;
-			poi.Image = copy.Image;
-			poi.PoiType = copy.PoiType;
-			poi.Title = copy.Title;
+			Navigation.NavigateTo($"map/{poi.MapId}");
 		}
-		await OnExit.InvokeAsync();
 	}
 
-	private async Task Submit()
+	private async Task OnSubmit()
 	{
-		await OnSubmit.InvokeAsync(poi);
-	}
+		if (poi == null)
+		{
+			throw new Exception("poi not initialized");
+		}
 
+		try
+		{
+			IsBusy = true;
+			poi = await ClientContext.Admin.UpdatePOIContentAsync(poi);
+			Navigation.NavigateTo($"map/{poi.MapId}");
+			IsBusy = false;
+		}
+		catch (Exception ex)
+		{
+			ShowError(ex);
+		}
+	}
 }
 

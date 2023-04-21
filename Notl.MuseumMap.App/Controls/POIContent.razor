@@ -1,30 +1,52 @@
-﻿@if (Poi != null)
-{
-    <MudCard>
-        <MudCardHeader>
-            <MudText Typo="Typo.h4">
-                @Poi.Title 
-            </MudText>
-        </MudCardHeader>
-        <MudCardContent>
-            <MudStack>
-                <MudPaper>
-                    @if (Poi.Image != null)
-                    {
-                        <MudImage Src="@Poi.Image.Url" Fluid=true />
-                    }
-                </MudPaper>
+﻿@page "/poi/{Id:guid}"
+@inherits BasePage
+<BusyIndicator Model="@this" />
 
-                <MudMarkdown Value="@Poi.Description"></MudMarkdown>
+@if (Poi != null)
+{
+    <MudContainer MaxWidth="MaxWidth.Large">
+        <MudPaper Class="mt-5 pa-3">
+            <MudStack Spacing=4 Class="justify-center ma-3">
+                <MudText Align="Align.Center" Typo="Typo.h4">
+                    @Poi.Title
+                </MudText>
+                @if (Poi.Image != null)
+                {
+                    <MudStack Row=true>
+                        <MudSpacer />
+                        <MudImage Src="@Poi.Image.Url" ObjectFit=ObjectFit.Contain Height="300" Width="600" />
+                        <MudSpacer />
+                    </MudStack>
+                }
+                @if (Poi.Description != null)
+                {
+                    <MudMarkdown Value="@Poi.Description"></MudMarkdown>
+                }
             </MudStack>
-        </MudCardContent>
-    </MudCard>
+        </MudPaper>
+    </MudContainer>
 }
 
-
-
 @code {
-    [Parameter]
-    public POIModel? Poi { get; set; }
+    private POIModel? Poi;
 
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        IsInitialized = true;
+
+        try
+        {
+            IsBusy = true;
+            Poi = await ClientContext.Maps.GetPOIAsync(Id);
+            IsBusy = false;
+        }
+        catch (Exception ex)
+        {
+            ShowError(ex);
+        }
+    }
 }

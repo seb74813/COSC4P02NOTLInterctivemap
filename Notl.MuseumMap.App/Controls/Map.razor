@@ -3,29 +3,6 @@
 @if (MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
-        <MudOverlay @bind-Visible="isVisible" OnClick="clear" DarkBackground="true" AutoClose="true" ZIndex="11">
-            @if (selectedPOI != null)
-            {
-                <MudHidden Breakpoint="Breakpoint.LgAndUp">
-                    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-                        <POIContent Poi="selectedPOI"/>
-                    </MudContainer>
-                </MudHidden> 
-                
-                <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert=true>
-                    <MudContainer MaxWidth="MaxWidth.Medium">
-                        <POIContent Poi="selectedPOI"/>
-                    </MudContainer>
-                </MudHidden> 
-
-                <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" OnClick="clear"/>
-                <MudPaper> 
-                    <MudImage Fluid="true" Src="@selectedPOI.Image.Url" Class="rounded-lg"/>
-                    <MudMarkdown Value="@selectedPOI.Description"/>
-                </MudPaper>
-            }
-        </MudOverlay>
-
         <Panzoom @ref="panzoom">
             <MudStack Class="absolute z-10 ma-2">
                 <MudTooltip Text="@Localizer["ToolTip_ZoomIn"]" Placement="Placement.Right">
@@ -52,8 +29,6 @@
 }
 
 @code {
-    private bool isVisible = false;
-    private POIModel? selectedPOI;
     double minZoom = 0.8;
     double maxZoom = 2.0;
 
@@ -110,15 +85,6 @@
 
     private void select(POIModel data)
     {
-        selectedPOI = data;
-        isVisible = true;
-        StateHasChanged();
-    }
-
-    private void clear()
-    {
-        selectedPOI = null;
-        isVisible = false;
-        StateHasChanged();
+        Navigation.NavigateTo($"poi/{data.Id}");
     }
 }

@@ -1,32 +1,13 @@
 ﻿@inherits BasePage
 
-@if (Data != null)
+@if (Data != null && Parent != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
-        <div @ref="@panzoom.ElementReference" class="d-inline-block">
+        <div @ref="@panzoom.ElementReference" class="d-inline-block" style="@styleString()">
             <ContextMenuTrigger MenuId=@getMenuId()>
             @if (Data.PoiType == POIType.Exhibit)
             {
-                <MudButton class="coordinate-exhibit" style="color: black;">
-                    @if (Data.Title != null)
-                    {
-                        @Data.Title
-                    }
-                    else
-                    {
-                        @Data.PoiType
-                    }
-                </MudButton>
-            }
-            else
-            {
-                <MudIconButton class="coordinate-icon"
-                        Color=@getColor()
-                        Icon=@getIcon()
-                        Variant="Variant.Filled"
-                        Size="Size.Small">
-                </MudIconButton>
-                <MudText class="coordinate-title">
+                <MudText Align="Align.Center" Typo="Typo.body1" Class="coordinate-exhibit movable pa-3" style="color: black;">
                     @if (Data.Title != null)
                     {
                         @Data.Title
@@ -36,6 +17,31 @@
                         @Data.PoiType
                     }
                 </MudText>
+            }
+            else
+            {
+                <MudStack Justify="Justify.Center" Spacing="0" Class="movable pa-3">
+                    <MudStack Row=true>
+                        <MudSpacer/>
+                            <MudIcon class="coordinate-icon"
+                             Color=@getColor()
+                             Icon=@getIcon()
+                             Variant="Variant.Filled"
+                             Size="Size.Small">
+                            </MudIcon>
+                        <MudSpacer />
+                    </MudStack>
+                    <MudText Align="Align.Center" Typo="Typo.body1" Class="coordinate-title">
+                        @if (Data.Title != null)
+                        {
+                            @Data.Title
+                        }
+                        else
+                        {
+                            @Data.PoiType
+                        }
+                    </MudText>
+                </MudStack>
             }
             </ContextMenuTrigger>
         </div>
@@ -55,16 +61,16 @@
     public POIModel? Data { get; set; }
 
     [Parameter]
+    public Panzoom? Parent { get; set; }
+
+    [Parameter]
     public EventCallback<POIModel> OnEdit { get; set; }
 
     [Parameter]
     public EventCallback<POIModel> OnDelete { get; set; }
 
     [Parameter]
-    public Panzoom? Parent { get; set; }
-
-    [Parameter]
-    public EventCallback<POIModel> OnChange { get; set; }
+    public EventCallback<POIModel> OnMoved { get; set; }
 
     private async Task SetTransformCustom(SetTransformEventArgs eventArgs)
     {
@@ -93,10 +99,40 @@
                     "transform",
                     $"scale({eventArgs.Scale}) translate({ eventArgs.X / parentScale}px, { eventArgs.Y / parentScale}px)");
                 Data.X = (int)(eventArgs.X / parentScale);
-                Data.Y = (int)( eventArgs.Y / parentScale);
-                await OnChange.InvokeAsync(Data);
+                Data.Y = (int)(eventArgs.Y / parentScale);
+                await OnMoved.InvokeAsync(Data);
             }
         }
+    }
+
+    private async Task<string> styleString()
+    {    
+        if (Data != null && Parent != null)
+        {
+            var scale = await Parent.GetScaleAsync();
+            return $"transform: scale({scale}), translate({Data.X / scale}px, {Data.Y / scale}px)";
+        }
+        return "";
+    }
+
+    private async Task<double> getX()
+    {
+        if (Data != null && Parent != null)
+        {
+            var scale = await Parent.GetScaleAsync();
+            return Data.X / scale;
+        }
+        return 0.0;
+    }
+
+    private async Task<double> getY()
+    {
+        if (Data != null && Parent != null)
+        {
+            var scale = await Parent.GetScaleAsync();
+            return Data.Y / scale;
+        }
+        return 0.0;
     }
 
     private string getMenuId()

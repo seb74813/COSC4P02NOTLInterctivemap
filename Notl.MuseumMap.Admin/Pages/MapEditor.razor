@@ -5,23 +5,11 @@
 <BusyIndicator Model="@this" />
 <PageTitle>@Localizer["AppName"]</PageTitle>
 
-
-
 @if (!IsBusy && MapData != null && POIs != null)
 {
     <div class="panzoom-parent">
-        <MudOverlay @bind-Visible="isVisible" DarkBackground="true" AutoClose="false" ZIndex="11">
-            @if (selectedPOI != null)
-            {
-                <EditPOI Poi="selectedPOI" OnExit="Clear" OnSubmit="Changed"/>
-            }
-        </MudOverlay>
         <Panzoom @ref="parent">
-            <MudStack Class="absolute z-10" Row=true Style="width:100%">
-                <MudTooltip Text="@Localizer["ToolTip_Back"]">
-
-                </MudTooltip>
-                <MudFab Style="transform:translate(16px, 16px)" StartIcon="@Icons.Material.Filled.ArrowBack" OnClick="ToMaps"/> 
+            <MudStack Class="absolute z-10" Row=true Style="bottom: 1rem; width:100%">
                 <MudSpacer />
                 <MudPaper Elevation="25">
                     <MudToolBar>  
@@ -45,17 +33,13 @@
                     </MudToolBar>
                 </MudPaper>
                 <MudSpacer/>
-                @if (isEdited)
-                {
-                    <MudButton Color="Color.Success" Variant="Variant.Filled" Size="Size.Large" OnClick="SaveChangesAsync" Style="margin-right: 16px;">Save Changes</MudButton>
-                }
             </MudStack>
             <div @ref="@context.ElementReference" class="panzoom">
                 <MudImage Src=@MapData.Image.Url/>
                 <div class="button-container">
                     @foreach (var item in POIs)
                     {                  
-                        <POI Data="item" Parent="parent" OnChange="SetEdited" OnDelete="DeletePOI" OnEdit="OnEdit" />
+                        <POI Data="item" Parent="parent" OnMoved="Moved" OnDelete="DeletePOI" OnEdit="OnEdit" />
                     }
                 </div>
             </div>
@@ -64,13 +48,10 @@
 }
 
 @code {
-    private List<POIModel>? editPOIs;
-    private List<POIModel>? POIs { get; set; }
+    private List<POIModel>? POIs;
     private Panzoom? parent;
-    private bool isEdited = false;
-    private bool isVisible = false;
-    private MapModel? MapData { get; set; }
-    private POIModel? selectedPOI;
+    private MapModel? MapData;
+
     [Parameter]
     public Guid Id { get; set; }
 
@@ -82,7 +63,6 @@
         try
         {
             IsBusy = true;
-            editPOIs = new List<POIModel>();
             MapData = await ClientContext.Admin.GetMapAsync(Id);
             if (MapData.Image == null)
             {
@@ -99,13 +79,13 @@
 
     private async Task DeletePOI(POIModel poi)
     {
-        if(editPOIs == null || POIs == null)
+        if(POIs == null)
         {
-            throw new Exception("Edit list was empty");
+            throw new Exception("Poi list was not initialized");
         }
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", Localizer["Text_DeletePOI"]);
-        parameters.Add("ButtonText", Localizer["Button_Delete"]);
+        parameters.Add("ContentText", Localizer["Text_DeletePOI"].Value);
+        parameters.Add("ButtonText", Localizer["Button_Delete"].Value);
         parameters.Add("Color", Color.Error);
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
@@ -119,7 +99,6 @@
             IsBusy = true;
             if (!result.Canceled)
             {
-                editPOIs.Remove(poi);
                 POIs.Remove(poi);
                 await ClientContext.Admin.DeletePOIAsync(poi.Id);
             }
@@ -131,56 +110,46 @@
         }
     }
 
-    private void Clear()
+    private async void Moved(POIModel poi)
     {
-        selectedPOI = null;
-        isVisible = false;
-        StateHasChanged();
-    }
-
-
-    private void Changed(POIModel poi)
-    {
-        selectedPOI = null;
-        isVisible = false;
-        if (!isEdited)
+        if (POIs == null)
         {
-            isEdited = true;
+            throw new Exception("Poi list was not initialized");
         }
 
-        if (editPOIs != null && editPOIs.Contains(poi))
+        try
         {
-            editPOIs.Add(poi);
+            await ClientContext.Admin.UpdatePOIAsync(poi);
         }
-        StateHasChanged();
-    }
-
-
-    private void SetEdited(POIModel poi)
-    {
-        if (!isEdited) 
+        catch (Exception ex)
         {
-            isEdited = true;
-            StateHasChanged();
-        }
-
-        if (editPOIs != null && editPOIs.Contains(poi))
-        {
-            editPOIs.Add(poi);
+            IsBusy = true;
+            var old = await ClientContext.Admin.GetPOIAuthAsync(poi.Id);
+            IsBusy = false;
+            poi = POIs.Where(p => p.Id == poi.Id).First();
+            if (poi != null &&  old != null)
+            {
+                poi.X = old.X;
+                poi.Y = old.Y;
+            }
+            ShowError(ex);
         }
     }
 
-    private async Task SaveChangesAsync()
+    private async Task NewPOI()
     {
-        if (editPOIs != null)
+        if (POIs != null)
         {
+            var poi = new POIModel();
+            poi.Id = Guid.NewGuid();
+            poi.MapId = Id;
+            poi.PoiType = POIType.Item;
+
             try
             {
                 IsBusy = true;
-                foreach (var poi in editPOIs)
-                {
-                    await ClientContext.Admin.UpdatePOIAsync(poi);
-                }
+                poi = await ClientContext.Admin.CreatePOIAsync(poi);
+                POIs.Add(poi);
                 IsBusy = false;
             }
             catch (Exception ex)
@@ -190,22 +159,9 @@
         }
     }
 
-    private void NewPOI()
+    private void OnEdit(POIModel poi)
     {
-        if (!isEdited)
-        {
-            isEdited = true;
-        }
-        var poi = new POIModel();
-        poi.Id = Guid.NewGuid();
-        poi.MapId = Id;
-        poi.PoiType = POIType.Item;
-        if (editPOIs != null && POIs != null)
-        {
-            POIs.Add(poi);
-            editPOIs.Add(poi);
-            StateHasChanged();
-        }
+        Navigation.NavigateTo($"poi/{poi.Id}");
     }
 
     private async Task OnZoomInClick(MouseEventArgs args)
@@ -250,13 +206,6 @@
     private void NavigateUploadImage()
     {
         Navigation.NavigateTo($"upload/{Id}");
-    }
-
-    private void OnEdit(POIModel poi)
-    {
-        selectedPOI = poi;
-        isVisible = true;
-        StateHasChanged();
     }
 
     private void ToMaps()

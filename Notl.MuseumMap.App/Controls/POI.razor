@@ -4,34 +4,45 @@
         <div @ref="@panzoom.ElementReference" class="d-inline-block">
             @if (Data.PoiType == POIType.Exhibit)
             {
-                <MudButton class="coordinate-exhibit" style="color: black;">
-                    @if (Data.Title != null)
-                    {
-                        @Data.Title
-                    }
-                    else
-                    {
-                        @Data.PoiType
-                    }
+                <MudButton OnClick="Click">
+                    <MudText Align="Align.Center" Typo="Typo.body1" Class="coordinate-exhibit button pa-3" style="color: black;">
+                        @if (Data.Title != null)
+                        {
+                            @Data.Title
+                        }
+                        else
+                        {
+                            @Data.PoiType
+                        }
+                    </MudText>
                 </MudButton>
             }
             else
             {
-                <MudIconButton class="coordinate-icon"
-                       Color="Color.Error"
-                       Icon=@getIcon()
-                       Size="Size.Small">
-                </MudIconButton>
-                <MudText class="coordinate-title">
-                    @if (Data.Title != null)
-                    {
-                        @Data.Title
-                    }
-                    else
-                    {
-                        @Data.PoiType
-                    }
-                </MudText>
+                <MudButton OnClick="Click">
+                    <MudStack Justify="Justify.Center" Spacing="0" Class="button pa-3">
+                        <MudStack Row=true>
+                            <MudSpacer />
+                            <MudIcon class="coordinate-icon"
+                             Color=@getColor()
+                             Icon=@getIcon()
+                             Variant="Variant.Filled"
+                             Size="Size.Small">
+                            </MudIcon>
+                            <MudSpacer />
+                        </MudStack>
+                        <MudText Align="Align.Center" Typo="Typo.body1" Class="coordinate-title">
+                            @if (Data.Title != null)
+                            {
+                                @Data.Title
+                            }
+                            else
+                            {
+                                @Data.PoiType
+                            }
+                        </MudText>
+                    </MudStack>
+                </MudButton>
             }
         </div>
     </Panzoom>
@@ -91,6 +102,25 @@
             }
         }
         return "";
+    }
+
+    private Color getColor()
+    {
+        if (Data != null)
+        {
+            switch (Data.PoiType)
+            {
+                case POIType.Exhibit:
+                    return Color.Error;
+                case POIType.Item:
+                    return Color.Error;
+                case POIType.Bathroom:
+                    return Color.Primary;
+                case POIType.Accessability:
+                    return Color.Info;
+            }
+        }
+        return Color.Error;
     }
 
     private async Task Click()
