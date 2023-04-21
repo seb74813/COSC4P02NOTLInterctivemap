@@ -295,6 +295,15 @@ namespace Notl.MuseumMap.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Return to main menu.
+        /// </summary>
+        public static string ToolTip_BackButton {
+            get {
+                return ResourceManager.GetString("ToolTip_BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deletes the map.
         /// </summary>
         public static string ToolTip_DeleteMap {
