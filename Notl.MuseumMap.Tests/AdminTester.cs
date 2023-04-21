@@ -40,7 +40,7 @@ namespace Notl.MuseumMap.Tests
             image.Url = "welp";
             image.Thumbnail = "wlp";
 
-            test = await adminManager.UpdateMapAsync(id, image);
+            test = await adminManager.UpdateMapAsync(id, image, "welp");
             Assert.IsNotNull(test);
             Assert.AreEqual(map.Id, test.Id);
             Assert.IsNotNull(test.Image);
@@ -66,7 +66,7 @@ namespace Notl.MuseumMap.Tests
             image1.Url = "welp";
             image1.Thumbnail = "wlp";
 
-            test = await adminManager.UpdateMapAsync(id, image1);
+            test = await adminManager.UpdateMapAsync(id, image1, "welp");
             Assert.IsNotNull(test);
             Assert.AreEqual(map.Id, test.Id);
             Assert.IsNotNull(test.Image);
@@ -78,7 +78,7 @@ namespace Notl.MuseumMap.Tests
             image2.Url = "abcd";
             image2.Thumbnail = "abc";
 
-            test = await adminManager.UpdateMapAsync(id, image2);
+            test = await adminManager.UpdateMapAsync(id, image2, "welp");
             Assert.IsNotNull(test);
             Assert.AreEqual(map.Id, test.Id);
             Assert.IsNotNull(test.Image);
