@@ -1,7 +1,9 @@
 ﻿@page "/poi/{Id:guid}"
 @inherits BasePage
 <BusyIndicator Model="@this" />
-
+<div class="d-flex align-items-center justify-content-start">
+    <MudIconButton Icon="@Icons.Filled.ArrowBack" Color="Color.Primary" Size="Size.Medium" OnClick="GoBack" />
+</div>
 @if (Poi != null)
 {
     <MudContainer MaxWidth="MaxWidth.Large">
@@ -48,5 +50,10 @@
         {
             ShowError(ex);
         }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("");
     }
 }
