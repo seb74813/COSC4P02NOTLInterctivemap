@@ -2,6 +2,18 @@
 <html lang="en">
 
 <head>
+    <style>
+        .blinker {
+            animation: blinker 1.5s linear infinite;
+            color: mediumpurple;
+        }
+        @keyframes blinker {
+            50% {
+                color:white;
+            }
+        }
+    </style>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Notl.MuseumMap.Admin</title>
@@ -45,7 +57,7 @@
                 <img class="splash-body-logo" src="loading.png" />
             </div>
             <div>
-                <h3 class="splash-body-loading">Loading...</h3>
+                <h3 class="splash-body-loading blinker">Loading...</h3>
             </div>
         </div>
     </div>

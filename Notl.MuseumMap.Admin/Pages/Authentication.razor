@@ -1,7 +1,18 @@
 ﻿@page "/authentication/{action}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-<RemoteAuthenticatorView Action="@Action" />
 
+<MudPaper Class="d-flex justify-center align-content-center flex-grow-1 gap-4" Elevation="0">
+    <MudStack>
+        <MudSpacer/>
+        <MudSpacer/>
+        <RemoteAuthenticatorView Action="@Action" />
+        <MudSpacer/>
+        <MudSpacer/>
+        <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
+
+        
+    </MudStack>
+</MudPaper>
 @code{
     [Parameter] public string? Action { get; set; }
 }
