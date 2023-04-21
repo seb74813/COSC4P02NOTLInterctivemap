@@ -61,7 +61,7 @@ namespace Notl.MuseumMap.Admin.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NOTL Museum Map Editor.
+        ///   Looks up a localized string similar to Niagara-On-The-Lake Museum Map Editor.
         /// </summary>
         public static string AppName {
             get {
