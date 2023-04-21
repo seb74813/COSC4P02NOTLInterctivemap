@@ -9,6 +9,11 @@
 {
     <div class="panzoom-parent">
         <Panzoom @ref="parent">
+            <MudStack Justify="Justify.FlexEnd" Row=" true">
+                <MudTooltip Text="@Localizer["ToolTip_BackButton"]" Placement="Placement.Left">
+                    <MudIconButton Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Icon="@Icons.Material.Filled.ExitToApp" OnClick="ToMaps" />
+                </MudTooltip>
+            </MudStack>
             <MudStack Class="absolute z-10" Row=true Style="bottom: 1rem; width:100%">
                 <MudSpacer />
                 <MudPaper Elevation="25">
@@ -212,4 +217,5 @@
     {
         Navigation.NavigateTo($"");
     }
+
 }
