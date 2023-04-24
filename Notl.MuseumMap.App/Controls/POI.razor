@@ -1,7 +1,7 @@
 ﻿@if (Data != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
-        <div @ref="@panzoom.ElementReference" class="d-inline-block">
+        <div @ref="@panzoom.ElementReference" class="fixed">
             @if (Data.PoiType == POIType.Exhibit)
             {
                 <MudButton OnClick="Click">

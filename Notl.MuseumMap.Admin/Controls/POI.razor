@@ -3,7 +3,7 @@
 @if (Data != null && Parent != null)
 {
     <Panzoom @ref="panzoom" SetTransform="SetTransformCustom">
-        <div @ref="@panzoom.ElementReference" class="d-inline-block" style="@styleString()">
+        <div @ref="@panzoom.ElementReference" class="fixed" style="@styleString()">
             <ContextMenuTrigger MenuId=@getMenuId()>
             @if (Data.PoiType == POIType.Exhibit)
             {
